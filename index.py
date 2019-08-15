@@ -11,14 +11,16 @@ def index():
 
             dfHist = yfq.history(period="6mo")
             dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
-            dfHist.to_csv(f'{qq}.csv')
-        else:
-            return template('index', qq=None, dfHist=None)
+            #dfHist.to_csv(f'{qq}.csv')
 
-        return template('index', qq=qq, dfHist=dfHist)
+            strJson = dfHist.to_json()
+        else:
+            return template('index', qq=None, datahistory=None)
+
+        return strJson#template('index', qq=qq, datahistory=strJson)
 
     except:
-        return template('index', qq='error', dfHist='error')
+        return template('index', qq='error', datahistory='error')
 
 if __name__=='__main__':
     run(host='localhost', port=80)
