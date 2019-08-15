@@ -5,7 +5,7 @@ from bottle import get, request, response, route, run, template
 def index():
     try:
         qq = request.query.q
-        print(qq)
+        #print(qq)
         if qq:
             yfq = yf.Ticker(qq)
 
@@ -15,12 +15,12 @@ def index():
 
             strJson = dfHist.to_json()
         else:
-            return template('index', qq=None, datahistory=None)
+            return template('index')
 
-        return strJson#template('index', qq=qq, datahistory=strJson)
+        return strJson
 
     except:
-        return template('index', qq='error', datahistory='error')
+        return template('index')
 
 if __name__=='__main__':
     run(host='localhost', port=80)
