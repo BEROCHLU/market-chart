@@ -4,11 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="/path/favicon.ico">
-    <title>aho</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 
 <body>
-<h1>AHOU WORLD</h1>
+    <h1>AHOU WORLD</h1>
+    <div data-pucho="{{ qq }}"></div>
+    <h1>{{ qq }}</h1>
+    <input type="text" id="txt"><input type="button" value="button" id="btn">
+    <script>
+        'use strict';
+        $('#btn').click(function () {
+            const t = $('#txt').val();
+            const URL = `/?q=${t}`;
+
+            fetch(URL)
+                .then(response => response.text())
+                .then(v => {
+                    console.log(v);
+                })
+                .catch(e => {
+                    console.log(e)
+                });
+        });
+    </script>
 </body>
 
 </html>
