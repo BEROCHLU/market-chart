@@ -13,12 +13,12 @@ def index():
             dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
             dfHist.to_csv(f'{qq}.csv')
         else:
-            return template('index', qq=None)
+            return template('index', qq=None, dfHist=None)
 
-        return template('index', qq=qq)
+        return template('index', qq=qq, dfHist=dfHist)
 
     except:
-        return template('index', qq='error')
+        return template('index', qq='error', dfHist='error')
 
 if __name__=='__main__':
     run(host='localhost', port=80)

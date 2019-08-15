@@ -9,7 +9,7 @@
 
 <body>
     <h1>AHOU WORLD</h1>
-    <div data-pucho="{{ qq }}"></div>
+    <div data-pucho="{{ dfHist }}"></div>
     <h1>{{ qq }}</h1>
     <input type="text" id="txt"><input type="button" value="button" id="btn">
     <script>
@@ -18,9 +18,13 @@
             const t = $('#txt').val();
             const URL = `/?q=${t}`;
 
-            fetch(URL)
+            fetch(URL, {
+                    method: 'GET',
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                })
                 .then(response => response.text())
                 .then(v => {
+                    location.href = URL;
                     console.log(v);
                 })
                 .catch(e => {
