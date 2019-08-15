@@ -3,10 +3,11 @@
 
 import yfinance as yf
 
-spy = yf.Ticker('SPY')
+qq = 'v'
 
-dfHist = spy.history(period="6mo")
+yfq = yf.Ticker(qq)
+
+dfHist = yfq.history(period="6mo")
 dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
 
-dfHist.to_csv('SPY.csv')
-print('AHO')
+dfHist.to_csv(f'{qq}.csv')
