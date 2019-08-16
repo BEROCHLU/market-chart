@@ -5,12 +5,12 @@ from bottle import get, request, response, route, run, template
 def index():
     try:
         qq = request.query.q
-        #print(qq)
         if qq:
-            yfq = yf.Ticker(qq)
+            yft = yf.Ticker(qq)
 
-            dfHist = yfq.history(period="6mo")
+            dfHist = yft.history(period='6mo')
             dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
+            dfHist['shortName'] = yft.info['shortName']#add company name
             #dfHist.to_csv(f'{qq}.csv')
 
             strJson = dfHist.to_json()

@@ -9,85 +9,88 @@
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
     <style>
-        #cn {
-            width: 100%;
-            height: 100vh;
-        }
+    #cn {
+        width: 100%;
+        height: 100vh;
+    }
+
     </style>
 </head>
 
 <body>
-    <h1>AHOU WORLD</h1>
-    <input type="text" id="txt"><input type="button" value="button" id="btn">
+    <input type="text" id="txt">
+    <input type="button" value="button" id="btn">
+    <input type="button" value="clear" id="clr">
     <div id="cn"></div>
     <script>
-        'use strict';
-        $('#btn').click(function () {
-            const t = $('#txt').val();
-            const URL = `/?q=${t}`;
-            //location.href = URL;
+    'use strict';
+    $('#btn').click(function() {
+        const t = $('#txt').val();
+        const URL = `/?q=${t}`;
+        //location.href = URL;
 
-            fetch(URL, {
-                    method: 'GET',
-                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                })
-                .then(response => response.json())
-                .then(json => {
-
-                    const arrDate = _.map(json.Open, (value, key) => {
-                        const n = parseInt(key);
-                        return moment(new Date(n)).format('YYYY/MM/DD');
-                    });
-
-                    const arrOpen = _.values(json.Open);
-                    const arrClose = _.values(json.Close);
-                    const arrHigh = _.values(json.High);
-                    const arrLow = _.values(json.Low);
-
-                    let arrOCHL = _.zip(arrOpen, arrClose, arrHigh, arrLow);
-                    const ticker = $('#txt').val();
-
-                    //console.log(json);
-                    let pandaChart = echarts.init(document.getElementById('cn'));
-
-                    let plot_min = _.min(arrLow);
-                    let plot_max = _.max(arrHigh);
-
-                    plot_min = _.floor(plot_min * 0.97);
-                    plot_max = _.ceil(plot_max * 1.03);
-
-                    /*
-                    if(plot_max <= 10) {
-                        plot_max += 1;
-                    }*/
-
-                    let option = {
-                        title: {
-                            text: ticker
-                        },
-                        xAxis: {
-                            data: arrDate
-                        },
-                        yAxis: {
-                            min: plot_min,
-                            max: plot_max
-                        },
-                        tooltip: {
-                            show: true
-                        },
-                        series: [{
-                            type: 'k',
-                            data: arrOCHL
-                        }]
-                    };
-
-                    pandaChart.setOption(option);
-                    $('#txt').val('');//clear text
-                })
-                .catch(e => {
-                    console.log(e)
+        fetch(URL, {
+                method: 'GET',
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            })
+            .then(response => response.json())
+            .then(json => {
+                //console.log(json);
+                const arrDate = _.map(json.Open, (value, key) => {
+                    const n = parseInt(key);
+                    return moment(new Date(n)).format('YYYY/MM/DD');
                 });
-        });
+
+                const ticker = $('#txt').val();
+
+                const strName = _.chain(json.shortName).values().head().value();
+
+                const arrLow = _.values(json.Low);
+                const arrHigh = _.values(json.High)
+                //open close low high
+                let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh);
+                let pandaChart = echarts.init(document.getElementById('cn'));
+
+                let plot_min = _.min(arrLow);
+                let plot_max = _.max(arrHigh);
+
+                plot_min = _.floor(plot_min * 0.97);
+                plot_max = _.ceil(plot_max * 1.03);
+
+                let option = {
+                    title: {
+                        text: strName
+                    },
+                    xAxis: {
+                        data: arrDate
+                    },
+                    yAxis: {
+                        min: plot_min,
+                        max: plot_max
+                    },
+                    tooltip: {
+                        trigger: 'item',//item | axis | node
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    series: [{
+                        type: 'k',
+                        data: arrPlot
+                    }]
+                };
+
+                pandaChart.setOption(option);
+            })
+            .catch(e => {
+                console.log(e)
+            });
+    });
+
+    $('#clr').click(function() {
+        $('#txt').val(''); //clear text
+    });
+
     </script>
 </body>
 

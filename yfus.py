@@ -3,11 +3,13 @@
 
 import yfinance as yf
 
-qq = 'v'
+qq = 'uber'
 
-yfq = yf.Ticker(qq)
+yft = yf.Ticker(qq)
 
-dfHist = yfq.history(period="6mo")
+dfHist = yft.history(period="6mo")
 dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
-
-dfHist.to_csv(f'{qq}.csv')
+dfHist['shortName'] = yft.info['shortName']
+#dfHist.to_csv(f'{qq}.csv')
+strJson = dfHist.to_json()
+print(strJson)
