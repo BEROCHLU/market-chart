@@ -1,3 +1,5 @@
-__pycache__/bottle.cpython-37.pyc
+__pycache__/
+old/
 *.csv
 *.bat
+*.code-workspace
