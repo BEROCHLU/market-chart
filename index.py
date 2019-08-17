@@ -1,3 +1,4 @@
+import os
 import yfinance as yf
 from bottle import get, request, response, route, run, template
 
@@ -23,4 +24,7 @@ def index():
         return template('index')
 
 if __name__=='__main__':
-    run(host='localhost', port=80)
+    if os.path.exists('./.ifdef'):
+        run(host='localhost', port=80, debug=True)
+    else:
+        run(host='0.0.0.0', port=80, server="cgi")
