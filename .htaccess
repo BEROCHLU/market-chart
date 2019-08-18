@@ -1,4 +1,4 @@
-DirectoryIndex index.html
+DirectoryIndex index.cgi
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ /bottle/index.cgi/$1 [QSA,L]
