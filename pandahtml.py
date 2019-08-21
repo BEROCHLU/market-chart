@@ -1,5 +1,5 @@
 import pandas as pd
-
+#from wsgiref.handlers import CGIHandler
 qq = 'spy'
 qq = qq.upper()
 
@@ -14,4 +14,4 @@ dfHist = dfHist.drop(dfHist.index[[last_row]])
 
 #strJson = dfHist.to_json()
 dfHist.to_csv(f'{qq}.csv')
-print(dfHist)
+print(dfHist._get_numeric_data())
