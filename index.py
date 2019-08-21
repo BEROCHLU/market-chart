@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import os
 import yfinance as yf
-from bottle import get, request, response, route, run, template
+from bottle import request, response, route, run, template
 
-@get('/')
+@route('/')
 def index():
     try:
         qq = request.query.q
