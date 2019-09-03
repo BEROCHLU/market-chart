@@ -16,6 +16,7 @@
         padding: 0px;
         position: relative;
     }
+
     #cn {
         width: 95vw;
         height: 100vh;
@@ -34,37 +35,38 @@
 
 <body>
     <input type="text" id="txt">
+    <input type="button" value="button" id="btn">
     <input type="button" value="clear" id="clr">
     <div class="wrapper">
         <div id="cn"></div>
         <div class="market-board">
-                <select size="30" name="select-ticker">
-                    <option value="SPY">SPY</option>
-                    <option value="QQQ">QQQ</option>
-                    <option value="DIA">DIA</option>
-                    <option value="IWM">IWM</option>
-                    <option value="GS">GS</option>
-                    <option value="MS">MS</option>
-                    <option value="JPM">JPM</option>
-                    <option value="WFC">WFC</option>
-                    <option value="C">C</option>
-                    <option value="BAC">BAC</option>
-                    <option value="BTC-USD">BTC-USD</option>
-                    <option value="TNA">TNA</option>
-                    <option value="UPRO">UPRO</option>
-                    <option value="TQQQ">TQQQ</option>
-                    <option value="TZA">TZA</option>
-                    <option value="SPXU">SPXU</option>
-                    <option value="SQQQ">SQQQ</option>
-                    <option value="VXX">VXX</option>
-                    <option value="GLD">GLD</option>
-                    <option value="TLT">TLT</option>
-                    <option value="USO">USO</option>
-                </select>
-            </div>
+            <select size="30" name="select-ticker">
+                <option value="SPY">SPY</option>
+                <option value="QQQ">QQQ</option>
+                <option value="DIA">DIA</option>
+                <option value="IWM">IWM</option>
+                <option value="GS">GS</option>
+                <option value="MS">MS</option>
+                <option value="JPM">JPM</option>
+                <option value="WFC">WFC</option>
+                <option value="C">C</option>
+                <option value="BAC">BAC</option>
+                <option value="BTC-USD">BTC-USD</option>
+                <option value="TNA">TNA</option>
+                <option value="UPRO">UPRO</option>
+                <option value="TQQQ">TQQQ</option>
+                <option value="TZA">TZA</option>
+                <option value="SPXU">SPXU</option>
+                <option value="SQQQ">SQQQ</option>
+                <option value="VXX">VXX</option>
+                <option value="GLD">GLD</option>
+                <option value="TLT">TLT</option>
+                <option value="USO">USO</option>
+            </select>
+        </div>
         <script>
         'use strict';
-        $('#txt').change(function() {
+        $('#btn').click(function() {
             const t = $('#txt').val();
             const URL = `/?q=${t}`;
             //location.href = URL;
@@ -134,15 +136,24 @@
                 });
         });
 
+        /*
+        *!event
+        */
+
         $('#clr').click(function() {
             $('#txt').val(''); //clear text
         });
 
-        $('select[name="select-ticker"]').click(function(){
+        $('select[name="select-ticker"]').click(function() {
             $('#txt').val(this.value);
-            $('#txt').trigger('change');
+            $('#btn').trigger('click');
             //console.log(this.value);
         });
+
+        $('#txt').change(function() {
+            $('#btn').trigger('click');
+        });
+
         </script>
     </div>
 </body>
