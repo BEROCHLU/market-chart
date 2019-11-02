@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon.png">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://unpkg.com/lodash@4.17.11/lodash.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.17.15/lodash.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.4.0/dist/echarts.min.js"></script>
     <style>
     .wrapper {
         width: 100vw;
@@ -77,7 +77,6 @@
                 })
                 .then(response => response.json())
                 .then(json => {
-                    //console.log(json);
                     const arrDate = _.map(json.Open, (value, key) => {
                         const n = parseInt(key);
                         return moment(new Date(n)).format('YYYY/MM/DD');
@@ -137,8 +136,8 @@
         });
 
         /*
-        *!event
-        */
+         *!event
+         */
 
         $('#clr').click(function() {
             $('#txt').val(''); //clear text

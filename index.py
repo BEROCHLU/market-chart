@@ -12,10 +12,9 @@ def index():
         if qq:
             yft = yf.Ticker(qq)
 
-            dfHist = yft.history(period='6mo')
+            dfHist = yft.history(period='1y')
             dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
             dfHist['shortName'] = yft.info['shortName']#add company name
-            #dfHist.to_csv(f'{qq}.csv')
 
             strJson = dfHist.to_json()
         else:
