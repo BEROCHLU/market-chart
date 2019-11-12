@@ -1,0 +1,6 @@
+__pycache__/
+old/
+*.csv
+*.bat
+*.code-workspace
+.jsbeautifyrc
