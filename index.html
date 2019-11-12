@@ -4,47 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" sizes="32x32" href="static/favicon.png">
+    <link rel="stylesheet" href="static/style.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://unpkg.com/lodash@4.17.15/lodash.min.js"></script>
     <script src="https://momentjs.com/downloads/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@4.4.0/dist/echarts.min.js"></script>
-    <style>
-    .wrapper {
-        width: 100vw;
-        height: 100vh;
-        margin: 10px;
-        padding: 0px;
-        position: relative;
-    }
-
-    #cn {
-        width: 95vw;
-        height: 100vh;
-        position: absolute;
-        left: 80px;
-    }
-
-    .market-board {
-        width: 5vw;
-        position: absolute;
-        top: 40px;
-    }
-
-    </style>
 </head>
 
 <body>
-    <input type="text" id="txt">
-    <input type="button" value="button" id="btn">
-    <input type="button" value="clear" id="clr">
+    <div class="market-input">
+        <input type="text" id="txt">
+        <button id="btn">chart</button>
+        <button id="clr">clear</button>
+    </div>
     <div class="wrapper">
-        <div id="cn"></div>
         <div class="market-board">
-            <select size="30" name="select-ticker">
+            <select size="32" name="select-ticker">
                 <option value="SPY">SPY</option>
                 <option value="QQQ">QQQ</option>
                 <option value="DIA">DIA</option>
                 <option value="IWM">IWM</option>
+                <option value="MSFT">MSFT</option>
+                <option value="SQ">SQ</option>
+                <option value="NFLX">NFLX</option>
                 <option value="GS">GS</option>
                 <option value="MS">MS</option>
                 <option value="JPM">JPM</option>
@@ -64,6 +46,7 @@
                 <option value="USO">USO</option>
             </select>
         </div>
+        <div id="cn"></div>
         <script src="static/main.js"></script>
     </div>
 </body>

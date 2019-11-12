@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * html grid, ticker
+ * html grid, ticker throttle
  * python 四捨五入
  */
 
@@ -22,14 +22,13 @@ $('#btn').click(function() {
             });
 
             const ticker = $('#txt').val();
-
             const strName = _.chain(json.shortName).values().head().value();
 
             const arrLow = _.values(json.Low);
-            const arrHigh = _.values(json.High)
-            //open close low high
-            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh);
-            let pandaChart = echarts.init(document.getElementById('cn'));
+            const arrHigh = _.values(json.High);
+            
+            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh);//open close low high
+            const pandaChart = echarts.init(document.getElementById('cn'));
 
             let plot_min = _.min(arrLow);
             let plot_max = _.max(arrHigh);
@@ -39,7 +38,8 @@ $('#btn').click(function() {
 
             let option = {
                 title: {
-                    text: strName
+                    text: strName,
+                    left: 'center'
                 },
                 xAxis: {
                     data: arrDate
