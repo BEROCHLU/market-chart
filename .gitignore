@@ -3,3 +3,4 @@ old/
 *.csv
 *.bat
 *.code-workspace
+.jsbeautifyrc
