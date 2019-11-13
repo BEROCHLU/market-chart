@@ -26,8 +26,8 @@ $('#btn').click(function() {
 
             const arrLow = _.values(json.Low);
             const arrHigh = _.values(json.High);
-            
-            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh);//open close low high
+
+            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
             const pandaChart = echarts.init(document.getElementById('cn'));
 
             let plot_min = _.min(arrLow);
@@ -91,3 +91,18 @@ $('select[name="select-ticker"]').click(function() {
 $('#txt').change(function() {
     $('#btn').trigger('click');
 });
+
+//main
+{
+    const arrTicker = [
+        'SPY', 'DIA', 'QQQ', 'IWM', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
+        'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'UPRO', 'UDOW', 'TQQQ', 'TNA', 'SPXU', 'SDOW', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
+        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V','JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT'
+    ];
+
+    _.forEach(arrTicker, ticker => {
+        $('select[name="select-ticker"]').append(`<option value="${ticker}">${ticker}</option>`);
+    });
+
+    $('select[name="select-ticker"]').prop('size', arrTicker.length);
+}
