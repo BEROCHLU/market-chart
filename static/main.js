@@ -7,7 +7,8 @@
 
 $('#btn').click(function() {
     const t = $('#txt').val();
-    const URL = `/?q=${t}`;
+    const p = $('.select-period').val();
+    const URL = `/?q=${t}&p=${p}`;
     //location.href = URL;
 
     fetch(URL, {
@@ -58,9 +59,24 @@ $('#btn').click(function() {
                     left: '5%',
                     top: '5%',
                     right: '5%',
-                    bottom: '5%',
+                    bottom: '8%',
                     zlevel: 3
                 },
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        start: 0,
+                        end: 100
+                    },
+                    {
+                        show: true,
+                        type: 'slider',
+                        bottom: '1%',
+                        throttle: 128,
+                        start: 0,
+                        end: 100
+                    }
+                ],
                 series: [{
                     type: 'k',
                     data: arrPlot

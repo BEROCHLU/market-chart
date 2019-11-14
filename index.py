@@ -10,10 +10,12 @@ from bottle import static_file
 def index():
     try:
         qq = request.query.q
+        pp = request.query.p
+        
         if qq:
             yft = yf.Ticker(qq)
-
-            dfHist = yft.history(period='1y')
+            
+            dfHist = yft.history(period=pp) #1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
             dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
             dfHist['shortName'] = yft.info['shortName']#add company name
 
