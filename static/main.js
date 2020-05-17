@@ -1,15 +1,29 @@
 'use strict';
 
-/**
- * html grid, ticker throttle
- * python 四捨五入
+const calculateMA = (dayCount, data) => {
+    let result = [];
+    for (let i = 0, len = data.length; i < len; i++) {
+        if (i < dayCount) {
+            result.push('-');
+            continue;
+        }
+        let sum = 0;
+        for (let j = 0; j < dayCount; j++) {
+            sum += data[i - j][1];
+        }
+        result.push((sum / dayCount).toFixed(2));
+    }
+    return result;
+}
+
+/*
+ *!event
  */
 
-$('#btn').click(function() {
-    const t = $('#txt').val();
-    const p = $('.select-period').val();
+document.querySelector('#btn').addEventListener('click', () => {
+    const t = document.querySelector('#txt').value;
+    const p = document.querySelector('.select-period').value;
     const URL = `/?q=${t}&p=${p}`;
-    //location.href = URL;
 
     fetch(URL, {
             method: 'GET',
@@ -22,7 +36,6 @@ $('#btn').click(function() {
                 return moment(new Date(n)).format('YYYY/MM/DD');
             });
 
-            const ticker = $('#txt').val();
             const strName = _.chain(json.shortName).values().head().value();
 
             const arrLow = _.values(json.Low);
@@ -40,10 +53,23 @@ $('#btn').click(function() {
             let option = {
                 title: {
                     text: strName,
-                    left: 'center'
+                    left: 'center',
+                    textStyle: {
+
+                    }
                 },
                 xAxis: {
-                    data: arrDate
+                    data: arrDate,
+                    splitLine: {
+                        show: false,
+                        interval: 'auto',
+                        lineStyle: {
+                            type: 'dashed'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 'auto'
+                    }
                 },
                 yAxis: {
                     min: plot_min,
@@ -62,8 +88,11 @@ $('#btn').click(function() {
                     bottom: '8%',
                     zlevel: 3
                 },
-                dataZoom: [
-                    {
+                legend: {
+                    data: ['MA13', 'MA42'],
+                    right: '5%'
+                },
+                dataZoom: [{
                         type: 'inside',
                         start: 0,
                         end: 100
@@ -78,9 +107,44 @@ $('#btn').click(function() {
                     }
                 ],
                 series: [{
-                    type: 'k',
-                    data: arrPlot
-                }]
+                        type: 'candlestick',
+                        data: arrPlot,
+                        itemStyle: {
+                            color: 'white',
+                            color0: '#0064da',
+                            borderColor: 'black',
+                            borderColor0: '#0064da'
+                        }
+                    },
+                    {
+                        name: 'MA13',
+                        type: 'line',
+                        data: calculateMA(13, arrPlot),
+                        smooth: true,
+                        symbol: 'none', //none
+                        symbolSize: 1,
+                        showSymbol: false,
+                        lineStyle: {
+                            width: 1,
+                            opacity: 0.5,
+                            color: '#cf9f40'
+                        }
+                    },
+                    {
+                        name: 'MA42',
+                        type: 'line',
+                        data: calculateMA(42, arrPlot),
+                        smooth: true,
+                        symbol: 'none', //none
+                        symbolSize: 1,
+                        showSymbol: false,
+                        lineStyle: {
+                            width: 1,
+                            opacity: 0.5,
+                            color: '#0066ff'
+                        }
+                    }
+                ]
             };
 
             pandaChart.setOption(option);
@@ -90,22 +154,17 @@ $('#btn').click(function() {
         });
 });
 
-/*
- *!event
- */
-
-$('#clr').click(function() {
-    $('#txt').val(''); //clear text
+document.querySelector('#clr').addEventListener('click', () => {
+    document.querySelector('#txt').value = '';
 });
 
-$('select[name="select-ticker"]').click(function() {
-    $('#txt').val(this.value);
-    $('#btn').trigger('click');
-    //console.log(this.value);
+document.querySelector('#txt').addEventListener('change', () => {
+    document.querySelector('#btn').click();
 });
 
-$('#txt').change(function() {
-    $('#btn').trigger('click');
+document.querySelector('select[name="select-ticker"]').addEventListener('click', (evt) => {
+    document.querySelector('#txt').value = evt.currentTarget.value;
+    document.querySelector('#btn').click();
 });
 
 //main
@@ -113,12 +172,19 @@ $('#txt').change(function() {
     const arrTicker = [
         'SPY', 'DIA', 'QQQ', 'IWM', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
         'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
-        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V','JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
+        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V', 'JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
     ];
 
     _.forEach(arrTicker, ticker => {
-        $('select[name="select-ticker"]').append(`<option value="${ticker}">${ticker}</option>`);
+        //$('select[name="select-ticker"]').append(`<option value="${ticker}">${ticker}</option>`);
+        let elem = document.createElement('option');
+        elem.value = ticker;
+        elem.innerHTML = ticker;
+        document.querySelector('select[name="select-ticker"]').append(elem);
     });
 
-    $('select[name="select-ticker"]').prop('size', arrTicker.length);
+    const select_len = (53 < arrTicker.length) ? 53 : arrTicker.length;
+
+    //$('select[name="select-ticker"]').prop('size', select_len);
+    document.querySelector('select[name="select-ticker"]').size = select_len;
 }
