@@ -112,8 +112,8 @@ $('#txt').change(function() {
 {
     const arrTicker = [
         'SPY', 'DIA', 'QQQ', 'IWM', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
-        'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'UPRO', 'UDOW', 'TQQQ', 'TNA', 'SPXU', 'SDOW', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
-        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V','JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT'
+        'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
+        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V','JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
     ];
 
     _.forEach(arrTicker, ticker => {

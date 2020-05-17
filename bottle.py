@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Bottle is a fast and simple micro-framework for small web applications. It
@@ -16,7 +16,7 @@ License: MIT (see LICENSE for details)
 from __future__ import with_statement
 
 __author__ = 'Marcel Hellkamp'
-__version__ = '0.12.17'
+__version__ = '0.12.18'
 __license__ = 'MIT'
 
 # The gevent server adapter needs to patch some modules before they are imported
@@ -35,8 +35,8 @@ if __name__ == '__main__':
     if _cmd_options.server and _cmd_options.server.startswith('gevent'):
         import gevent.monkey; gevent.monkey.patch_all()
 
-import base64, cgi, email.utils, functools, hmac, imp, itertools, mimetypes,\
-        os, re, subprocess, sys, tempfile, threading, time, warnings
+import base64, cgi, email.utils, functools, hmac, itertools, mimetypes,\
+        os, re, subprocess, sys, tempfile, threading, time, warnings, hashlib
 
 from datetime import date as datedate, datetime, timedelta
 from tempfile import TemporaryFile
@@ -84,7 +84,12 @@ if py3k:
     from urllib.parse import urlencode, quote as urlquote, unquote as urlunquote
     urlunquote = functools.partial(urlunquote, encoding='latin1')
     from http.cookies import SimpleCookie
-    from collections import MutableMapping as DictMixin
+    if py >= (3, 3, 0):
+        from collections.abc import MutableMapping as DictMixin
+        from types import ModuleType as new_module
+    else:
+        from collections import MutableMapping as DictMixin
+        from imp import new_module
     import pickle
     from io import BytesIO
     from configparser import ConfigParser
@@ -102,6 +107,7 @@ else: # 2.x
     from Cookie import SimpleCookie
     from itertools import imap
     import cPickle as pickle
+    from imp import new_module
     from StringIO import StringIO as BytesIO
     from ConfigParser import SafeConfigParser as ConfigParser
     if py25:
@@ -1781,7 +1787,7 @@ class _ImportRedirect(object):
         ''' Create a virtual package that redirects imports (see PEP 302). '''
         self.name = name
         self.impmask = impmask
-        self.module = sys.modules.setdefault(name, imp.new_module(name))
+        self.module = sys.modules.setdefault(name, new_module(name))
         self.module.__dict__.update({'__file__': __file__, '__path__': [],
                                     '__all__': [], '__loader__': self})
         sys.meta_path.append(self)
@@ -2597,7 +2603,7 @@ def _lscmp(a, b):
 def cookie_encode(data, key):
     ''' Encode and sign a pickle-able object. Return a (byte) string '''
     msg = base64.b64encode(pickle.dumps(data, -1))
-    sig = base64.b64encode(hmac.new(tob(key), msg).digest())
+    sig = base64.b64encode(hmac.new(tob(key), msg, digestmod=hashlib.md5).digest())
     return tob('!') + sig + tob('?') + msg
 
 
@@ -2606,7 +2612,7 @@ def cookie_decode(data, key):
     data = tob(data)
     if cookie_is_encoded(data):
         sig, msg = data.split(tob('?'), 1)
-        if _lscmp(sig[1:], base64.b64encode(hmac.new(tob(key), msg).digest())):
+        if _lscmp(sig[1:], base64.b64encode(hmac.new(tob(key), msg, digestmod=hashlib.md5).digest())):
             return pickle.loads(base64.b64decode(msg))
     return None
 
@@ -3430,8 +3436,8 @@ class StplParser(object):
     # 2: Comments (until end of line, but not the newline itself)
     _re_tok += '|(#.*)'
     # 3,4: Open and close grouping tokens
-    _re_tok += '|([\[\{\(])'
-    _re_tok += '|([\]\}\)])'
+    _re_tok += '|([\\[\\{\\(])'
+    _re_tok += '|([\\]\\}\\)])'
     # 5,6: Keywords that start or continue a python block (only start of line)
     _re_tok += '|^([ \\t]*(?:if|for|while|with|try|def|class)\\b)' \
                '|^([ \\t]*(?:elif|else|except|finally)\\b)'

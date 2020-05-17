@@ -18,6 +18,7 @@ def index():
             dfHist = yft.history(period=pp) #1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
             dfHist = dfHist.drop(columns=['Volume', 'Dividends', 'Stock Splits'])
             dfHist['shortName'] = yft.info['shortName']#add company name
+            dfHist = dfHist.round(3) #float64 => float32
 
             strJson = dfHist.to_json()
         else:
