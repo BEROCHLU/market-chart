@@ -29,9 +29,9 @@ const calculateMA = (dayCount, data) => {
 document.querySelector('#btn').addEventListener('click', () => {
     const t = document.querySelector('#txt').value;
     const p = document.querySelector('.select-period').value;
-    const URL = `/?q=${t}&p=${p}`;
+    const url = `/?q=${t}&p=${p}`;
 
-    fetch(URL, {
+    fetch(url, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
@@ -255,7 +255,6 @@ document.querySelector('select[name="select-ticker"]').addEventListener('click',
     ];
 
     _.forEach(arrTicker, ticker => {
-        //$('select[name="select-ticker"]').append(`<option value="${ticker}">${ticker}</option>`);
         let elem = document.createElement('option');
         elem.value = ticker;
         elem.innerHTML = ticker;
@@ -264,7 +263,6 @@ document.querySelector('select[name="select-ticker"]').addEventListener('click',
 
     const select_len = (53 < arrTicker.length) ? 53 : arrTicker.length;
 
-    //$('select[name="select-ticker"]').prop('size', select_len);
     document.querySelector('select[name="select-ticker"]').size = select_len;
 
     // debug mode
