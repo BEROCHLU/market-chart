@@ -57,10 +57,13 @@ document.querySelector('#btn').addEventListener('click', () => {
             plot_min = _.floor(plot_min * 0.97);
             plot_max = _.ceil(plot_max * 1.03);
 
+            const strGridL = '5%';
+            const strGridR = '8%';
+
             let option = {
                 title: {
                     text: strName,
-                    left: 'center',
+                    left: 'center'
                 },
                 xAxis: [{
                         type: 'category',
@@ -121,18 +124,28 @@ document.querySelector('#btn').addEventListener('click', () => {
                         type: 'cross'
                     }
                 },
+                toolbox: {
+                    feature: {
+                        restore: {
+                            title: 'restore'
+                        },
+                        saveAsImage: {
+                            title: 'save as image'
+                        }
+                    }
+                },
                 grid: [{
-                        left: '5%',
+                        left: strGridL,
                         top: '5%',
-                        right: '5%',
+                        right: strGridR,
                         //bottom: '8%',
                         height: '75%', //チャート描画はtop5% + height75% = 80%を占有する
                         zlevel: 3
                     },
                     {
-                        left: '5%',
+                        left: strGridL,
                         top: '82%', //80+2%のギャップを空ける
-                        right: '5%',
+                        right: strGridR,
                         height: '11%' //出来高はtop82%の位置からheight11%を占有する
                     }
                 ],
@@ -236,7 +249,7 @@ document.querySelector('select[name="select-ticker"]').addEventListener('click',
 //main
 {
     const arrTicker = [
-        'SPY', 'DIA', 'QQQ', 'IWM', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
+        'SPY', 'DIA', 'QQQ', 'IWM', 'FDN', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
         'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TECL', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'TECS', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
         'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V', 'JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
     ];
