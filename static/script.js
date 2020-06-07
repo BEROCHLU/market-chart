@@ -1,4 +1,8 @@
 'use strict';
+
+import {
+	arrTicker
+} from './list.js'; //mjsはサーバ側でMIME未対応
 /**
  * 
  * @param {number} dayCount 
@@ -248,13 +252,16 @@ document.querySelector('select[name="select-ticker"]').addEventListener('click',
 
 //main
 {
+    /** 
     const arrTicker = [
         'SPY', 'DIA', 'QQQ', 'IWM', 'FDN', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
         'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TECL', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'TECS', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
         'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V', 'JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
-    ];
+    ];*/
 
-    _.forEach(arrTicker, ticker => {
+    const arrSort = _.sortBy(arrTicker);
+
+    _.forEach(arrSort, ticker => {
         let elem = document.createElement('option');
         elem.value = ticker;
         elem.innerHTML = ticker;
