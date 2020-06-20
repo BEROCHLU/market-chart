@@ -46,7 +46,7 @@ document.querySelector('#btn').addEventListener('click', () => {
                 return moment(new Date(n)).format('YYYY/MM/DD');
             });
 
-            const strName = _.chain(json.shortName).values().head().value();
+            const strName = _.chain(json.companyName).values().head().value();
 
             const arrLow = _.values(json.Low);
             const arrHigh = _.values(json.High);
