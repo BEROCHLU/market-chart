@@ -11,7 +11,7 @@ def run():
     dfHist = yft.history(period="1y")
     dfHist = dfHist.drop(columns=['Dividends', 'Stock Splits'])
     dfHist = dfHist.dropna(subset=['Open', 'High', 'Low', 'Close']) #OHLCに欠損値''が1つでもあれば行削除
-    dfHist['shortName'] = yft.info['shortName']
+    dfHist['longName'] = yft.info['longName']
     dfHist = dfHist.round(3)
     dfHist.to_csv(f'./old/{qq}.csv')
     #strJson = dfHist.to_json()

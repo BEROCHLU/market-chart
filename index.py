@@ -21,14 +21,14 @@ def index():
             dfHist = dfHist.dropna(
                 subset=["Open", "High", "Low", "Close"]
             )  # OHLCに欠損値''が1つでもあれば行削除
-            dfHist["shortName"] = yft.info["shortName"]  # add company name
+            dfHist["shortName"] = yft.info["longName"]  # add company name
             dfHist = dfHist.round(3)  # float64 => float32
 
-            strJson = dfHist.to_json()
+            hsh = dfHist.to_json()
         else:
             return template("index")
 
-        return strJson
+        return hsh
 
     except:
         return template("index")
