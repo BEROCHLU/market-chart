@@ -3,7 +3,7 @@
 
 import yfinance as yf
 
-def run():
+if __name__ == '__main__':
     qq = 'CVX'
 
     yft = yf.Ticker(qq)
@@ -16,5 +16,3 @@ def run():
     dfHist.to_csv(f'./old/{qq}.csv')
     #strJson = dfHist.to_json()
     #print(strJson)
-if __name__ == '__main__':
-    run()
