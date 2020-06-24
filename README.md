@@ -1,3 +1,6 @@
 # market-chart
 market-chart server with bottle.  
-bottle: Web Framework
+
+dependencies:
+* bottle
+* yfinance==0.1.45
