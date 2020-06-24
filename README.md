@@ -1,5 +1,5 @@
 # market-chart
-market-chart server with bottle.  
+Real time update.
 
 dependencies:
 * bottle
