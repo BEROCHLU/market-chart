@@ -4,7 +4,7 @@
 import yfinance as yf
 
 if __name__ == '__main__':
-    qq = 'CVX'
+    qq = '^FTSE' # CVX | ^FTSE
 
     yft = yf.Ticker(qq)
 
