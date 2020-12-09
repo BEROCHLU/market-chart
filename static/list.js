@@ -3,5 +3,5 @@ export const arrTicker = [
     'TWTR', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TECL', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'TECS', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY',
     'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V', 'JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM', 'FSLY', 'NET', 'DDOG', 'DT', 'ROKU', 'NIO',
     'MDB', 'WORK', 'OKTA', 'SHOP', 'CURE', 'XLK', 'FXI', 'MRNA', 'CODX', 'VIR', 'INO', 'SRNE',  'BNTX', 'VXRT', 'NVAX', 'BCRX', 'CHGG',
-    '^FTSE', '^FCHI', '^GDAXI', '^RUT', 'JPY=X', 'GBPJPY=X'
+    '^FTSE', '^FCHI', '^GDAXI', '^RUT', 'JPY=X', 'GBPJPY=X', 'CRSR', 'PLTR', 'CVAC', 'SUMO', 'WEBL', 'WEBS'
 ];

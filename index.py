@@ -8,7 +8,8 @@ from bottle import static_file
 
 
 @route("/")
-def index():
+@route("/<action>")
+def alpha(action="index"):
     try:
         qq = request.query.q
         pp = request.query.p
@@ -32,12 +33,18 @@ def index():
 
             hsh = dfHist.to_json()
         else:
-            return template("index")
+            if action in ["index", "alpha"]:
+                return template(action)
+            else:
+                return "error"
 
         return hsh
 
     except:
-        return template("index")
+        if action in ["index", "alpha"]:
+            return template(action)
+        else:
+            return "error"
 
 
 # provide static files

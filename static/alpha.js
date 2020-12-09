@@ -1,36 +1,12 @@
 'use strict';
 
 import {
-	arrTicker
+    arrTicker
 } from './list.js'; //mjsはサーバ側でMIME未対応
-/**
- * 
- * @param {number} dayCount 
- * @param {Array<number>} data 
- */
-const calculateMA = (dayCount, data) => {
-    let result = [];
-    for (let i = 0, len = data.length; i < len; i++) {
-        if (i < dayCount) {
-            result.push('-');
-            continue;
-        }
-        let sum = 0;
-        for (let j = 0; j < dayCount; j++) {
-            sum += data[i - j][1];
-        }
-        result.push((sum / dayCount).toFixed(2));
-    }
-    return result;
-}
 
-/*
- *!event
- */
+// todo XRPのグラフ修正
 
- // todo XRPのグラフ修正
-
-document.querySelector('#btn').addEventListener('click', () => {
+document.querySelector('#alpha').addEventListener('click', () => {
     const t = document.querySelector('#txt').value;
     const p = document.querySelector('.select-period').value;
     const url = `/?q=${t}&p=${p}`;
@@ -53,6 +29,8 @@ document.querySelector('#btn').addEventListener('click', () => {
             const arrVolume = _.values(json.Volume);
 
             let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
+            let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
+
             const pandaChart = echarts.init(document.getElementById('cn'));
 
             let plot_min = _.min(arrLow);
@@ -123,9 +101,20 @@ document.querySelector('#btn').addEventListener('click', () => {
                     }
                 },
                 tooltip: {
-                    trigger: 'item', //item | axis | node
+                    trigger: 'item', //item | axis | none
                     axisPointer: {
                         type: 'cross'
+                    },
+                    formatter: (p) => {
+                        if (p.seriesName === 'High') {
+                            return `${p.name} ${arrHigh[p.dataIndex]}`;
+                        } else if (p.seriesName === 'Low') {
+                            return `${p.name} ${p.value}`;
+                        } else if (p.seriesName === 'Volume') {
+                            return `${p.name} ${p.value.toLocaleString()}`;
+                        } else {
+                            return `${p.name} ${p.value}`;
+                        }
                     }
                 },
                 toolbox: {
@@ -174,48 +163,52 @@ document.querySelector('#btn').addEventListener('click', () => {
                     }
                 ],
                 series: [{
-                        type: 'candlestick',
-                        data: arrPlot,
-                        itemStyle: {
-                            color: 'white',
-                            color0: '#0064da',
-                            borderColor: 'black',
-                            borderColor0: '#0064da'
-                        }
+                        name: 'Low',
+                        type: 'line',
+                        stack: 'stack1',
+                        smooth: true,
+                        lineStyle: {
+                            width: 0
+                        },
+                        showSymbol: false,
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(128, 255, 165)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(1, 191, 236)'
+                            }])
+                        },
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: arrLow
                     },
                     {
-                        name: 'MA13',
+                        name: 'High',
                         type: 'line',
-                        data: calculateMA(13, arrPlot),
+                        stack: 'stack1',
                         smooth: true,
-                        symbol: 'none', //none
-                        symbolSize: 1,
-                        showSymbol: false,
                         lineStyle: {
-                            width: 1,
-                            opacity: 0.5,
-                            color: '#cf9f40'
+                            width: 0
                         },
-                        itemStyle: {
-                            color: '#cf9f40' //This is a symbol color. Let's match with the lineStyle color.
-                        }
-                    },
-                    {
-                        name: 'MA42',
-                        type: 'line',
-                        data: calculateMA(42, arrPlot),
-                        smooth: true,
-                        symbol: 'none', //none
-                        symbolSize: 1,
                         showSymbol: false,
-                        lineStyle: {
-                            width: 1,
-                            opacity: 0.5,
-                            color: '#0066ff'
+                        areaStyle: {
+                            opacity: 0.9,
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(0, 221, 255)'
+                            }, {
+                                offset: 1,
+                                color: 'rgba(77, 119, 255)'
+                            }])
                         },
-                        itemStyle: {
-                            color: '#0066ff' //This is a symbol color. Let's match with the lineStyle color.
-                        }
+                        emphasis: {
+                            focus: 'series'
+                        },
+                        data: arrDiff
                     },
                     {
                         name: 'Volume',
@@ -242,23 +235,16 @@ document.querySelector('#clr').addEventListener('click', () => {
 });
 
 document.querySelector('#txt').addEventListener('change', () => {
-    document.querySelector('#btn').click();
+    document.querySelector('#alpha').click();
 });
 
 document.querySelector('select[name="select-ticker"]').addEventListener('click', (evt) => {
     document.querySelector('#txt').value = evt.currentTarget.value;
-    document.querySelector('#btn').click();
+    document.querySelector('#alpha').click();
 });
 
 //main
 {
-    /** 
-    const arrTicker = [
-        'SPY', 'DIA', 'QQQ', 'IWM', 'FDN', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
-        'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TECL', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'TECS', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
-        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V', 'JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
-    ];*/
-
     const arrSort = _.sortBy(arrTicker);
 
     _.forEach(arrSort, ticker => {
