@@ -39,8 +39,8 @@ document.querySelector('#alpha').addEventListener('click', () => {
             plot_min = _.floor(plot_min * 0.97);
             plot_max = _.ceil(plot_max * 1.03);
 
-            const strGridL = '5%';
-            const strGridR = '8%';
+            const strGridL = '10%';
+            const strGridR = '2%';
 
             let option = {
                 title: {
