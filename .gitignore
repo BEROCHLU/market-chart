@@ -1,5 +1,5 @@
 __pycache__/
 old/
-*.code-workspace
-.jsbeautifyrc
+workspace.code-workspace
+.ifdef
 yfus.py
