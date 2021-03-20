@@ -30,13 +30,9 @@ def alpha(action="index"):
             n = gen.__next__()
 
             url_ticker = f"https://query{n}.finance.yahoo.com/v8/finance/chart/{ticker}"
-            url_quote = (
-                f"https://query{n}.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
-            )
+            url_quote = f"https://query{n}.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
 
-            data_chart = requests.get(
-                url_ticker, params={"range": strRange, "interval": "1d"}
-            )
+            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
             data_chart = data_chart.json()
 
             data_summary = requests.get(url_quote, params={"modules": "quotetype"})
@@ -50,15 +46,11 @@ def alpha(action="index"):
             hshSummary = hshSummary["quoteType"]
 
             df = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
-            df = df.dropna(
-                subset=["open", "high", "low", "close"]
-            )  # OHLCに欠損値''が1つでもあれば行削除
+            df = df.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
             df = df.round(2)  # float64 => float32
 
             hsh = df.to_dict(orient="list")
-            hsh["quotename"] = (
-                hshSummary["longName"] or hshSummary["shortName"] or "Name None"
-            )
+            hsh["quotename"] = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
 
             strDumps = json.dumps(hsh)
         else:

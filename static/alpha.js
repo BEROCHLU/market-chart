@@ -5,32 +5,32 @@ import {
 } from './list.js'; //mjsはサーバ側でMIME未対応
 
 // todo XRPのグラフ修正
-
 document.querySelector('#alpha').addEventListener('click', () => {
     const t = document.querySelector('#txt').value;
-    const p = document.querySelector('.select-period').value;
-    const url = `/?q=${t}&p=${p}`;
+    const r = document.querySelector('.select-period').value;
+    const url = `/?t=${t}&r=${r}`;
 
     fetch(url, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
-        .then(response => response.json())
+        .then(response => {
+            //console.log(response);
+            return response.json();
+        })
         .then(json => {
-            const arrDate = _.map(json.Open, (value, key) => {
-                const n = parseInt(key);
+            const arrDate = _.map(json.timestamp, (value) => {
+                const n = value * 1000;
                 return dayjs(new Date(n)).format('YYYY/MM/DD');
             });
 
-            const strName = _.chain(json.companyName).values().head().value();
+            const strTitle = json['quotename'];
 
-            const arrLow = _.values(json.Low);
-            const arrHigh = _.values(json.High);
-            const arrVolume = _.values(json.Volume);
+            const arrLow = _.values(json.low);
+            const arrHigh = _.values(json.high);
+            const arrVolume = _.values(json.volume);
 
-            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
-
             const pandaChart = echarts.init(document.getElementById('cn'));
 
             let plot_min = _.min(arrLow);
@@ -44,7 +44,7 @@ document.querySelector('#alpha').addEventListener('click', () => {
 
             let option = {
                 title: {
-                    text: strName,
+                    text: strTitle,
                     left: 'center'
                 },
                 xAxis: [{
