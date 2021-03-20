@@ -6,8 +6,8 @@ import requests
 import json
 import pandas as pd
 
-from bottle import request, response, route, run, template
-from bottle import static_file
+from bottle import request, route, template, static_file
+from bottle import run
 
 
 def getQueryURL():

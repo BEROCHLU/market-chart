@@ -1,43 +1,68 @@
-# A very simple Bottle Hello World app for you to get started with...
-import yfinance as yf
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-from bottle import default_app, request, route, static_file, template
+import os
+import requests
+import json
+import pandas as pd
+
+from bottle import request, route, template, static_file
+from bottle import default_app
+
+
+def getQueryURL():
+    while True:
+        yield 2
+        yield 1
+
+
+gen = getQueryURL()
 
 
 @route("/")
 @route("/<action>")
 def alpha(action="index"):
     try:
-        qq = request.query.q
-        pp = request.query.p
+        ticker = request.query.t
+        strRange = request.query.r
 
-        if qq:
-            yft = yf.Ticker(qq)
+        if ticker:
+            n = gen.__next__()
 
-            dfHist = yft.history(period=pp)  # 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-            dfHist = dfHist.drop(columns=["Dividends", "Stock Splits"])
-            dfHist = dfHist.dropna(
-                subset=["Open", "High", "Low", "Close"]
-            )  # OHLCに欠損値''が1つでもあれば行削除
-            dfHist = dfHist.round(3)  # float64 => float32
+            url_ticker = f"https://query{n}.finance.yahoo.com/v8/finance/chart/{ticker}"
+            url_quote = f"https://query{n}.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
 
-            if "longName" in yft.info:
-                dfHist["companyName"] = yft.info["longName"]
-            elif "shortName" in yft.info:
-                dfHist["companyName"] = yft.info["shortName"]
-            else:
-                dfHist["companyName"] = "Error Nothing"
+            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
+            data_chart = data_chart.json()
 
-            hsh = dfHist.to_json()
+            data_summary = requests.get(url_quote, params={"modules": "quotetype"})
+            data_summary = data_summary.json()
+
+            hshResult = data_chart["chart"]["result"][0]
+            hshQuote = hshResult["indicators"]["quote"][0]
+            hshQuote["timestamp"] = hshResult["timestamp"]
+
+            hshSummary = data_summary["quoteSummary"]["result"][0]
+            hshSummary = hshSummary["quoteType"]
+
+            df = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
+            df = df.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
+            df = df.round(2)  # float64 => float32
+
+            hsh = df.to_dict(orient="list")
+            hsh["quotename"] = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
+
+            strDumps = json.dumps(hsh)
         else:
             if action in ["index", "alpha"]:
                 return template(action)
             else:
                 return "error"
 
-        return hsh
+        return strDumps
 
     except:
+        print("except error")
         if action in ["index", "alpha"]:
             return template(action)
         else:
@@ -48,6 +73,7 @@ def alpha(action="index"):
 @route("/static/<filename:path>")
 def send_static(filename):
     return static_file(filename, root="./static")
+
 
 # WSGIを使う。名前実行はなし
 application = default_app()
