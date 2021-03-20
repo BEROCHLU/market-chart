@@ -76,7 +76,7 @@ def send_static(filename):
 
 
 if __name__ == "__main__":
-    if os.path.exists("./.ifdef"):
+    if os.path.exists("./ifdef"):
         run(host="localhost", port=80, reloader=True, debug=True)
     else:
         run(host="0.0.0.0", port=8080, reloader=True)
