@@ -24,16 +24,11 @@ const calculateMA = (dayCount, data) => {
     return result;
 }
 
-/*
- *!event
- */
-
 // todo XRPのグラフ修正
-
 document.querySelector('#btn').addEventListener('click', () => {
     const t = document.querySelector('#txt').value;
-    const p = document.querySelector('.select-period').value;
-    const url = `/?q=${t}&p=${p}`;
+    const r = document.querySelector('.select-period').value;
+    const url = `/?t=${t}&r=${r}`;
 
     fetch(url, {
             method: 'GET',
@@ -49,7 +44,7 @@ document.querySelector('#btn').addEventListener('click', () => {
                 return dayjs(new Date(n)).format('YYYY/MM/DD');
             });
 
-            const strName = 'unknown';
+            const strTitle = json['quotename'];
 
             const arrLow = _.values(json.low);
             const arrHigh = _.values(json.high);
@@ -69,7 +64,7 @@ document.querySelector('#btn').addEventListener('click', () => {
 
             let option = {
                 title: {
-                    text: strName,
+                    text: strTitle,
                     left: 'center'
                 },
                 xAxis: [{

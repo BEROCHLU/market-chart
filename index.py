@@ -10,51 +10,57 @@ from bottle import request, response, route, run, template
 from bottle import static_file
 
 
+def getQueryURL():
+    while True:
+        yield 2
+        yield 1
+
+
+gen = getQueryURL()
+
+
 @route("/")
 @route("/<action>")
 def alpha(action="index"):
     try:
-        qq = request.query.q
-        pp = request.query.p
+        ticker = request.query.t
+        strRange = request.query.r
 
-        if qq:
-            url_ticker = f"https://query2.finance.yahoo.com/v8/finance/chart/{qq}"
-            params = {"range": pp, "interval": "1d"}
+        if ticker:
+            n = gen.__next__()
 
-            data = requests.get(url_ticker, params=params)
-            data = data.json()
+            url_ticker = f"https://query{n}.finance.yahoo.com/v8/finance/chart/{ticker}"
+            url_quote = (
+                f"https://query{n}.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
+            )
 
-            hshResult = data["chart"]["result"][0]
-            hshQuate = hshResult["indicators"]["quote"][0]
-            hshQuate["timestamp"] = hshResult["timestamp"]
+            data_chart = requests.get(
+                url_ticker, params={"range": strRange, "interval": "1d"}
+            )
+            data_chart = data_chart.json()
 
-            df = pd.DataFrame(hshQuate.values(), index=hshQuate.keys()).T
+            data_summary = requests.get(url_quote, params={"modules": "quotetype"})
+            data_summary = data_summary.json()
+
+            hshResult = data_chart["chart"]["result"][0]
+            hshQuote = hshResult["indicators"]["quote"][0]
+            hshQuote["timestamp"] = hshResult["timestamp"]
+
+            hshSummary = data_summary["quoteSummary"]["result"][0]
+            hshSummary = hshSummary["quoteType"]
+
+            df = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
             df = df.dropna(
                 subset=["open", "high", "low", "close"]
             )  # OHLCに欠損値''が1つでもあれば行削除
             df = df.round(2)  # float64 => float32
 
-            hsh = df.to_dict(orient='list')
+            hsh = df.to_dict(orient="list")
+            hsh["quotename"] = (
+                hshSummary["longName"] or hshSummary["shortName"] or "Name None"
+            )
+
             strDumps = json.dumps(hsh)
-            """
-            yft = yf.Ticker(qq)
-
-            dfHist = yft.history(period=pp)  # 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-            dfHist = dfHist.drop(columns=["Dividends", "Stock Splits"])
-            dfHist = dfHist.dropna(
-                subset=["Open", "High", "Low", "Close"]
-            )  # OHLCに欠損値''が1つでもあれば行削除
-            dfHist = dfHist.round(3)  # float64 => float32
-
-            if "longName" in yft.info:
-                dfHist["companyName"] = yft.info["longName"]
-            elif "shortName" in yft.info:
-                dfHist["companyName"] = yft.info["shortName"]
-            else:
-                dfHist["companyName"] = "Error Nothing"
-
-            hsh = dfHist.to_json()
-            """
         else:
             if action in ["index", "alpha"]:
                 return template(action)
@@ -64,7 +70,7 @@ def alpha(action="index"):
         return strDumps
 
     except:
-        print("error")
+        print("except error")
         if action in ["index", "alpha"]:
             return template(action)
         else:
