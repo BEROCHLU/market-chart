@@ -44,8 +44,8 @@ document.querySelector('#btn').addEventListener('click', () => {
             return response.json();
         })
         .then(json => {
-            const arrDate = _.map(json.open, (value, key) => {
-                const n = parseInt(key);
+            const arrDate = _.map(json.timestamp, (value) => {
+                const n = value * 1000;
                 return dayjs(new Date(n)).format('YYYY/MM/DD');
             });
 
