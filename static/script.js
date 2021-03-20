@@ -1,7 +1,7 @@
 'use strict';
 
 import {
-	arrTicker
+    arrTicker
 } from './list.js'; //mjsはサーバ側でMIME未対応
 /**
  * 
@@ -28,7 +28,7 @@ const calculateMA = (dayCount, data) => {
  *!event
  */
 
- // todo XRPのグラフ修正
+// todo XRPのグラフ修正
 
 document.querySelector('#btn').addEventListener('click', () => {
     const t = document.querySelector('#txt').value;
@@ -39,20 +39,23 @@ document.querySelector('#btn').addEventListener('click', () => {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
-        .then(response => response.json())
+        .then(response => {
+            //console.log(response);
+            return response.json();
+        })
         .then(json => {
-            const arrDate = _.map(json.Open, (value, key) => {
+            const arrDate = _.map(json.open, (value, key) => {
                 const n = parseInt(key);
                 return dayjs(new Date(n)).format('YYYY/MM/DD');
             });
 
-            const strName = _.chain(json.companyName).values().head().value();
+            const strName = 'unknown';
 
-            const arrLow = _.values(json.Low);
-            const arrHigh = _.values(json.High);
-            const arrVolume = _.values(json.Volume);
+            const arrLow = _.values(json.low);
+            const arrHigh = _.values(json.high);
+            const arrVolume = _.values(json.volume);
 
-            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
+            let arrPlot = _.zip(_.values(json.open), _.values(json.close), arrLow, arrHigh); //open close low high
             const pandaChart = echarts.init(document.getElementById('cn'));
 
             let plot_min = _.min(arrLow);
@@ -252,13 +255,6 @@ document.querySelector('select[name="select-ticker"]').addEventListener('click',
 
 //main
 {
-    /** 
-    const arrTicker = [
-        'SPY', 'DIA', 'QQQ', 'IWM', 'FDN', 'VYM', 'GS', 'MS', 'JPM', 'WFC', 'C', 'BAC', 'BCS', 'DB', 'FB', 'AAPL', 'NFLX', 'GOOG', 'AMZN', 'MSFT',
-        'TWTR', 'SNAP', 'SQ', 'AMD', 'NVDA', 'BTC-USD', 'SPXL', 'UPRO', 'UDOW', 'TECL', 'TQQQ', 'TNA', 'SPXS', 'SPXU', 'SDOW', 'TECS', 'SQQQ', 'TZA', 'FAZ', 'VXX', 'UVXY', 'TVIX',
-        'GLD', 'USO', 'TLT', 'BA', 'UNH', 'MMM', 'HD', 'MCD', 'V', 'JNJ', 'GE', 'BRK-B', 'CVX', 'PG', 'WMT', 'XOM'
-    ];*/
-
     const arrSort = _.sortBy(arrTicker);
 
     _.forEach(arrSort, ticker => {
