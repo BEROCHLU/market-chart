@@ -12,11 +12,12 @@ from bottle import run
 
 def getQueryURL():
     while True:
-        yield 2
-        yield 1
+        yield (8, 11)
+        yield (7, 10)
 
 
 gen = getQueryURL()
+[X, Y] = [2, 2]
 
 
 @route("/")
@@ -27,10 +28,10 @@ def alpha(action="index"):
         strRange = request.query.r
 
         if ticker:
-            n = gen.__next__()
+            a = gen.__next__()
 
-            url_ticker = f"https://query{n}.finance.yahoo.com/v8/finance/chart/{ticker}"
-            url_quote = f"https://query{n}.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
+            url_ticker = f"https://query{X}.finance.yahoo.com/v{a[0]}/finance/chart/{ticker}"
+            url_quote = f"https://query{Y}.finance.yahoo.com/v{a[1]}/finance/quoteSummary/{ticker}"
 
             data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
             data_chart = data_chart.json()
