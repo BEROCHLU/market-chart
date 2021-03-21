@@ -17,7 +17,7 @@ def getQueryURL():
 
 
 gen = getQueryURL()
-[X, Y] = [2, 2]
+(X, Y) = (2, 2)
 
 
 @route("/")
@@ -28,11 +28,11 @@ def alpha(action="index"):
         strRange = request.query.r
 
         if ticker:
-            a = gen.__next__()
+            (a, b) = gen.__next__()
 
-            url_ticker = f"https://query{X}.finance.yahoo.com/v{a[0]}/finance/chart/{ticker}"
-            url_quote = f"https://query{Y}.finance.yahoo.com/v{a[1]}/finance/quoteSummary/{ticker}"
-
+            url_ticker = f"https://query{X}.finance.yahoo.com/v{a}/finance/chart/{ticker}"
+            url_quote = f"https://query{Y}.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
+            print(url_ticker, url_quote)
             data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
             data_chart = data_chart.json()
 
