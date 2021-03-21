@@ -32,7 +32,7 @@ def alpha(action="index"):
 
             url_ticker = f"https://query{X}.finance.yahoo.com/v{a}/finance/chart/{ticker}"
             url_quote = f"https://query{Y}.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
-            print(url_ticker, url_quote)
+
             data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
             data_chart = data_chart.json()
 
