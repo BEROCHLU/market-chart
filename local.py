@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import requests
+import datetime
 import json
-import pandas as pd
+import os
 
-from bottle import request, route, template, static_file
-from bottle import run
+import pandas as pd
+import requests
+from bottle import request, route, run, static_file, template
 
 
 def getQueryURL():
@@ -17,6 +17,7 @@ def getQueryURL():
 
 
 gen = getQueryURL()
+f1 = lambda ms: datetime.datetime.fromtimestamp(ms).strftime("%Y-%m-%d")
 
 
 @route("/")
@@ -40,16 +41,17 @@ def alpha(action="index"):
 
             hshResult = data_chart["chart"]["result"][0]
             hshQuote = hshResult["indicators"]["quote"][0]
-            hshQuote["timestamp"] = hshResult["timestamp"]
+            hshQuote["date"] = hshResult["timestamp"]
 
             hshSummary = data_summary["quoteSummary"]["result"][0]
             hshSummary = hshSummary["quoteType"]
 
-            df = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
-            df = df.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
-            df = df.round(2)  # float64 => float32
+            df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
+            df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
+            df_quote = df_quote.round(2)  # float64 => float32
+            df_quote["date"] = df_quote["date"].map(f1)  # UNIX time to Datetime string
 
-            hsh = df.to_dict(orient="list")
+            hsh = df_quote.to_dict(orient="list")
             hsh["quotename"] = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
 
             strDumps = json.dumps(hsh)

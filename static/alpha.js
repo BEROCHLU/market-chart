@@ -19,13 +19,9 @@ document.querySelector('#alpha').addEventListener('click', () => {
             return response.json();
         })
         .then(json => {
-            const arrDate = _.map(json.timestamp, (value) => {
-                const n = value * 1000;
-                return dayjs(new Date(n)).format('YYYY/MM/DD');
-            });
-
             const strTitle = json['quotename'];
 
+            const arrDate = _.values(json.date);
             const arrLow = _.values(json.low);
             const arrHigh = _.values(json.high);
             const arrVolume = _.values(json.volume);
