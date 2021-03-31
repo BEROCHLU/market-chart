@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import requests
 from bottle import request, route, run, static_file, template
+from dateutil import tz
 
 
 def getQueryURL():
@@ -17,7 +18,8 @@ def getQueryURL():
 
 
 gen = getQueryURL()
-f1 = lambda ms: datetime.datetime.fromtimestamp(ms).strftime("%Y-%m-%d")
+edt = tz.gettz("America/New_York")
+f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 
 
 @route("/")
