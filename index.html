@@ -12,6 +12,10 @@
 
 <body>
     <div class="wrapper">
+        <div class="market-list">
+            <select name="select-ticker">
+            </select>
+        </div>
         <div class="market-input">
             <input type="text" id="txt">
             <button id="btn">chart</button>
@@ -26,11 +30,9 @@
             </select>
             <span><input type="checkbox" id="check_alpha"><label for="alpha">alpha</label></span>
         </div>
-        <div class="market-board">
-            <select name="select-ticker">
-            </select>
+        <div class="market-draw">
+            <div id="cn"></div>
         </div>
-        <div id="cn"></div>
         <script src="static/script.js" type="module"></script>
     </div>
 </body>
