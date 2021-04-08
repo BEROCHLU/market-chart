@@ -125,6 +125,9 @@ const drawCandle = (echartsPanda) => {
                     feature: {
                         restore: {
                             title: 'restore'
+                        },
+                        saveAsImage: {
+                            title: 'save as image'
                         }
                     }
                 },
@@ -331,6 +334,16 @@ const drawAlpha = (echartsPanda) => {
                             return `${p.name} ${p.value.toLocaleString()}`;
                         } else {
                             return `${p.name} ${p.value}`;
+                        }
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        restore: {
+                            title: 'restore'
+                        },
+                        saveAsImage: {
+                            title: 'save as image'
                         }
                     }
                 },
