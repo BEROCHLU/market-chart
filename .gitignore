@@ -2,5 +2,3 @@ __pycache__/
 old/
 workspace.code-workspace
 pyproject.toml
-ifdef
-test.py
