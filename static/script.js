@@ -24,10 +24,14 @@ const calculateMA = (dayCount, data) => {
     return result;
 }
 
-const drawCandle = (echartsPanda) => {
+const getURL = () => {
     const t = document.querySelector('#txt').value;
     const r = document.querySelector('.select-period').value;
-    const url = `/?t=${t}&r=${r}`;
+    return `/?t=${t}&r=${r}`;
+}
+
+const drawCandle = (echartsPanda) => {
+    const url = getURL();
 
     fetch(url, {
             method: 'GET',
@@ -233,10 +237,8 @@ const drawCandle = (echartsPanda) => {
 }
 
 const drawAlpha = (echartsPanda) => {
-    const t = document.querySelector('#txt').value;
-    const r = document.querySelector('.select-period').value;
-    const url = `/?t=${t}&r=${r}`;
-
+    const url = getURL();
+    
     fetch(url, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
