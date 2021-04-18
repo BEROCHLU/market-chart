@@ -3,3 +3,6 @@ dependencies:
 * bottle
 * requests
 * pandas
+# start local server
+1. `python local.py`
+2. open browser `http://localhost:80/`
