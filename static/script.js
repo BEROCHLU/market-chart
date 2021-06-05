@@ -258,11 +258,14 @@ const drawAlpha = (echartsPanda) => {
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
             //const pandaChart = echarts.init(document.getElementById('cn'));
 
-            let plot_min = _.min(arrLow);
             let plot_max = _.max(arrHigh);
+            let plot_min = _.min(arrLow);
+            let plot_margin = 0.03;
 
-            plot_min = _.floor(plot_min * 0.97);
-            plot_max = _.ceil(plot_max * 1.03);
+            plot_max = plot_max * (1.0 + plot_margin);
+            plot_min = plot_min * (1.0 - plot_margin);
+            plot_max = _.ceil(plot_max, 1);
+            plot_min = _.floor(plot_min, 1);
 
             const strGridL = '10%';
             const strGridR = '2%';
