@@ -178,9 +178,9 @@ const drawCandle = (echartsPanda) => {
                         data: arrPlot,
                         itemStyle: {
                             color: 'white',
-                            color0: '#0064da',
+                            color0: '#0a93f5',
                             borderColor: 'black',
-                            borderColor0: '#0064da'
+                            borderColor0: '#0a93f5'
                         }
                     },
                     {
