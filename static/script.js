@@ -42,14 +42,15 @@ const drawCandle = (echartsPanda) => {
             return response.json();
         })
         .then(json => {
-            const strTitle = json['quotename'];
+            //const strTitle = json['quotename'];
+            const strTitle = json['companyName'][0];
 
-            const arrDate = _.values(json.date);
-            const arrLow = _.values(json.low);
-            const arrHigh = _.values(json.high);
-            const arrVolume = _.values(json.volume);
+            const arrDate = _.values(json.Date);
+            const arrLow = _.values(json.Low);
+            const arrHigh = _.values(json.High);
+            const arrVolume = _.values(json.Volume);
 
-            let arrPlot = _.zip(_.values(json.open), _.values(json.close), arrLow, arrHigh); //open close low high
+            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
             //const pandaChart = echarts.init(document.getElementById('cn'));
 
             let plot_max = _.max(arrHigh);
@@ -250,10 +251,10 @@ const drawAlpha = (echartsPanda) => {
         .then(json => {
             const strTitle = json['quotename'];
 
-            const arrDate = _.values(json.date);
-            const arrLow = _.values(json.low);
-            const arrHigh = _.values(json.high);
-            const arrVolume = _.values(json.volume);
+            const arrDate = _.values(json.Date);
+            const arrLow = _.values(json.Low);
+            const arrHigh = _.values(json.High);
+            const arrVolume = _.values(json.Volume);
 
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
             //const pandaChart = echarts.init(document.getElementById('cn'));
