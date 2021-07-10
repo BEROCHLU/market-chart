@@ -20,7 +20,8 @@ def getQueryURL():
 gen = getQueryURL()
 edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
-
+# hash
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMF8wKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODYuMC40MjQwLjE5OCBTYWZhcmkvNTM3LjM2"
 
 @route("/")
 @route("/<action>")
@@ -35,7 +36,6 @@ def alpha(action="index"):
             url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
             url_quote = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
 
-            str_ua = "TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMF8wKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODYuMC40MjQwLjE5OCBTYWZhcmkvNTM3LjM2"
             ua = base64.b64decode(str_ua).decode()
             headers = {'User-Agent': ua}
 
