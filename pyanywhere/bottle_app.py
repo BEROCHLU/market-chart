@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import base64
 import datetime
 import json
-import os
 
 import pandas as pd
 import requests
@@ -35,10 +35,14 @@ def alpha(action="index"):
             url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
             url_quote = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
 
-            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
+            str_ua = "TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfMF8wKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODYuMC40MjQwLjE5OCBTYWZhcmkvNTM3LjM2"
+            ua = base64.b64decode(str_ua).decode()
+            headers = {'User-Agent': ua}
+
+            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"}, headers=headers)
             data_chart = data_chart.json()
 
-            data_summary = requests.get(url_quote, params={"modules": "quotetype"})
+            data_summary = requests.get(url_quote, params={"modules": "quotetype"}, headers=headers)
             data_summary = data_summary.json()
 
             hshResult = data_chart["chart"]["result"][0]
