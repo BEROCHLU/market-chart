@@ -51,7 +51,7 @@ const drawCandle = (echartsPanda) => {
             const arrVolume = _.values(json.Volume);
 
             const arrDate = _.map(arrTimestamp, ns => {
-                return dayjs.unix(ns/1000).format('YYYY-MM-DD');
+                return dayjs.unix(ns / 1000).format('YYYY-MM-DD');
             });
 
             let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
@@ -243,7 +243,7 @@ const drawCandle = (echartsPanda) => {
 
 const drawAlpha = (echartsPanda) => {
     const url = getURL();
-    
+
     fetch(url, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
