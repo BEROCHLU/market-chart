@@ -45,10 +45,14 @@ const drawCandle = (echartsPanda) => {
             //const strTitle = json['quotename'];
             const strTitle = json['companyName'][0];
 
-            const arrDate = _.values(json.Date);
+            const arrTimestamp = _.values(json.Date);
             const arrLow = _.values(json.Low);
             const arrHigh = _.values(json.High);
             const arrVolume = _.values(json.Volume);
+
+            const arrDate = _.map(arrTimestamp, ns => {
+                return dayjs.unix(ns/1000).format('YYYY-MM-DD');
+            });
 
             let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
             //const pandaChart = echarts.init(document.getElementById('cn'));
