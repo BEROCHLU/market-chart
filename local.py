@@ -48,7 +48,7 @@ def alpha(action="index"):
 
             hshResult = data_chart["chart"]["result"][0]
             hshQuote = hshResult["indicators"]["quote"][0]
-            hshQuote["date"] = hshResult["timestamp"]
+            hshQuote["Date"] = hshResult["timestamp"]
 
             hshSummary = data_summary["quoteSummary"]["result"][0]
             hshSummary = hshSummary["quoteType"]
@@ -56,10 +56,12 @@ def alpha(action="index"):
             df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
             df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
             df_quote = df_quote.round(2)  # float64 => float32
-            df_quote["date"] = df_quote["date"].map(f1)  # UNIX time to Datetime string
-
+            df_quote["Date"] = df_quote["Date"].map(f1)  # UNIX time to Datetime string
+            df_quote.rename(columns={"open": "Open", "high": "High", "low": "Low", "close": "Close", "volume": "Volume"}, inplace=True)
+            # print(df_quote)
             hsh = df_quote.to_dict(orient="list")
-            hsh["quotename"] = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
+            quotename = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
+            hsh["companyName"] = [quotename]
 
             strDumps = json.dumps(hsh)
         else:

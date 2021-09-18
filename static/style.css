@@ -1,15 +1,25 @@
 @charset "utf-8";
 
 .wrapper {
-    height: 95vh;
+    height: 92vh;
     width: 720px;
+    margin: 0 auto;
 }
 
 .market-header {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    padding: 5px;
+    border-bottom: 3px solid black;
 }
 
 #cn {
     height: 100%;
     width: 100%;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    padding: 5px;
 }
