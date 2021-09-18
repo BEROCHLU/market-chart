@@ -5,7 +5,8 @@ import base64
 import datetime
 import json
 
-import yfinance as yf
+import pandas as pd
+import requests
 from bottle import default_app, request, route, static_file, template
 from dateutil import tz
 
@@ -57,21 +58,17 @@ def alpha(action="index"):
             df_quote = df_quote.round(2)  # float64 => float32
             df_quote["date"] = df_quote["date"].map(f1)  # UNIX time to Datetime string
 
-            dfHist = yft.history(period=strRange)  # 1d,5d,1mo,3mo,6mo,1y,2y,5y,10y,ytd,max
-            dfHist.drop(columns=["Dividends", "Stock Splits"], inplace=True)
-            dfHist.dropna(subset=["Open", "High", "Low", "Close"], inplace=True)  # OHLCに欠損値''が1つでもあれば行削除
-            dfHist = dfHist.round(2)  # float64 => float32
-            dfHist["companyName"] = yft.info["longName"] or yft.info["shortName"] or "Error Nothing"
-            dfHist.reset_index(inplace=True)
+            hsh = df_quote.to_dict(orient="list")
+            hsh["quotename"] = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
 
-            hsh = dfHist.to_json()
+            strDumps = json.dumps(hsh)
         else:
             if action in ["index", "alpha"]:
                 return template(action)
             else:
                 return "error"
 
-        return hsh
+        return strDumps
 
     except:
         print("except error")
