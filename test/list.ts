@@ -35,5 +35,6 @@ export default [
     'ijr',
 	'ETH-USD',
 	'qqqj',
-	'faz'
+	'faz',
+	'gld'
 ];

@@ -7,6 +7,7 @@ export const arrTicker = [
 	"FAS",
 	"FAZ",
 	"FXI",
+	"GLD",
 	"IJR",
 	"IWM",
 	"KWEB",
