@@ -1,17 +1,12 @@
-export const arrTicker = [
+export default [
 	"ARKK",
 	"BTC-USD",
 	"CL%3DF",
 	"DIA",
-	"ETH-USD",
 	"FAS",
-	"FAZ",
 	"FXI",
-	"IJR",
 	"IWM",
-	"KWEB",
 	"QQQ",
-	"QQQJ",
 	"SDOW",
 	"SOXL",
 	"SOXS",
@@ -35,5 +30,10 @@ export const arrTicker = [
 	"^FCHI",
 	"^FTSE",
 	"^GDAXI",
-	"^RUT"
+	"^RUT",
+    'kweb',
+    'ijr',
+	'ETH-USD',
+	'qqqj',
+	'faz'
 ];

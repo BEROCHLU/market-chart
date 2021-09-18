@@ -1,0 +1,29 @@
+{
+  "name": "market-chart",
+  "version": "1.0.0",
+  "description": "No description",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BEROCHLU/market-chart.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BEROCHLU/market-chart/issues"
+  },
+  "homepage": "https://github.com/BEROCHLU/market-chart#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.173",
+    "@types/node": "^16.9.2",
+    "lodash": "^4.17.21",
+    "ts-node": "^10.2.1"
+  }
+}

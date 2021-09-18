@@ -1,5 +1,3 @@
 __pycache__/
 node_modules/
-old/
-workspace.code-workspace
-pyproject.toml
+test/old/
