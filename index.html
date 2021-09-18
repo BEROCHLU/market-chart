@@ -2,39 +2,36 @@
 <html>
 
 <head>
-    <title>Market Chart</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="./static/style.css">
-    <link rel="icon" type="image/png" href="./static/favicon.png">
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>
+	<title>Market Chart</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="./static/style.css">
+	<link rel="icon" type="image/png" href="./static/favicon.png">
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js"></script>
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="market-list">
-            <select name="select-ticker">
-            </select>
-        </div>
-        <div class="market-input">
-            <input type="text" id="txt">
-            <button id="btn">chart</button>
-            <button id="clr">clear</button>
-            <select class="select-period">
-                <option value="6mo">6mo</option>
-                <option value="1y">1y</option>
-                <option value="2y">2y</option>
-                <option value="5y">5y</option>
-                <option value="10y">10y</option>
-                <option value="max">max</option>
-            </select>
-            <span><input type="checkbox" id="check_alpha"><label for="alpha">alpha</label></span>
-        </div>
-        <div class="market-draw">
-            <div id="cn"></div>
-        </div>
-        <script src="static/script.js" type="module"></script>
-    </div>
+	<div class="wrapper">
+		<div class="market-header">
+			<select name="select-ticker">
+				<option value="select-ticker"> </option>
+			</select>
+			<input type="text" id="txt">
+			<button id="btn">chart</button>
+			<button id="clr">clear</button>
+			<select class="select-period">
+				<option value="6mo">6mo</option>
+				<option value="1y">1y</option>
+				<option value="2y">2y</option>
+				<option value="5y">5y</option>
+				<option value="10y">10y</option>
+				<option value="max">max</option>
+			</select>
+			<span><input type="checkbox" id="check_alpha"><label for="alpha">alpha</label></span>
+		</div>
+		<div id="cn"></div>
+		<script src="static/script.js" type="module"></script>
+	</div>
 </body>
 
 </html>

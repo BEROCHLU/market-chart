@@ -1,41 +1,12 @@
 @charset "utf-8";
 
-body {
-    margin: 0;
-    padding: 0;
-}
-
 .wrapper {
-    width: 690px;
-    height: 930px;
-    background-color: none;
+    height: 95vh;
+    width: 720px;
 }
 
-.market-list {
-    margin: 0 0 0 10px;
-    width: 85px;
-    background-color: none;
-}
-
-.market-input {
+.market-header {
     text-align: center;
-    margin: 0 0 0 15px;
-    top: 0px;
-    left: 85px;
-    height: 25px;
-    width: 500px;
-    background-color: none;
-    position: fixed;
-}
-
-.market-draw {
-    margin: 0 0 0 10px;
-    top: 25px;
-    left: 85px;
-    height: 97vh;
-    width: 560px;
-    background-color: none;
-    position: fixed;
 }
 
 #cn {
