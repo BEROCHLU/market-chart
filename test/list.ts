@@ -34,5 +34,6 @@ export default [
     'kweb',
     'ijr',
 	'ETH-USD',
-	'qqqj'
+	'qqqj',
+	'faz'
 ];

@@ -5,6 +5,7 @@ export const arrTicker = [
 	"DIA",
 	"ETH-USD",
 	"FAS",
+	"FAZ",
 	"FXI",
 	"IJR",
 	"IWM",
