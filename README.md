@@ -1,7 +1,8 @@
 # market-chart
 dependencies:
 * bottle
-* yfinance
+* requests
+* pandas
 # install library
 `pip install -r requirements.txt`
 # start local server
