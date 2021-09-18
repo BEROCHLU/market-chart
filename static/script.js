@@ -24,10 +24,14 @@ const calculateMA = (dayCount, data) => {
     return result;
 }
 
-const drawCandle = (echartsPanda) => {
+const getURL = () => {
     const t = document.querySelector('#txt').value;
     const r = document.querySelector('.select-period').value;
-    const url = `/?t=${t}&r=${r}`;
+    return `/?t=${t}&r=${r}`;
+}
+
+const drawCandle = (echartsPanda) => {
+    const url = getURL();
 
     fetch(url, {
             method: 'GET',
@@ -38,21 +42,29 @@ const drawCandle = (echartsPanda) => {
             return response.json();
         })
         .then(json => {
-            const strTitle = json['quotename'];
+            //const strTitle = json['quotename'];
+            const strTitle = json['companyName'][0];
 
-            const arrDate = _.values(json.date);
-            const arrLow = _.values(json.low);
-            const arrHigh = _.values(json.high);
-            const arrVolume = _.values(json.volume);
+            const arrTimestamp = _.values(json.Date);
+            const arrLow = _.values(json.Low);
+            const arrHigh = _.values(json.High);
+            const arrVolume = _.values(json.Volume);
 
-            let arrPlot = _.zip(_.values(json.open), _.values(json.close), arrLow, arrHigh); //open close low high
+            const arrDate = _.map(arrTimestamp, ns => {
+                return dayjs.unix(ns / 1000).format('YYYY-MM-DD');
+            });
+
+            let arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
             //const pandaChart = echarts.init(document.getElementById('cn'));
 
-            let plot_min = _.min(arrLow);
             let plot_max = _.max(arrHigh);
+            let plot_min = _.min(arrLow);
+            let plot_margin = 0.03;
 
-            plot_min = _.floor(plot_min * 0.97);
-            plot_max = _.ceil(plot_max * 1.03);
+            plot_max = plot_max * (1.0 + plot_margin);
+            plot_min = plot_min * (1.0 - plot_margin);
+            plot_max = _.ceil(plot_max, 1);
+            plot_min = _.floor(plot_min, 1);
 
             const strGridL = '10%';
             const strGridR = '2%';
@@ -125,6 +137,9 @@ const drawCandle = (echartsPanda) => {
                     feature: {
                         restore: {
                             title: 'restore'
+                        },
+                        saveAsImage: {
+                            title: 'save as image'
                         }
                     }
                 },
@@ -168,9 +183,9 @@ const drawCandle = (echartsPanda) => {
                         data: arrPlot,
                         itemStyle: {
                             color: 'white',
-                            color0: '#0064da',
+                            color0: '#0a93f5',
                             borderColor: 'black',
-                            borderColor0: '#0064da'
+                            borderColor0: '#0a93f5'
                         }
                     },
                     {
@@ -227,9 +242,7 @@ const drawCandle = (echartsPanda) => {
 }
 
 const drawAlpha = (echartsPanda) => {
-    const t = document.querySelector('#txt').value;
-    const r = document.querySelector('.select-period').value;
-    const url = `/?t=${t}&r=${r}`;
+    const url = getURL();
 
     fetch(url, {
             method: 'GET',
@@ -242,19 +255,22 @@ const drawAlpha = (echartsPanda) => {
         .then(json => {
             const strTitle = json['quotename'];
 
-            const arrDate = _.values(json.date);
-            const arrLow = _.values(json.low);
-            const arrHigh = _.values(json.high);
-            const arrVolume = _.values(json.volume);
+            const arrDate = _.values(json.Date);
+            const arrLow = _.values(json.Low);
+            const arrHigh = _.values(json.High);
+            const arrVolume = _.values(json.Volume);
 
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
             //const pandaChart = echarts.init(document.getElementById('cn'));
 
-            let plot_min = _.min(arrLow);
             let plot_max = _.max(arrHigh);
+            let plot_min = _.min(arrLow);
+            let plot_margin = 0.03;
 
-            plot_min = _.floor(plot_min * 0.97);
-            plot_max = _.ceil(plot_max * 1.03);
+            plot_max = plot_max * (1.0 + plot_margin);
+            plot_min = plot_min * (1.0 - plot_margin);
+            plot_max = _.ceil(plot_max, 1);
+            plot_min = _.floor(plot_min, 1);
 
             const strGridL = '10%';
             const strGridR = '2%';
@@ -331,6 +347,16 @@ const drawAlpha = (echartsPanda) => {
                             return `${p.name} ${p.value.toLocaleString()}`;
                         } else {
                             return `${p.name} ${p.value}`;
+                        }
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        restore: {
+                            title: 'restore'
+                        },
+                        saveAsImage: {
+                            title: 'save as image'
                         }
                     }
                 },

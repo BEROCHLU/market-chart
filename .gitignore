@@ -1,2 +1,7 @@
 __pycache__/
+<<<<<<< HEAD
 node_modules/
+=======
+node_modules/
+test/old/
+>>>>>>> fa66f0d70e4520e42e686b5259985e8164902de3
