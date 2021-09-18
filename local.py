@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import base64
 import datetime
 import json
-import os
 
 import pandas as pd
 import requests
@@ -20,6 +20,8 @@ def getQueryURL():
 gen = getQueryURL()
 edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
+# hash
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzkzLjAuNDU3Ny44MiBTYWZhcmkvNTM3LjM2"
 
 
 @route("/")
@@ -35,10 +37,13 @@ def alpha(action="index"):
             url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
             url_quote = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
 
-            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"})
+            ua = base64.b64decode(str_ua).decode()
+            headers = {"User-Agent": ua}
+
+            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"}, headers=headers)
             data_chart = data_chart.json()
 
-            data_summary = requests.get(url_quote, params={"modules": "quotetype"})
+            data_summary = requests.get(url_quote, params={"modules": "quotetype"}, headers=headers)
             data_summary = data_summary.json()
 
             hshResult = data_chart["chart"]["result"][0]
@@ -80,7 +85,4 @@ def send_static(filename):
 
 
 if __name__ == "__main__":
-    if os.path.exists("./ifdef"):
-        run(host="localhost", port=80, reloader=True, debug=True)
-    else:
-        run(host="0.0.0.0", port=8080, reloader=True)
+    run(host="localhost", port=80, reloader=True, debug=True)
