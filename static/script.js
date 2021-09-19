@@ -3,11 +3,7 @@
 import {
     arrTicker
 } from './list.js'; //mjsはサーバ側でMIME未対応
-/**
- * 
- * @param {number} dayCount 
- * @param {Array<number>} data 
- */
+
 const calculateMA = (dayCount, data) => {
     let result = [];
     for (let i = 0, len = data.length; i < len; i++) {
@@ -136,10 +132,20 @@ const optionChart = {
     series: null
 }
 
-const drawCandle = (echartsPanda) => {
+const getURL = () => {
     const t = document.querySelector('#txt').value;
     const r = document.querySelector('.select-period').value;
-    const url = `/?t=${t}&r=${r}`;
+
+    if(document.domain === 'pleasecov.g2.xrea.com') {
+        return `http://pleasecov.g2.xrea.com/pipm/middle.php?t=${t}&r=${r}`;
+    } 
+    
+    return `/?t=${t}&r=${r}`;
+    
+}
+
+const drawCandle = (echartsPanda) => {
+    const url = getURL();
 
     fetch(url, {
             method: 'GET',
@@ -224,9 +230,7 @@ const drawCandle = (echartsPanda) => {
 }
 
 const drawAlpha = (echartsPanda) => {
-    const t = document.querySelector('#txt').value;
-    const r = document.querySelector('.select-period').value;
-    const url = `/?t=${t}&r=${r}`;
+    const url = getURL();
 
     fetch(url, {
             method: 'GET',
