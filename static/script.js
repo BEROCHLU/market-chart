@@ -165,6 +165,7 @@ const drawCandle = (echartsPanda) => {
             optionChart.xAxis[1].data = _.values(json.Date);
             optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
             optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
+            delete optionChart.tooltip.formatter; // set default formatter
 
             optionChart.series = [{
                     type: 'candlestick',
