@@ -5,10 +5,10 @@ import base64
 import datetime
 import json
 import os
+
 import pandas as pd
 import requests
-from bottle import request, route, static_file, template
-from bottle import run, TEMPLATE_PATH
+from bottle import TEMPLATE_PATH, request, route, run, static_file, template
 from dateutil import tz
 
 
@@ -23,9 +23,9 @@ edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
 str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzkzLjAuNDU3Ny44MiBTYWZhcmkvNTM3LjM2"
-# 起動したディレクトリがHOMEになるので/publicを追加する
+# 起動したディレクトリがHOMEになるので./publicを追加する
 HOME_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_PATH.append(HOME_DIR)
+TEMPLATE_PATH.append("./public")
 
 
 @route("/")
@@ -85,7 +85,7 @@ def alpha(action="index"):
 
 
 # provide static files
-@route("/public/static/<filename:path>")
+@route("/static/<filename:path>")
 def send_static(filename):
     return static_file(filename, root="./public/static")
 
