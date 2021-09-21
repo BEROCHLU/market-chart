@@ -10,5 +10,3 @@ dependencies:
 2. open browser `http://localhost:80/`
 # URL
 http://pleasecov.g2.xrea.com/pipm/  
-or  
-http://bero.pythonanywhere.com/  
