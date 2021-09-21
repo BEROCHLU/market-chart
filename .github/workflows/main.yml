@@ -25,4 +25,4 @@ jobs:
         local-dir: ./public/
         server-dir: ./public_html/pipm/
         exclude:
-          - ./public/local.py
+          - public/local.py
