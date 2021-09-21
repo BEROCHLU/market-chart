@@ -132,19 +132,20 @@ const optionChart = {
     series: null
 }
 
+const echartsPanda = echarts.init(document.getElementById('cn'));
+
 const getURL = () => {
     const t = document.querySelector('#text_box').value;
     const r = document.querySelector('.select-period').value;
 
-    if(document.domain === 'pleasecov.g2.xrea.com') {
+    if (document.domain === 'pleasecov.g2.xrea.com') {
         return `http://pleasecov.g2.xrea.com/pipm/middle.php?t=${t}&r=${r}`;
-    } 
-    
+    }
+
     return `/?t=${t}&r=${r}`;
-    
 }
 
-const drawCandle = (echartsPanda) => {
+const drawCandle = () => {
     const url = getURL();
 
     fetch(url, {
@@ -230,7 +231,7 @@ const drawCandle = (echartsPanda) => {
         });
 }
 
-const drawAlpha = (echartsPanda) => {
+const drawAlpha = () => {
     const url = getURL();
 
     fetch(url, {
@@ -331,15 +332,13 @@ const drawAlpha = (echartsPanda) => {
 }
 
 document.querySelector('#chart_button').addEventListener('click', () => {
-    const echartsPanda = echarts.init(document.getElementById('cn'));
     echartsPanda.clear();
 
     if (check_alpha.checked) {
-        drawAlpha(echartsPanda);
+        drawAlpha();
     } else {
-        drawCandle(echartsPanda);
+        drawCandle();
     }
-
 });
 
 document.querySelector('#clear_button').addEventListener('click', () => {
