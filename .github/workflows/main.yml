@@ -24,3 +24,5 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./public/
         server-dir: ./public_html/pipm/
+        exclude:
+          - ./public/local.py
