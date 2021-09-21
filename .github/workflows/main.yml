@@ -22,5 +22,5 @@ jobs:
         server: g2.xrea.com
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./test
-        server-dir: ./public_html
+        local-dir: ./test/
+        server-dir: /public_html/
