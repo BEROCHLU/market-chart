@@ -133,7 +133,7 @@ const optionChart = {
 }
 
 const getURL = () => {
-    const t = document.querySelector('#txt').value;
+    const t = document.querySelector('#text_box').value;
     const r = document.querySelector('.select-period').value;
 
     if(document.domain === 'pleasecov.g2.xrea.com') {
@@ -330,7 +330,7 @@ const drawAlpha = (echartsPanda) => {
         });
 }
 
-document.querySelector('#btn').addEventListener('click', () => {
+document.querySelector('#chart_button').addEventListener('click', () => {
     const echartsPanda = echarts.init(document.getElementById('cn'));
     echartsPanda.clear();
 
@@ -342,19 +342,19 @@ document.querySelector('#btn').addEventListener('click', () => {
 
 });
 
-document.querySelector('#clr').addEventListener('click', () => {
-    document.querySelector('#txt').value = '';
+document.querySelector('#clear_button').addEventListener('click', () => {
+    document.querySelector('#text_box').value = '';
 });
 
-document.querySelector('#txt').addEventListener('change', () => {
-    document.querySelector('#btn').click();
+document.querySelector('#text_box').addEventListener('change', () => {
+    document.querySelector('#chart_button').click();
 });
 
 document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {
     if (evt.currentTarget.value === 'select-ticker') return;
 
-    document.querySelector('#txt').value = evt.currentTarget.value;
-    document.querySelector('#btn').click();
+    document.querySelector('#text_box').value = evt.currentTarget.value;
+    document.querySelector('#chart_button').click();
 });
 
 //main
@@ -367,6 +367,6 @@ document.querySelector('select[name="select-ticker"]').addEventListener('change'
     });
 
     // debug mode
-    //document.querySelector('#txt').value = 'SPY';
-    //document.querySelector('#btn').click();
+    //document.querySelector('#text_box').value = 'SPY';
+    //document.querySelector('#chart_button').click();
 }
