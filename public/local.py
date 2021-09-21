@@ -4,10 +4,11 @@
 import base64
 import datetime
 import json
-
+import os
 import pandas as pd
 import requests
-from bottle import request, route, run, static_file, template
+from bottle import default_app, request, route, static_file, template
+from bottle import run, TEMPLATE_PATH
 from dateutil import tz
 
 
@@ -22,6 +23,8 @@ edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
 str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzkzLjAuNDU3Ny44MiBTYWZhcmkvNTM3LjM2"
+HOME_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_PATH.append(HOME_DIR)
 
 
 @route("/")
@@ -81,9 +84,9 @@ def alpha(action="index"):
 
 
 # provide static files
-@route("/static/<filename:path>")
+@route("/public/static/<filename:path>")
 def send_static(filename):
-    return static_file(filename, root="./static")
+    return static_file(filename, root="./public/static")
 
 
 if __name__ == "__main__":
