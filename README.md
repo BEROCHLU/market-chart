@@ -9,4 +9,8 @@ dependencies:
 1. `python local.py`
 2. open browser `http://localhost:80/`
 # URL
+backend: php + python  
 http://pleasecov.g2.xrea.com/pipm/  
+or  
+backend: python  
+http://bero.pythonanywhere.com/  
