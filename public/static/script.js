@@ -148,7 +148,7 @@ const getURL = () => {
 const drawCandle = () => {
     const url = getURL();
 
-    fetch(url, {
+    return fetch(url, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
@@ -223,8 +223,6 @@ const drawCandle = () => {
                     data: _.values(json.Volume)
                 }
             ]
-
-            echartsPanda.setOption(optionChart);
         })
         .catch(e => {
             console.log(e)
@@ -234,7 +232,7 @@ const drawCandle = () => {
 const drawAlpha = () => {
     const url = getURL();
 
-    fetch(url, {
+    return fetch(url, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
@@ -323,22 +321,22 @@ const drawAlpha = () => {
                     data: _.values(json.Volume)
                 }
             ]
-
-            echartsPanda.setOption(optionChart);
         })
         .catch(e => {
             console.log(e)
         });
 }
 
-document.querySelector('#chart_button').addEventListener('click', () => {
+document.querySelector('#chart_button').addEventListener('click', async () => {
     echartsPanda.clear();
 
     if (check_alpha.checked) {
-        drawAlpha();
+        await drawAlpha();
     } else {
-        drawCandle();
+        await drawCandle();
     }
+
+    echartsPanda.setOption(optionChart);
 });
 
 document.querySelector('#clear_button').addEventListener('click', () => {
