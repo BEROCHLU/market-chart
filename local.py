@@ -17,11 +17,10 @@ def getQueryURL():
         yield [7, 10]
 
 
-gen = getQueryURL()
 edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
-str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzkzLjAuNDU3Ny44MiBTYWZhcmkvNTM3LjM2"
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk0LjAuNDYwNi41NCBTYWZhcmkvNTM3LjM2"
 # 起動したディレクトリがHOMEになるので./publicを追加する
 TEMPLATE_PATH.append("./public")
 
@@ -34,7 +33,7 @@ def alpha(action="index"):
         strRange = request.query.r
 
         if ticker:
-            [a, b] = gen.__next__()
+            [a, b] = getQueryURL().__next__()
 
             url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
             url_quote = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
@@ -79,7 +78,7 @@ def alpha(action="index"):
         if action in ["index", "alpha"]:
             return template(action)
         else:
-            return "error"
+            return "except error"
 
 
 # provide static files
