@@ -137,12 +137,13 @@ const echartsPanda = echarts.init(document.getElementById('cn'));
 const getURL = () => {
     const t = document.querySelector('#text_box').value;
     const r = document.querySelector('.select-period').value;
+    const i = document.querySelector('.select-interval').value;
 
     if (document.domain === 'pleasecov.g2.xrea.com') {
-        return `http://pleasecov.g2.xrea.com/pipm/middle.php?t=${t}&r=${r}`;
+        return `http://pleasecov.g2.xrea.com/pipm/middle.php?t=${t}&r=${r}&i=${i}`;
     }
 
-    return `/?t=${t}&r=${r}`;
+    return `/?t=${t}&r=${r}&i=${i}`;
 }
 
 const drawCandle = () => {

@@ -7,7 +7,7 @@ import json
 
 import pandas as pd
 import requests
-from bottle import default_app, request, route, static_file, template
+from bottle import TEMPLATE_PATH, default_app, request, route, static_file, template
 from dateutil import tz
 
 
@@ -17,11 +17,12 @@ def getQueryURL():
         yield [7, 10]
 
 
-gen = getQueryURL()
 edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
-str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzkzLjAuNDU3Ny44MiBTYWZhcmkvNTM3LjM2"
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk0LjAuNDYwNi41NCBTYWZhcmkvNTM3LjM2"
+# 起動したディレクトリがHOMEになるので./publicを追加する
+TEMPLATE_PATH.append("./public")
 
 
 @route("/")
@@ -30,9 +31,10 @@ def alpha(action="index"):
     try:
         ticker = request.query.t
         strRange = request.query.r
+        strInterval = request.query.i
 
         if ticker:
-            [a, b] = gen.__next__()
+            [a, b] = getQueryURL().__next__()
 
             url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
             url_quote = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
@@ -40,7 +42,7 @@ def alpha(action="index"):
             ua = base64.b64decode(str_ua).decode()
             headers = {"User-Agent": ua}
 
-            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"}, headers=headers)
+            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": strInterval}, headers=headers)
             data_chart = data_chart.json()
 
             data_summary = requests.get(url_quote, params={"modules": "quotetype"}, headers=headers)
@@ -77,7 +79,7 @@ def alpha(action="index"):
         if action in ["index", "alpha"]:
             return template(action)
         else:
-            return "error"
+            return "except error"
 
 
 # provide static files

@@ -31,6 +31,7 @@ def alpha(action="index"):
     try:
         ticker = request.query.t
         strRange = request.query.r
+        strInterval = request.query.i
 
         if ticker:
             [a, b] = getQueryURL().__next__()
@@ -41,7 +42,7 @@ def alpha(action="index"):
             ua = base64.b64decode(str_ua).decode()
             headers = {"User-Agent": ua}
 
-            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"}, headers=headers)
+            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": strInterval}, headers=headers)
             data_chart = data_chart.json()
 
             data_summary = requests.get(url_quote, params={"modules": "quotetype"}, headers=headers)

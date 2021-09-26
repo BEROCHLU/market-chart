@@ -21,6 +21,7 @@ if __name__ == "__main__":
 
     ticker = args[1]
     strRange = args[2]
+    strInterval = args[3]
 
     [a, b] = [random.randint(7, 8), random.randint(10, 11)]  # リクエストを分散して負荷を下げる
 
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     ua = base64.b64decode(str_ua).decode()
     headers = {"User-Agent": ua}
 
-    data_chart = requests.get(url_ticker, params={"range": strRange, "interval": "1d"}, headers=headers)
+    data_chart = requests.get(url_ticker, params={"range": strRange, "interval": strInterval}, headers=headers)
     data_chart = data_chart.json()
 
     data_summary = requests.get(url_summary, params={"modules": "quotetype"}, headers=headers)
