@@ -4,10 +4,12 @@
 import base64
 import datetime
 import json
+import os
 
 import pandas as pd
 import requests
-from bottle import TEMPLATE_PATH, default_app, request, route, static_file, template
+from bottle import TEMPLATE_PATH
+from bottle import default_app, request, route, run, static_file, template
 from dateutil import tz
 
 
@@ -23,7 +25,8 @@ f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk0LjAuNDYwNi41NCBTYWZhcmkvNTM3LjM2"
 # 起動したディレクトリがHOMEになるので./publicを追加する
 TEMPLATE_PATH.append("./public")
-
+os.chdir(os.path.dirname(os.path.abspath(__file__)))  # 実行ファイルパスをカレントフォルダに変更する
+static_root = None
 
 @route("/")
 @route("/<action>")
@@ -82,11 +85,16 @@ def alpha(action="index"):
             return "except error"
 
 
-# provide static files
+# provide static files @route(url)
 @route("/static/<filename:path>")
 def send_static(filename):
-    return static_file(filename, root="./static")
+    return static_file(filename, root=static_root)
 
 
-# WSGIを使う。名前実行はなし
-application = default_app()
+if __name__ == "__main__":
+    static_root = "./public/static"
+    run(host="localhost", port=80, reloader=True, debug=True)
+else:
+    static_root = "./static"
+    # WSGIを使う。名前実行はなし
+    application = default_app()

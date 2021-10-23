@@ -91,6 +91,10 @@ const optionChart = {
         feature: {
             saveAsImage: {
                 title: 'save as image'
+            },
+            dataView: {
+                title: 'data view',
+                lang: ['data view', 'turn off', 'refresh']
             }
         }
     },
@@ -252,14 +256,15 @@ const drawAlpha = () => {
             optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
             optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             optionChart.tooltip.formatter = (p) => {
-                if (p.seriesName === 'High') {
-                    return `${p.name} ${arrHigh[p.dataIndex]}`;
-                } else if (p.seriesName === 'Low') {
-                    return `${p.name} ${p.value}`;
-                } else if (p.seriesName === 'Volume') {
-                    return `${p.name} ${p.value.toLocaleString()}`;
-                } else {
-                    return `${p.name} ${p.value}`;
+                switch (p.seriesName) {
+                    case 'High':
+                        return `${p.name} ${arrHigh[p.dataIndex]}`;
+                    case 'Low':
+                        return `${p.name} ${p.value}`;
+                    case 'Volume':
+                        return `${p.name} ${p.value.toLocaleString()}`;
+                    default:
+                        return `${p.name} ${p.value}`;
                 }
             }
 

@@ -6,7 +6,7 @@ dependencies:
 # install library
 `pip install -r requirements.txt`
 # start local server
-1. `python local.py`
+1. `python bottle_app.py`
 2. open browser `http://localhost:80/`
 # URL
 backend: php + python  
