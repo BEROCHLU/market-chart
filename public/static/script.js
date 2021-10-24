@@ -75,10 +75,11 @@ const optionChart = {
     ],
     axisPointer: {
         link: {
-            xAxisIndex: [0, 1], //all | 上下チャート両方を含めて軸とする
+            xAxisIndex: [0, 1], //all | 上下チャートの軸を同期する
         },
         label: {
             backgroundColor: '#777',
+            precision: 'auto' //tickの小数点は上下別々に設定できない
         }
     },
     tooltip: {
