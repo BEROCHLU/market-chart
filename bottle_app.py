@@ -9,7 +9,7 @@ import pandas as pd
 import requests
 from bottle import TEMPLATE_PATH
 from bottle import default_app, request, route, run, static_file, template
-from dateutil import tz
+from dateutil.tz import gettz
 
 
 def getQueryURL():
@@ -18,7 +18,7 @@ def getQueryURL():
         yield [7, 10]
 
 
-edt = tz.gettz("America/New_York")
+edt = gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
 str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk0LjAuNDYwNi41NCBTYWZhcmkvNTM3LjM2"
