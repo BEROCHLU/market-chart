@@ -14,6 +14,3 @@ http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/
 or  
 backend: php + python  
 http://pleasecov.g2.xrea.com/pipm/  
-or  
-backend: python  
-http://bero.pythonanywhere.com/  
