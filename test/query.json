@@ -1,0 +1,10 @@
+{
+    "queryStringParameters": {
+        "t": "btc-usd",
+        "r": "6mo",
+        "i": "1d"
+    },
+    "headers": {
+        "origin": "http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com"
+    }
+}

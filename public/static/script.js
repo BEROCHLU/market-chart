@@ -144,11 +144,19 @@ const getURL = () => {
     const r = document.querySelector('.select-period').value;
     const i = document.querySelector('.select-interval').value;
 
-    if (document.domain === 'pleasecov.g2.xrea.com') {
-        return `http://pleasecov.g2.xrea.com/pipm/middle.php?t=${t}&r=${r}&i=${i}`;
+    const params = {
+        t: t,
+        r: r,
+        i: i
     }
 
-    return `/?t=${t}&r=${r}&i=${i}`;
+    const query = new URLSearchParams(params);
+
+    if (document.domain === 'pleasecov.g2.xrea.com') {
+        return `http://${document.domain}/pipm/middle.php?${query}`;
+    }
+
+    return `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${query}`;
 }
 
 const drawCandle = () => {
