@@ -36,5 +36,6 @@ export default [
 	'ETH-USD',
 	'qqqj',
 	'faz',
-	'gld'
+	'gld',
+	'SARK'
 ];
