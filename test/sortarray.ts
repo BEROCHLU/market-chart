@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import fs from 'fs';
-import arrTicker from './list';
+import arrTicker from './prelist';
 
-let arrSort = _.map(arrTicker, (strTikcer: string) => _.toUpper(strTikcer));
+const arrSort = _.map(arrTicker, (strTikcer: string) => _.toUpper(strTikcer));
 
 const strExport: string = 'export const arrTicker = ' + JSON.stringify(_.sortBy(arrSort), null, '\t') + ';';
-fs.writeFileSync('../static/list.js', strExport);
+fs.writeFileSync('../public/static/list.js', strExport);

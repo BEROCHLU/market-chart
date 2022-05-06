@@ -351,11 +351,13 @@ document.querySelector('#chart_button').addEventListener('click', async () => {
         await drawCandle();
     }
 
+    document.querySelector('select[name="select-ticker"]').value = '';
     echartsPanda.setOption(optionChart);
 });
 
 document.querySelector('#clear_button').addEventListener('click', () => {
     document.querySelector('#text_box').value = '';
+    document.querySelector('select[name="select-ticker"]').value = '';
 });
 
 document.querySelector('#text_box').addEventListener('change', () => {

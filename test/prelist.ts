@@ -37,5 +37,7 @@ export default [
 	'qqqj',
 	'faz',
 	'gld',
-	'SARK'
+	'SARK',
+	'webl',
+	'webs'
 ];
