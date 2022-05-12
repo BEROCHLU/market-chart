@@ -39,5 +39,6 @@ export default [
 	'gld',
 	'SARK',
 	'webl',
-	'webs'
+	'webs',
+	'^TNX'
 ];
