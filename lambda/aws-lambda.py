@@ -11,15 +11,19 @@ lst_origins = ["http://127.0.0.1:5500", "http://pleasecov.g2.xrea.com", "http://
 
 def lambda_handler(event, context):
 
-    if not "origin" in event["headers"]:
+    if "Origin" in event["headers"]:
+        strHeadersOrigin = event["headers"]["Origin"]
+    elif "origin" in event["headers"]:
+        strHeadersOrigin = event["headers"]["origin"]
+    else:
         print(event)
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "text/plain; charset=UTF-8"},
-            "body": "Not Found Origin",
+            "body": "Not Found [Origin, origin]",
         }
 
-    strHeadersOrigin = event["headers"]["origin"]
+    #strHeadersOrigin = event["headers"]["origin"]
     allowedOrigin = False
 
     for strOrigin in lst_origins:

@@ -12,20 +12,24 @@ lst_origins = ["http://127.0.0.1:5500", "http://pleasecov.g2.xrea.com", "http://
 
 dc_event = {
     "queryStringParameters": {"t": "btc-usd", "r": "6mo", "i": "1d"},
-    "headers": {"Origin": "http://pleasecov.g2.xrea.com"},
+    "headers": {"origin": "http://pleasecov.g2.xrea.com"},
 }
 
 
 def lambda_handler(event, context):
 
-    if not "origin" in event["headers"]:
+    if "Origin" in event["headers"]:
+        strHeadersOrigin = event["headers"]["Origin"]
+    elif "origin" in event["headers"]:
+        strHeadersOrigin = event["headers"]["origin"]
+    else:
         return {
             "statusCode": 500,
             "headers": {"Content-Type": "text/plain; charset=UTF-8"},
-            "body": "Not Found Origin",
+            "body": "Not Found [Origin, origin]",
         }
 
-    strHeadersOrigin = event["headers"]["origin"]
+    #strHeadersOrigin = event["headers"]["origin"]
     allowedOrigin = False
 
     for strOrigin in lst_origins:

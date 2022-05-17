@@ -40,5 +40,7 @@ export default [
 	'SARK',
 	'webl',
 	'webs',
-	'^TNX'
+	'^TNX',
+	'QID',
+	'QLD'
 ];
