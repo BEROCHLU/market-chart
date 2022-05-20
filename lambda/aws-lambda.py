@@ -6,15 +6,18 @@ import random
 import pandas as pd
 import requests
 
-lst_origins = ["http://127.0.0.1:5500", "http://pleasecov.g2.xrea.com", "http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com"]
+lst_origins = ["http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com", "http://127.0.0.1:5500"]
 
 
 def lambda_handler(event, context):
 
-    if "Origin" in event["headers"]:
-        strHeadersOrigin = event["headers"]["Origin"]
-    elif "origin" in event["headers"]:
+    strHeadersOrigin = None
+    allowedOrigin = False
+
+    if "origin" in event["headers"]:
         strHeadersOrigin = event["headers"]["origin"]
+    elif "Origin" in event["headers"]:
+        strHeadersOrigin = event["headers"]["Origin"]
     else:
         print(event)
         return {
@@ -22,9 +25,6 @@ def lambda_handler(event, context):
             "headers": {"Content-Type": "text/plain; charset=UTF-8"},
             "body": "Not Found [Origin, origin]",
         }
-
-    #strHeadersOrigin = event["headers"]["origin"]
-    allowedOrigin = False
 
     for strOrigin in lst_origins:
         if strOrigin in strHeadersOrigin:
@@ -85,7 +85,7 @@ def lambda_handler(event, context):
         "statusCode": 200,
         "headers": {
             "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": strHeadersOrigin,
+            "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
         "body": strDumps,
