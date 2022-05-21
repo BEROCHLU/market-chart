@@ -115,7 +115,7 @@ const optionChart = {
         }
     ],
     legend: {
-        data: ['MA13', 'MA42'],
+        data: ['SMA15', 'SMA45'],
         right: '5%'
     },
     dataZoom: [{
@@ -193,9 +193,9 @@ const drawCandle = () => {
                     }
                 },
                 {
-                    name: 'MA13',
+                    name: 'SMA15',
                     type: 'line',
-                    data: calculateMA(13, arrPlot),
+                    data: calculateMA(15, arrPlot),
                     smooth: true,
                     symbol: 'none', //none
                     symbolSize: 1,
@@ -210,9 +210,9 @@ const drawCandle = () => {
                     }
                 },
                 {
-                    name: 'MA42',
+                    name: 'SMA45',
                     type: 'line',
-                    data: calculateMA(42, arrPlot),
+                    data: calculateMA(45, arrPlot),
                     smooth: true,
                     symbol: 'none', //none
                     symbolSize: 1,
