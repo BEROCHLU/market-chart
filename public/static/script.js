@@ -83,7 +83,7 @@ const optionChart = {
         }
     },
     tooltip: {
-        trigger: 'item', //item | axis | node
+        trigger: 'axis', //item | axis | node
         axisPointer: {
             type: 'cross'
         }

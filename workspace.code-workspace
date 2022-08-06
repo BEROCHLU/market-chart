@@ -4,5 +4,5 @@
 			"path": "."
 		}
 	],
-	"settings": {"liveServer.settings.port": 80}
+	//"settings": {"liveServer.settings.port": 80}
 }
