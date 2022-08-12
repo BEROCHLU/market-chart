@@ -159,7 +159,7 @@ const getURL = () => {
     return `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${query}`;
 }
 
-const drawCandle = () => {
+const setDrawCandle = () => {
     const url = getURL();
 
     return fetch(url, {
@@ -243,7 +243,7 @@ const drawCandle = () => {
         });
 }
 
-const drawAlpha = () => {
+const setDrawAlpha = () => {
     const url = getURL();
 
     return fetch(url, {
@@ -264,17 +264,23 @@ const drawAlpha = () => {
             optionChart.xAxis[1].data = _.values(json.Date);
             optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
             optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
-            optionChart.tooltip.formatter = (p) => {
-                switch (p.seriesName) {
-                    case 'High':
-                        return `${p.name} ${arrHigh[p.dataIndex]}`;
-                    case 'Low':
-                        return `${p.name} ${p.value}`;
-                    case 'Volume':
-                        return `${p.name} ${p.value.toLocaleString()}`;
-                    default:
-                        return `${p.name} ${p.value}`;
-                }
+            optionChart.tooltip.formatter = (arrParam) => {
+                // ['High', 'Low', 'Volume']の順にツールチップを表示
+                arrParam = _.orderBy(arrParam, ['seriesName'], ['High', 'Low', 'Volume']);
+                let strTooltip = '';
+                let strDate;
+
+                _.forEach(arrParam, param => {
+                    const sn = param.seriesName;
+                    const v = sn === 'High' ? arrHigh[param.dataIndex] : param.value;
+                    const s = `<div>${sn} ${v.toLocaleString()}</div>`;
+
+                    strTooltip += s;
+                    strDate = param.name;
+                });
+
+                return `<div>${strDate}</div>${strTooltip}`;
+
             }
 
             optionChart.series = [{
@@ -344,14 +350,27 @@ const drawAlpha = () => {
 
 document.querySelector('#chart_button').addEventListener('click', async () => {
     echartsPanda.clear();
+    document.querySelector('select[name="select-ticker"]').value = '';
 
     if (check_alpha.checked) {
-        await drawAlpha();
+        await setDrawAlpha();
     } else {
-        await drawCandle();
+        await setDrawCandle();
     }
 
+    echartsPanda.setOption(optionChart);
+});
+
+document.querySelector('#check_alpha').addEventListener('change', async () => {
+    echartsPanda.clear();
     document.querySelector('select[name="select-ticker"]').value = '';
+
+    if (check_alpha.checked) {
+        await setDrawAlpha();
+    } else {
+        await setDrawCandle();
+    }
+
     echartsPanda.setOption(optionChart);
 });
 
