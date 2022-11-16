@@ -37,7 +37,7 @@ export const arrTicker = [
 	"VYM",
 	"WEBL",
 	"WEBS",
-	"XRP-USD",
+	"XLK",
 	"^FCHI",
 	"^FTSE",
 	"^GDAXI",

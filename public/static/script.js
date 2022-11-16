@@ -32,10 +32,10 @@ const optionChart = {
             type: 'category',
             data: null,
             splitLine: {
-                show: false,
+                show: true,
                 interval: 'auto',
                 lineStyle: {
-                    type: 'dashed'
+                    type: 'solid'
                 }
             },
             axisLabel: {

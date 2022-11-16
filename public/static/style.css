@@ -1,8 +1,11 @@
 @charset "utf-8";
-
+body{
+    margin: 0;
+    padding: 0;
+}
 .wrapper {
-    height: 92vh;
-    width: 720px;
+    height: 98.5vh;
+    width: 1024px;
     margin: 0 auto;
 }
 
@@ -11,7 +14,7 @@
     justify-content: space-between;
     width: 100%;
     border-radius: 10px;
-    background-color: #ffffe0;
+    background-color: #fffff0;
     padding: 5px;
     border-bottom: 3px solid black;
 }
@@ -20,10 +23,33 @@
     height: 100%;
     width: 100%;
     border-radius: 10px;
-    background-color: #ffffe0;
+    background-color: #fffff0;
     padding: 5px;
 }
 
 #text_box {
     width: 100px;
+}
+
+@media screen and (max-width: 767px) {
+	/*under iPad*/
+
+	body{
+        margin: 0;
+        padding: 0;
+        height: 98.5vh;
+        width: 100%;
+    }
+    .wrapper {
+        height: 99.7vh;
+        width: 100%;
+        margin: 0 auto;
+    }
+    #cn {
+        height: 90%;
+        width: 100%;
+        border-radius: 10px;
+        background-color: #fffff0;
+        padding: 5px;
+    }
 }
