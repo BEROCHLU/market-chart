@@ -7,8 +7,10 @@ from datetime import datetime
 
 import pandas as pd
 import requests
-from bottle import TEMPLATE_PATH, request, route, run, static_file, template
+from bottle import TEMPLATE_PATH, Bottle, debug, request, static_file, template
 from dateutil import tz
+
+app = Bottle()
 
 
 def getQueryURL():
@@ -21,12 +23,12 @@ edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
 str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk0LjAuNDYwNi41NCBTYWZhcmkvNTM3LjM2"
-# 起動したディレクトリがHOMEになるので./publicを追加する
+# index.htmlがあるフォルダ
 TEMPLATE_PATH.append("./public")
 
 
-@route("/")
-@route("/<action>")
+@app.route("/")
+@app.route("/<action>")
 def alpha(action="index"):
     try:
         ticker = request.query.t
@@ -82,11 +84,12 @@ def alpha(action="index"):
             return "except error"
 
 
-# provide static files
-@route("/static/<filename:path>")
+# staticファイルがあるフォルダ
+@app.route("/static/<filename:path>")
 def send_static(filename):
-    return static_file(filename, root="./public/static")
+    return static_file(filename, root="./public/static")  # pyから見たstaticファイルのありか
 
 
 if __name__ == "__main__":
-    run(host="127.0.0.1", port=5500, reloader=True, debug=True)
+    debug(True)  # デバッグモードで起動
+    app.run(host="127.0.0.1", port=5500, reloader=True)
