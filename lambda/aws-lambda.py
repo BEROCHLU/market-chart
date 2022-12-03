@@ -6,7 +6,7 @@ import random
 import pandas as pd
 import requests
 
-lst_origins = ["http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com", "http://127.0.0.1:5500"]
+lst_origins = ["http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com", "http://127.0.0.1:5400"]
 
 
 def lambda_handler(event, context):
@@ -39,7 +39,7 @@ def lambda_handler(event, context):
         }
 
     # hash
-    str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk2LjAuNDY2NC4xMTAgU2FmYXJpLzUzNy4zNg=="
+    str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwNy4wLjAuMCBTYWZhcmkvNTM3LjM2"
     # lambda
     f1 = lambda ms: datetime.datetime.fromtimestamp(ms).strftime("%Y-%m-%d")
 

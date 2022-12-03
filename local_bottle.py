@@ -10,8 +10,6 @@ import requests
 from bottle import TEMPLATE_PATH, Bottle, debug, request, static_file, template
 from dateutil import tz
 
-app = Bottle()
-
 
 def getQueryURL():
     while True:
@@ -19,10 +17,11 @@ def getQueryURL():
         yield [7, 10]
 
 
+app = Bottle()
 edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
-str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTFfNikgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzk0LjAuNDYwNi41NCBTYWZhcmkvNTM3LjM2"
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwNy4wLjAuMCBTYWZhcmkvNTM3LjM2"
 # index.htmlがあるフォルダ
 TEMPLATE_PATH.append("./public")
 
@@ -91,5 +90,5 @@ def send_static(filename):
 
 
 if __name__ == "__main__":
-    debug(True)  # デバッグモードで起動
+    debug(True)  # reloaderを使うためデバッグモードで起動
     app.run(host="127.0.0.1", port=5400, reloader=True)
