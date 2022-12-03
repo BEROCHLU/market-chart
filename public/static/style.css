@@ -48,7 +48,7 @@ body {
     }
 
     #cn {
-        height: 90%;
+        height: calc(100% - 40px);
         width: 100%;
         border-radius: 10px;
         background-color: #fffff0;
