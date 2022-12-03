@@ -29,7 +29,7 @@ TEMPLATE_PATH.append("./public")
 
 @app.route("/")
 @app.route("/<action>")
-def alpha(action="index"):
+def index(action="index"):
     try:
         ticker = request.query.t
         strRange = request.query.r
@@ -92,4 +92,4 @@ def send_static(filename):
 
 if __name__ == "__main__":
     debug(True)  # デバッグモードで起動
-    app.run(host="127.0.0.1", port=5500, reloader=True)
+    app.run(host="127.0.0.1", port=5400, reloader=True)
