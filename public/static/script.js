@@ -2,7 +2,10 @@
 
 import {
     arrTicker
-} from './list.js'; //mjsはサーバ側でMIME未対応
+} from './list.js'; //mjsはxreaサーバ側でMIME未対応
+
+import * as echarts from "https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.esm.min.js";
+//import * as _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js";
 
 const calculateMA = (dayCount, data) => {
     let result = [];
