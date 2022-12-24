@@ -1,11 +1,6 @@
 'use strict';
 
-import {
-    arrTicker
-} from './list.js'; //mjsはxreaサーバ側でMIME未対応
-
 import * as echarts from "https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.esm.min.js";
-//import * as _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js";
 
 const calculateMA = (dayCount, data) => {
     let result = [];
@@ -169,10 +164,7 @@ const setDrawCandle = () => {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
-        .then(response => {
-            //console.log(response);
-            return response.json();
-        })
+        .then(response => response.json())
         .then(json => {
             const arrLow = _.values(json.Low);
             const arrHigh = _.values(json.High);
@@ -253,10 +245,7 @@ const setDrawAlpha = () => {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
-        .then(response => {
-            //console.log(response);
-            return response.json();
-        })
+        .then(response => response.json())
         .then(json => {
             const arrLow = _.values(json.Low);
             const arrHigh = _.values(json.High);
@@ -299,10 +288,10 @@ const setDrawAlpha = () => {
                         opacity: 0.9,
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                             offset: 0,
-                            color: 'rgba(128, 255, 165, 0.1)'
+                            color: 'rgba(128, 255, 165, 0.05)'
                         }, {
                             offset: 1,
-                            color: 'rgba(1, 191, 236, 0.1)'
+                            color: 'rgba(1, 191, 236, 0.05)'
                         }])
                     },
                     emphasis: {
@@ -394,7 +383,12 @@ document.querySelector('select[name="select-ticker"]').addEventListener('change'
 });
 
 //main
-{
+(async () => {
+
+    const {
+        arrTicker
+    } = await import('./list.js');
+
     _.forEach(arrTicker, ticker => {
         const elem = document.createElement('option');
         elem.value = ticker;
@@ -405,4 +399,4 @@ document.querySelector('select[name="select-ticker"]').addEventListener('change'
     // debug mode
     //document.querySelector('#text_box').value = 'SPY';
     //document.querySelector('#chart_button').click();
-}
+})();
