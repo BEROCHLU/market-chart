@@ -288,10 +288,10 @@ const setDrawAlpha = () => {
                         opacity: 0.9,
                         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                             offset: 0,
-                            color: 'rgba(128, 255, 165, 0.05)'
+                            color: 'rgba(128, 255, 165, 0.01)'
                         }, {
                             offset: 1,
-                            color: 'rgba(1, 191, 236, 0.05)'
+                            color: 'rgba(1, 191, 236, 0.01)'
                         }])
                     },
                     emphasis: {

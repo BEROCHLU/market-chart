@@ -42,5 +42,8 @@ export default [
 	'webs',
 	'^TNX',
 	'QID',
-	'QLD'
+	'QLD',
+	'SH',
+	'PSQ',
+	'DOG'
 ];
