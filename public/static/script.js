@@ -1,6 +1,9 @@
 'use strict';
 
-import * as echarts from "https://cdn.jsdelivr.net/npm/echarts@5.3.3/dist/echarts.esm.min.js";
+import * as echarts from "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.esm.min.js";
+import {
+    arrTicker
+} from './list.js';
 
 const calculateMA = (dayCount, data) => {
     let result = [];
@@ -339,63 +342,52 @@ const setDrawAlpha = () => {
             console.log(e)
         });
 }
-
-document.querySelector('#chart_button').addEventListener('click', async () => {
+/**
+ * Clears the EChartsPanda and sets the value of the select-ticker to an empty string.
+ * If check_alpha is checked, setDrawAlpha is called and then echartsPanda is updated with the optionChart.
+ * Otherwise, setDrawCandle is called and then echartsPanda is updated with the optionChart.
+ *
+ * @function drawChart
+ * @returns {void}
+ */
+const drawChart = () => {
     echartsPanda.clear();
     document.querySelector('select[name="select-ticker"]').value = '';
 
     if (check_alpha.checked) {
-        await setDrawAlpha();
+        setDrawAlpha().then(() => {
+            echartsPanda.setOption(optionChart);
+        });
     } else {
-        await setDrawCandle();
+        setDrawCandle().then(() => {
+            echartsPanda.setOption(optionChart);
+        });
     }
+};
 
-    echartsPanda.setOption(optionChart);
-});
-
-document.querySelector('#check_alpha').addEventListener('change', async () => {
-    echartsPanda.clear();
-    document.querySelector('select[name="select-ticker"]').value = '';
-
-    if (check_alpha.checked) {
-        await setDrawAlpha();
-    } else {
-        await setDrawCandle();
-    }
-
-    echartsPanda.setOption(optionChart);
-});
-
-document.querySelector('#clear_button').addEventListener('click', () => {
+const clearInputs = () => {
     document.querySelector('#text_box').value = '';
     document.querySelector('select[name="select-ticker"]').value = '';
-});
+};
 
-document.querySelector('#text_box').addEventListener('change', () => {
-    document.querySelector('#chart_button').click();
-});
-
+document.querySelector('#chart_button').addEventListener('click', drawChart);
+document.querySelector('#check_alpha').addEventListener('change', drawChart);
+document.querySelector('#text_box').addEventListener('change', drawChart);
+document.querySelector('#clear_button').addEventListener('click', clearInputs);
 document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {
     if (evt.currentTarget.value === 'select-ticker') return;
-
     document.querySelector('#text_box').value = evt.currentTarget.value;
-    document.querySelector('#chart_button').click();
+    drawChart();
 });
 
-//main
-(async () => {
-
-    const {
-        arrTicker
-    } = await import('./list.js');
-
+// entry point
+(() => {
     _.forEach(arrTicker, ticker => {
         const elem = document.createElement('option');
         elem.value = ticker;
         elem.innerHTML = ticker;
         document.querySelector('select[name="select-ticker"]').append(elem);
     });
-
     // debug mode
     //document.querySelector('#text_box').value = 'SPY';
     //document.querySelector('#chart_button').click();
