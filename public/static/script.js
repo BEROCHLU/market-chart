@@ -1,9 +1,14 @@
 'use strict';
 
-import * as echarts from "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.esm.min.js";
+import {
+    init,
+    graphic
+} from "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.esm.min.js";
 import {
     arrTicker
 } from './list.js';
+
+const echartsPanda = init(document.getElementById('cn'));
 
 const calculateMA = (dayCount, data) => {
     let result = [];
@@ -19,7 +24,7 @@ const calculateMA = (dayCount, data) => {
         result.push((sum / dayCount).toFixed(2));
     }
     return result;
-}
+};
 
 const strGridL = '10%';
 const strGridR = '5%';
@@ -27,7 +32,7 @@ const strGridR = '5%';
 const optionChart = {
     title: {
         text: null,
-        left: 'center',
+        left: '0%',
         textStyle: {
             fontSize: 15,
         }
@@ -139,9 +144,7 @@ const optionChart = {
         }
     ],
     series: null
-}
-
-const echartsPanda = echarts.init(document.getElementById('cn'));
+};
 
 const getURL = () => {
     const t = document.querySelector('#text_box').value;
@@ -153,15 +156,12 @@ const getURL = () => {
         r: r,
         i: i
     }
-
     const query = new URLSearchParams(params);
 
-    if (document.domain === 'pleasecov.g2.xrea.com') {
-        return `http://${document.domain}/pipm/middle.php?${query}`;
-    }
-
-    return `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${query}`;
-}
+    return location.hostname === 'pleasecov.g2.xrea.com' ?
+        `http://${location.hostname}/pipm/middle.php?${query}` :
+        `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${query}`;
+};
 
 const setDrawCandle = () => {
     const url = getURL();
@@ -172,8 +172,8 @@ const setDrawCandle = () => {
         })
         .then(response => response.json())
         .then(json => {
-            let arrLow = _.values(json.Low);
-            let arrHigh = _.values(json.High);
+            let arrLow = [...json.Low];
+            let arrHigh = [...json.High];
             let aoaPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
 
             if (check_inverse.checked) {
@@ -191,8 +191,8 @@ const setDrawCandle = () => {
             }
 
             optionChart.title.text = json['companyName'][0];
-            optionChart.xAxis[0].data = _.values(json.Date);
-            optionChart.xAxis[1].data = _.values(json.Date);
+            optionChart.xAxis[0].data = [...json.Date];
+            optionChart.xAxis[1].data = [...json.Date];
             delete optionChart.tooltip.formatter; // set default formatter
 
             optionChart.series = [{
@@ -269,14 +269,14 @@ const setDrawAlpha = () => {
         })
         .then(response => response.json())
         .then(json => {
-            let arrLow = _.values(json.Low);
-            let arrHigh = _.values(json.High);
+            let arrLow = [...json.Low];
+            let arrHigh = [...json.High];
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
 
             if (check_inverse.checked) {
-                arrDiff = _.map(arrDiff, (value) => -value);
                 arrLow = _.map(arrLow, (value) => -value);
                 arrHigh = _.map(arrHigh, (value) => -value);
+                arrDiff = _.map(arrDiff, (value) => -value);
 
                 optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
                 optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
@@ -286,8 +286,8 @@ const setDrawAlpha = () => {
             }
 
             optionChart.title.text = json['companyName'][0];
-            optionChart.xAxis[0].data = _.values(json.Date);
-            optionChart.xAxis[1].data = _.values(json.Date);
+            optionChart.xAxis[0].data = [...json.Date];
+            optionChart.xAxis[1].data = [...json.Date];
             optionChart.tooltip.formatter = (arrParam) => {
                 // ['High', 'Low', 'Volume']の順にツールチップを表示
                 arrParam = _.orderBy(arrParam, ['seriesName'], ['High', 'Low', 'Volume']);
@@ -317,7 +317,7 @@ const setDrawAlpha = () => {
                     showSymbol: false,
                     areaStyle: {
                         opacity: 0.9,
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
                             offset: 0,
                             color: 'rgba(128, 255, 165, 0.01)'
                         }, {
@@ -341,7 +341,7 @@ const setDrawAlpha = () => {
                     showSymbol: false,
                     areaStyle: {
                         opacity: 0.9,
-                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
                             offset: 0,
                             color: 'rgba(0, 221, 255)'
                         }, {
