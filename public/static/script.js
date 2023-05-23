@@ -172,20 +172,32 @@ const setDrawCandle = () => {
         })
         .then(response => response.json())
         .then(json => {
-            const arrLow = _.values(json.Low);
-            const arrHigh = _.values(json.High);
-            const arrPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
+            let arrLow = _.values(json.Low);
+            let arrHigh = _.values(json.High);
+            let aoaPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
+
+            if (check_inverse.checked) {
+                aoaPlot = _.map(aoaPlot, (array) => {
+                    return _.map(array, (value) => -value);
+                });
+                arrLow = _.map(arrLow, (value) => -value);
+                arrHigh = _.map(arrHigh, (value) => -value);
+
+                optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
+                optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
+            } else {
+                optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
+                optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
+            }
 
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = _.values(json.Date);
             optionChart.xAxis[1].data = _.values(json.Date);
-            optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
-            optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             delete optionChart.tooltip.formatter; // set default formatter
 
             optionChart.series = [{
                     type: 'candlestick',
-                    data: arrPlot,
+                    data: aoaPlot,
                     itemStyle: {
                         color: 'white',
                         color0: '#0064da',
@@ -198,7 +210,7 @@ const setDrawCandle = () => {
                 {
                     name: 'SMA15',
                     type: 'line',
-                    data: calculateMA(15, arrPlot),
+                    data: calculateMA(15, aoaPlot),
                     smooth: true,
                     symbol: 'none', //none
                     symbolSize: 1,
@@ -215,7 +227,7 @@ const setDrawCandle = () => {
                 {
                     name: 'SMA45',
                     type: 'line',
-                    data: calculateMA(45, arrPlot),
+                    data: calculateMA(45, aoaPlot),
                     smooth: true,
                     symbol: 'none', //none
                     symbolSize: 1,
@@ -257,15 +269,25 @@ const setDrawAlpha = () => {
         })
         .then(response => response.json())
         .then(json => {
-            const arrLow = _.values(json.Low);
-            const arrHigh = _.values(json.High);
-            const arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
+            let arrLow = _.values(json.Low);
+            let arrHigh = _.values(json.High);
+            let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
+
+            if (check_inverse.checked) {
+                arrDiff = _.map(arrDiff, (value) => -value);
+                arrLow = _.map(arrLow, (value) => -value);
+                arrHigh = _.map(arrHigh, (value) => -value);
+
+                optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
+                optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
+            } else {
+                optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
+                optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
+            }
 
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = _.values(json.Date);
             optionChart.xAxis[1].data = _.values(json.Date);
-            optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
-            optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             optionChart.tooltip.formatter = (arrParam) => {
                 // ['High', 'Low', 'Volume']の順にツールチップを表示
                 arrParam = _.orderBy(arrParam, ['seriesName'], ['High', 'Low', 'Volume']);
@@ -282,7 +304,6 @@ const setDrawAlpha = () => {
                 });
 
                 return `<div>${strDate}</div>${strTooltip}`;
-
             }
 
             optionChart.series = [{
@@ -378,7 +399,7 @@ const clearInputs = () => {
 };
 
 document.querySelector('#chart_button').addEventListener('click', drawChart);
-document.querySelector('#check_alpha').addEventListener('change', drawChart);
+//document.querySelector('#check_alpha').addEventListener('change', drawChart);
 document.querySelector('#text_box').addEventListener('change', drawChart);
 document.querySelector('#clear_button').addEventListener('click', clearInputs);
 document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {
