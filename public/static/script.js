@@ -27,7 +27,10 @@ const strGridR = '5%';
 const optionChart = {
     title: {
         text: null,
-        left: 'center'
+        left: 'center',
+        textStyle: {
+            fontSize: 15,
+        }
     },
     xAxis: [{
             type: 'category',
