@@ -30,15 +30,29 @@ body {
 }
 
 #text_box {
-    width: 100px;
+    width: 80px;
+}
+
+select[name="select-ticker"] {
+    width: 20px;
 }
 
 @media screen and (max-width: 767px) {
     /*under iPad*/
 
-    body {
-        margin: 0;
-        padding: 0;
+    .market-header {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border-radius: 10px;
+        background-color: #fffff0;
+        padding: 3px;
+        font-size: 10px;
+        border-bottom: 3px solid black;
+    }
+
+    #text_box {
+        width: 60px;
     }
 
     .wrapper {
@@ -48,7 +62,7 @@ body {
     }
 
     #cn {
-        height: calc(100% - 40px);
+        min-height: calc(100% - 30px);
         width: 100%;
         border-radius: 10px;
         background-color: #fffff0;

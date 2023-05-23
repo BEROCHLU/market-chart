@@ -188,7 +188,9 @@ const setDrawCandle = () => {
                         color0: '#0064da',
                         borderColor: 'black',
                         borderColor0: '#0064da'
-                    }
+                    },
+                    barMinWidth: 2,
+                    barCategoryGap: '2%',
                 },
                 {
                     name: 'SMA15',
@@ -232,6 +234,8 @@ const setDrawCandle = () => {
                     itemStyle: {
                         color: '#7fbe9e'
                     },
+                    barMinWidth: 2,
+                    barCategoryGap: '2%',
                     data: _.values(json.Volume)
                 }
             ]
