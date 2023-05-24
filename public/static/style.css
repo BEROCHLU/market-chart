@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: #fffff0;
     padding: 3px;
     border-bottom: 3px solid black;
@@ -24,7 +24,7 @@ body {
 #cn {
     height: calc(100% - 40px);
     width: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: #fffff0;
     padding: 5px;
 }
@@ -36,19 +36,10 @@ body {
 select[name="select-ticker"] {
     width: 20px;
 }
-
+/*under iPad*/
 @media screen and (max-width: 767px) {
-    /*under iPad*/
-
     .market-header {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        border-radius: 10px;
-        background-color: #fffff0;
-        padding: 3px;
         font-size: 10px;
-        border-bottom: 3px solid black;
     }
 
     #text_box {
