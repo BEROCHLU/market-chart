@@ -7,9 +7,18 @@ import {
 import {
     arrTicker
 } from './list.js';
+import {
+    optionChart
+} from './echarts-baseoption.js';
 
 const echartsPanda = init(document.getElementById('cn'));
 
+/**
+ * Calculates the moving average of a given data set for a specified number of days.
+ * @param {number} dayCount - The number of days to calculate the moving average for.
+ * @param {Array<Array<number>>} data - An array of arrays representing the data set, where each inner array contains two numbers: a timestamp and a value.
+ * @returns {Array<string>} An array of strings representing the moving average values for each day. If there is not enough data to calculate the moving average for a particular day, a dash (-) is used instead.
+ */
 const calculateMA = (dayCount, data) => {
     let result = [];
     for (let i = 0, len = data.length; i < len; i++) {
@@ -24,126 +33,6 @@ const calculateMA = (dayCount, data) => {
         result.push((sum / dayCount).toFixed(2));
     }
     return result;
-};
-
-const strGridL = '10%';
-const strGridR = '5%';
-
-const optionChart = {
-    title: {
-        text: null,
-        left: '0%',
-        textStyle: {
-            fontSize: 15,
-        }
-    },
-    xAxis: [{
-            type: 'category',
-            data: null,
-            splitLine: {
-                show: true,
-                interval: 'auto',
-                lineStyle: {
-                    type: 'solid'
-                }
-            },
-            axisLabel: {
-                interval: 'auto'
-            },
-            axisPointer: {
-                label: {
-                    show: false //チャートのラベルは日付を非表示
-                }
-            }
-        },
-        {
-            type: 'category',
-            data: null,
-            gridIndex: 1
-        }
-    ],
-    yAxis: [{
-            min: null,
-            max: null
-        },
-        {
-            gridIndex: 1,
-            axisLabel: {
-                show: false
-            },
-            axisLine: {
-                show: true //y軸
-            },
-            axisTick: {
-                show: false //補助目盛
-            },
-            splitLine: {
-                show: false //補助目盛
-            }
-        }
-    ],
-    axisPointer: {
-        link: {
-            xAxisIndex: [0, 1], //all | 上下チャートの軸を同期する
-        },
-        label: {
-            backgroundColor: '#777',
-            precision: 'auto' //tickの小数点は上下別々に設定できない
-        }
-    },
-    tooltip: {
-        trigger: 'axis', //item | axis | node
-        axisPointer: {
-            type: 'cross'
-        }
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {
-                title: 'save as image'
-            },
-            dataView: {
-                title: 'data view',
-                lang: ['data view', 'turn off', 'refresh']
-            }
-        }
-    },
-    grid: [{
-            left: strGridL,
-            top: '5%',
-            right: strGridR,
-            //bottom: '8%',
-            height: '75%', //チャート描画はtop5% + height75% = 80%を占有する
-            zlevel: 3
-        },
-        {
-            left: strGridL,
-            top: '82%', //80+2%のギャップを空ける
-            right: strGridR,
-            height: '12%' //出来高はtop82%の位置からheight10%を占有する
-        }
-    ],
-    legend: {
-        data: ['SMA15', 'SMA45'],
-        right: '5%'
-    },
-    dataZoom: [{
-            type: 'inside',
-            xAxisIndex: [0, 1], //上下チャート両方含める
-            start: 0,
-            end: 100
-        },
-        {
-            show: false,
-            type: 'slider',
-            xAxisIndex: [0, 1], //上下チャート両方含める
-            bottom: '1%',
-            throttle: 128,
-            start: 0,
-            end: 100
-        }
-    ],
-    series: null
 };
 
 const getURL = () => {
@@ -162,11 +51,14 @@ const getURL = () => {
         `http://${location.hostname}/pipm/middle.php?${query}` :
         `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${query}`;
 };
-
-const setDrawCandle = () => {
-    const url = getURL();
-
-    return fetch(url, {
+/**
+ * Fetches data from a given URL and sets options for a candlestick chart.
+ * 
+ * @param {string} strURL - The URL to fetch data from.
+ * @returns {Promise} A Promise that resolves with the chart options object.
+ */
+const setDrawCandle = (strURL) => {
+    return fetch(strURL, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
@@ -259,11 +151,14 @@ const setDrawCandle = () => {
             console.log(e)
         });
 }
-
-const setDrawAlpha = () => {
-    const url = getURL();
-
-    return fetch(url, {
+/**
+ * Fetches data from a specified URL, calculates chart options based on the data, and updates the chart.
+ * 
+ * @param {string} strURL - The URL to fetch data from.
+ * @returns {Promise<void>} A Promise that resolves when the chart has been updated.
+ */
+const setDrawAlpha = (strURL) => {
+    return fetch(strURL, {
             method: 'GET',
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
         })
@@ -381,13 +276,14 @@ const setDrawAlpha = () => {
 const drawChart = () => {
     echartsPanda.clear();
     document.querySelector('select[name="select-ticker"]').value = '';
+    const strURL = getURL();
 
     if (check_alpha.checked) {
-        setDrawAlpha().then(() => {
+        setDrawAlpha(strURL).then(() => {
             echartsPanda.setOption(optionChart);
         });
     } else {
-        setDrawCandle().then(() => {
+        setDrawCandle(strURL).then(() => {
             echartsPanda.setOption(optionChart);
         });
     }
@@ -407,16 +303,24 @@ document.querySelector('select[name="select-ticker"]').addEventListener('change'
     document.querySelector('#text_box').value = evt.currentTarget.value;
     drawChart();
 });
+//画面のロードが完了
+window.addEventListener('load', () => {
+    //画面サイズが767px以下の時にEchatsのtitleを左寄せにする。
+    if (window.innerWidth <= 767) {
+        optionChart.title.left = '0%';
+    } else {
+        optionChart.title.left = 'center';
+    }
 
-// entry point
-(() => {
+    const select = document.querySelector('select[name="select-ticker"]');
     _.forEach(arrTicker, ticker => {
-        const elem = document.createElement('option');
-        elem.value = ticker;
-        elem.innerHTML = ticker;
-        document.querySelector('select[name="select-ticker"]').append(elem);
+        const option = new Option(ticker, ticker);
+        select.add(option);
     });
-    // debug mode
-    //document.querySelector('#text_box').value = 'SPY';
-    //document.querySelector('#chart_button').click();
-})();
+
+    // ローカル環境のときデバッグモード
+    if (location.hostname === '127.0.0.1') {
+        document.querySelector('#text_box').value = 'SHY';
+        setTimeout(() => document.querySelector('#chart_button').click(), 500);
+    }
+});
