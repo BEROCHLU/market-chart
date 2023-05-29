@@ -95,8 +95,11 @@ export const optionChart = {
         }
     ],
     legend: {
-        data: ['Tenkan', 'Kijun', 'SSA', 'Chikou', 'SMA15', 'SMA45'],
+        data: ['Tenkan', 'Kijun', 'SSA', 'SSB', 'Chikou', 'SMA15', 'SMA45'],
         selected: {
+            'Tenkan': false,
+            'Kijun': false,
+            'Chikou': false,
             'SMA15': false,
             'SMA45': false
         },

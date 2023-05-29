@@ -73,6 +73,7 @@ const setDrawCandle = (strURL) => {
             const arrTenkan = calculateTenkanSen(aoaPlot);
             const arrChikou = calculateChikouSpan(aoaPlot);
             const arrSSA = calculateSenkouSpanA(arrKijun, arrTenkan);
+            const arrSSB = calculateSenkouSpanB(aoaPlot);
             //console.log(calculateSenkouSpanA(arrKijun, arrTenkan));
             //console.log(calculateSenkouSpanB(aoaPlot));
 
@@ -94,9 +95,9 @@ const setDrawCandle = (strURL) => {
                     barCategoryGap: '2%',
                 },
                 {
-                    name: 'Chikou',
+                    name: 'Tenkan',
                     type: 'line',
-                    data: arrChikou,
+                    data: arrTenkan,
                     smooth: false,
                     symbol: 'none', //none
                     symbolSize: 1,
@@ -104,10 +105,10 @@ const setDrawCandle = (strURL) => {
                     lineStyle: {
                         width: 1,
                         opacity: 0.5,
-                        color: '#8080FF'
+                        color: '#FF0000'
                     },
                     itemStyle: {
-                        color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
+                        color: '#FF0000'
                     }
                 },
                 {
@@ -128,23 +129,6 @@ const setDrawCandle = (strURL) => {
                     }
                 },
                 {
-                    name: 'Tenkan',
-                    type: 'line',
-                    data: arrTenkan,
-                    smooth: false,
-                    symbol: 'none', //none
-                    symbolSize: 1,
-                    showSymbol: false,
-                    lineStyle: {
-                        width: 1,
-                        opacity: 0.5,
-                        color: '#FF0000'
-                    },
-                    itemStyle: {
-                        color: '#FF0000' //This is the symbol color. Let's match it with the color of the lineStyle.
-                    }
-                },
-                {
                     name: 'SSA',
                     type: 'line',
                     data: arrSSA,
@@ -158,7 +142,41 @@ const setDrawCandle = (strURL) => {
                         color: '#000000'
                     },
                     itemStyle: {
-                        color: '#000000' //This is the symbol color. Let's match it with the color of the lineStyle.
+                        color: '#000000'
+                    }
+                },
+                {
+                    name: 'SSB',
+                    type: 'line',
+                    data: arrSSB,
+                    smooth: false,
+                    symbol: 'none', //none
+                    symbolSize: 1,
+                    showSymbol: false,
+                    lineStyle: {
+                        width: 1,
+                        opacity: 0.5,
+                        color: '#808080'
+                    },
+                    itemStyle: {
+                        color: '#808080'
+                    }
+                },
+                {
+                    name: 'Chikou',
+                    type: 'line',
+                    data: arrChikou,
+                    smooth: false,
+                    symbol: 'none', //none
+                    symbolSize: 1,
+                    showSymbol: false,
+                    lineStyle: {
+                        width: 1,
+                        opacity: 0.5,
+                        color: '#8080FF'
+                    },
+                    itemStyle: {
+                        color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
                     }
                 },
                 {
@@ -382,7 +400,7 @@ window.addEventListener('load', () => {
 
     // ローカル環境のときデバッグモード
     if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = 'BTC-USD';
+        document.querySelector('#text_box').value = 'open';
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });

@@ -56,7 +56,13 @@ export function calculateSenkouSpanA(kijunSen, tenkanSen) {
 }
 
 export function calculateSenkouSpanB(aoaPlot) {
-    return aoaPlot.map((_, index) => index < 52 ? '-' : ((calculateHighLow(52, aoaPlot, index)[0] + calculateHighLow(52, aoaPlot, index)[1]) / 2).toFixed(2));
+    const arrSpanB = aoaPlot.map((_, index) => {
+        if (index < 52) return '-';
+        const arrHighLow = calculateHighLow(52, aoaPlot, index);
+        return ((arrHighLow[0] + arrHighLow[1]) / 2).toFixed(2);
+    });
+
+    return [...Array(26).fill('-'), ...arrSpanB];
 }
 
 export function calculateChikouSpan(aoaPlot) {
