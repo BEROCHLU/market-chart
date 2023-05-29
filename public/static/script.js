@@ -136,13 +136,18 @@ const setDrawCandle = (strURL) => {
                     symbol: 'none', //none
                     symbolSize: 1,
                     showSymbol: false,
+                    areaStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(255, 215, 0, 0.2)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(255, 215, 0, 0.2)'
+                        }])
+                    },
                     lineStyle: {
                         width: 1,
-                        opacity: 0.5,
-                        color: '#000000'
-                    },
-                    itemStyle: {
-                        color: '#000000'
+                        color: 'rgba(255, 215, 0, 0.8)'
                     }
                 },
                 {
@@ -153,13 +158,18 @@ const setDrawCandle = (strURL) => {
                     symbol: 'none', //none
                     symbolSize: 1,
                     showSymbol: false,
+                    areaStyle: {
+                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(30, 144, 255, 0.2)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(30, 144, 255, 0.2)'
+                        }])
+                    },
                     lineStyle: {
                         width: 1,
-                        opacity: 0.5,
-                        color: '#808080'
-                    },
-                    itemStyle: {
-                        color: '#808080'
+                        color: 'rgba(30, 144, 255, 0.8)'
                     }
                 },
                 {
@@ -400,7 +410,7 @@ window.addEventListener('load', () => {
 
     // ローカル環境のときデバッグモード
     if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = 'open';
+        document.querySelector('#text_box').value = '^GDAXI';
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });

@@ -68,35 +68,3 @@ export function calculateSenkouSpanB(aoaPlot) {
 export function calculateChikouSpan(aoaPlot) {
     return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? Number(aoaPlot[index + 26][1]).toFixed(2) : '-'); // assuming close is at index 1
 }
-/** 
-function calculateHighLow(period, data, index){
-    let high = -Infinity;
-    let low = Infinity;
-    for(let i = 0; i < period; i++){
-        let val = data[index - i];
-        high = Math.max(high, val[2]); // assuming high is at index 2
-        low = Math.min(low, val[3]); // assuming low is at index 3
-    }
-    return [high, low];
-}
-
-function calculateTenkanSen(data){
-    return data.map((val, index) => index < 9 ? '-' : ((calculateHighLow(9, data, index)[0] + calculateHighLow(9, data, index)[1]) / 2).toFixed(2));
-}
-
-function calculateKijunSen(data){
-    return data.map((val, index) => index < 26 ? '-' : ((calculateHighLow(26, data, index)[0] + calculateHighLow(26, data, index)[1]) / 2).toFixed(2));
-}
-
-function calculateSenkouSpanA(tenkanSen, kijunSen){
-    return tenkanSen.map((val, index) => index < 26 ? '-' : ((Number(tenkanSen[index - 26]) + Number(kijunSen[index - 26])) / 2).toFixed(2));
-}
-
-function calculateSenkouSpanB(data){
-    return data.map((val, index) => index < 52 ? '-' : ((calculateHighLow(52, data, index)[0] + calculateHighLow(52, data, index)[1]) / 2).toFixed(2));
-}
-
-function calculateChikouSpan(data){
-    return data.map((val, index) => index < data.length - 26 ? Number(data[index + 26][4]).toFixed(2) : '-'); // assuming close is at index 4
-}
-*/
