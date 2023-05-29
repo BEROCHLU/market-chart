@@ -11,7 +11,8 @@ import {
     optionChart
 } from './echarts-baseoption.js';
 import {
-    calculateMA
+    calculateMA,
+    calculateKijunSen
 } from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'));
@@ -63,6 +64,8 @@ const setDrawCandle = (strURL) => {
                 optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
                 optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             }
+
+            console.log(calculateKijunSen(aoaPlot));
 
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = [...json.Date];
@@ -125,7 +128,7 @@ const setDrawCandle = (strURL) => {
                     },
                     barMinWidth: 2,
                     barCategoryGap: '2%',
-                    data: _.values(json.Volume)
+                    data: [...json.Volume]
                 }
             ]
         })
