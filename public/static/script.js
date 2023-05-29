@@ -10,46 +10,28 @@ import {
 import {
     optionChart
 } from './echarts-baseoption.js';
+import {
+    calculateMA
+} from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'));
 
-/**
- * Calculates the moving average of a given data set for a specified number of days.
- * @param {number} dayCount - The number of days to calculate the moving average for.
- * @param {Array<Array<number>>} data - An array of arrays representing the data set, where each inner array contains two numbers: a timestamp and a value.
- * @returns {Array<string>} An array of strings representing the moving average values for each day. If there is not enough data to calculate the moving average for a particular day, a dash (-) is used instead.
- */
-const calculateMA = (dayCount, data) => {
-    let result = [];
-    for (let i = 0, len = data.length; i < len; i++) {
-        if (i < dayCount) {
-            result.push('-');
-            continue;
-        }
-        let sum = 0;
-        for (let j = 0; j < dayCount; j++) {
-            sum += data[i - j][1];
-        }
-        result.push((sum / dayCount).toFixed(2));
-    }
-    return result;
-};
 
-const getURL = () => {
-    const t = document.querySelector('#text_box').value;
-    const r = document.querySelector('.select-period').value;
-    const i = document.querySelector('.select-interval').value;
+const buildUrl = () => {
+    const ticker = document.querySelector('#text_box').value;
+    const period = document.querySelector('.select-period').value;
+    const interval = document.querySelector('.select-interval').value;
 
     const params = {
-        t: t,
-        r: r,
-        i: i
+        t: ticker,
+        r: period,
+        i: interval
     }
-    const query = new URLSearchParams(params);
+    const strQuery = new URLSearchParams(params);
 
     return location.hostname === 'pleasecov.g2.xrea.com' ?
-        `http://${location.hostname}/pipm/middle.php?${query}` :
-        `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${query}`;
+        `http://${location.hostname}/pipm/middle.php?${strQuery}` :
+        `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${strQuery}`;
 };
 /**
  * Fetches data from a given URL and sets options for a candlestick chart.
@@ -276,7 +258,7 @@ const setDrawAlpha = (strURL) => {
 const drawChart = () => {
     echartsPanda.clear();
     document.querySelector('select[name="select-ticker"]').value = '';
-    const strURL = getURL();
+    const strURL = buildUrl();
 
     if (check_alpha.checked) {
         setDrawAlpha(strURL).then(() => {

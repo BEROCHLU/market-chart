@@ -1,3 +1,5 @@
+'use strict';
+
 const strGridL = '10%';
 const strGridR = '5%';
 
