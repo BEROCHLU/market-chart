@@ -12,7 +12,11 @@ import {
 } from './echarts-baseoption.js';
 import {
     calculateMA,
-    calculateKijunSen
+    calculateKijunSen,
+    calculateTenkanSen,
+    calculateSenkouSpanA,
+    calculateSenkouSpanB,
+    calculateChikouSpan
 } from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'));
@@ -49,7 +53,7 @@ const setDrawCandle = (strURL) => {
         .then(json => {
             let arrLow = [...json.Low];
             let arrHigh = [...json.High];
-            let aoaPlot = _.zip(_.values(json.Open), _.values(json.Close), arrLow, arrHigh); //open close low high
+            let aoaPlot = _.zip([...json.Open], [...json.Close], arrLow, arrHigh); //open close low high
 
             if (check_inverse.checked) {
                 aoaPlot = _.map(aoaPlot, (array) => {
@@ -65,7 +69,12 @@ const setDrawCandle = (strURL) => {
                 optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             }
 
-            console.log(calculateKijunSen(aoaPlot));
+            const arrKijun = calculateKijunSen(aoaPlot);
+            const arrTenkan = calculateTenkanSen(aoaPlot);
+            const arrChikou = calculateChikouSpan(aoaPlot);
+            const arrSSA = calculateSenkouSpanA(arrKijun, arrTenkan);
+            //console.log(calculateSenkouSpanA(arrKijun, arrTenkan));
+            //console.log(calculateSenkouSpanB(aoaPlot));
 
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = [...json.Date];
@@ -85,6 +94,74 @@ const setDrawCandle = (strURL) => {
                     barCategoryGap: '2%',
                 },
                 {
+                    name: 'Chikou',
+                    type: 'line',
+                    data: arrChikou,
+                    smooth: false,
+                    symbol: 'none', //none
+                    symbolSize: 1,
+                    showSymbol: false,
+                    lineStyle: {
+                        width: 1,
+                        opacity: 0.5,
+                        color: '#8080FF'
+                    },
+                    itemStyle: {
+                        color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
+                    }
+                },
+                {
+                    name: 'Kijun',
+                    type: 'line',
+                    data: arrKijun,
+                    smooth: false,
+                    symbol: 'none', //none
+                    symbolSize: 1,
+                    showSymbol: false,
+                    lineStyle: {
+                        width: 1,
+                        opacity: 0.5,
+                        color: '#800000'
+                    },
+                    itemStyle: {
+                        color: '#800000'
+                    }
+                },
+                {
+                    name: 'Tenkan',
+                    type: 'line',
+                    data: arrTenkan,
+                    smooth: false,
+                    symbol: 'none', //none
+                    symbolSize: 1,
+                    showSymbol: false,
+                    lineStyle: {
+                        width: 1,
+                        opacity: 0.5,
+                        color: '#FF0000'
+                    },
+                    itemStyle: {
+                        color: '#FF0000' //This is the symbol color. Let's match it with the color of the lineStyle.
+                    }
+                },
+                {
+                    name: 'SSA',
+                    type: 'line',
+                    data: arrSSA,
+                    smooth: false,
+                    symbol: 'none', //none
+                    symbolSize: 1,
+                    showSymbol: false,
+                    lineStyle: {
+                        width: 1,
+                        opacity: 0.5,
+                        color: '#000000'
+                    },
+                    itemStyle: {
+                        color: '#000000' //This is the symbol color. Let's match it with the color of the lineStyle.
+                    }
+                },
+                {
                     name: 'SMA15',
                     type: 'line',
                     data: calculateMA(15, aoaPlot),
@@ -98,7 +175,7 @@ const setDrawCandle = (strURL) => {
                         color: '#cf9f40'
                     },
                     itemStyle: {
-                        color: '#cf9f40' //This is a symbol color. Let's match with the lineStyle color.
+                        color: '#cf9f40'
                     }
                 },
                 {
@@ -115,7 +192,7 @@ const setDrawCandle = (strURL) => {
                         color: '#0066ff'
                     },
                     itemStyle: {
-                        color: '#0066ff' //This is a symbol color. Let's match with the lineStyle color.
+                        color: '#0066ff'
                     }
                 },
                 {
@@ -294,7 +371,7 @@ window.addEventListener('load', () => {
     if (window.innerWidth <= 767) {
         optionChart.title.left = '0%';
     } else {
-        optionChart.title.left = 'center';
+        optionChart.title.left = '9%';
     }
 
     const select = document.querySelector('select[name="select-ticker"]');
@@ -305,7 +382,7 @@ window.addEventListener('load', () => {
 
     // ローカル環境のときデバッグモード
     if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = 'SHY';
+        document.querySelector('#text_box').value = 'BTC-USD';
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });

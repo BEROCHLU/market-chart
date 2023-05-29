@@ -73,9 +73,6 @@ export const optionChart = {
     },
     toolbox: {
         feature: {
-            saveAsImage: {
-                title: 'save as image'
-            },
             dataView: {
                 title: 'data view',
                 lang: ['data view', 'turn off', 'refresh']
@@ -98,8 +95,13 @@ export const optionChart = {
         }
     ],
     legend: {
-        data: ['SMA15', 'SMA45'],
-        right: '5%'
+        data: ['Tenkan', 'Kijun', 'SSA', 'Chikou', 'SMA15', 'SMA45'],
+        selected: {
+            'SMA15': false,
+            'SMA45': false
+        },
+        right: '2%',
+        fontSize: 9
     },
     dataZoom: [{
             type: 'inside',
