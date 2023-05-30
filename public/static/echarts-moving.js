@@ -68,3 +68,19 @@ export function calculateSenkouSpanB(aoaPlot) {
 export function calculateChikouSpan(aoaPlot) {
     return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? Number(aoaPlot[index + 26][1]).toFixed(2) : '-'); // assuming close is at index 1
 }
+
+/**
+ export function calculateSenkouSpanA(kijunSen, tenkanSen) {
+    let arrKijun = [...kijunSen].filter(item => item !== '-');
+    let arrTenkan = [...tenkanSen].slice(17);
+    //基準線に合わせる
+    const arrSpanA = arrKijun.map((_, index) => {
+        let n = (Number(arrKijun[index]) + Number(arrTenkan[index])) / 2;
+        console.log(Number(arrKijun[index]), Number(arrTenkan[index]), n);
+        return n.toFixed(2);
+    });
+
+    return [...Array(26).fill('-'), ...arrSpanA];
+    //return kijunSen.map((_, index) => index < 26 ? '-' : ((Number(kijunSen[index - 26]) + Number(tenkanSen[index - 26])) / 2).toFixed(2));
+}
+ */

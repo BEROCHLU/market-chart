@@ -76,10 +76,18 @@ const setDrawCandle = (strURL) => {
             const arrSSB = calculateSenkouSpanB(aoaPlot);
             //console.log(calculateSenkouSpanA(arrKijun, arrTenkan));
             //console.log(calculateSenkouSpanB(aoaPlot));
+            let arrDate = [...json.Date];
+            let startDate = moment(_.last(arrDate));
+
+            for (let i = 0; i < 30; i++) {
+                const newDate = moment(startDate).add(i, 'days');
+                // 'yyyy-mm-dd'形式に変換して配列に追加
+                arrDate.push(newDate.format('YYYY-MM-DD'));
+            }
 
             optionChart.title.text = json['companyName'][0];
-            optionChart.xAxis[0].data = [...json.Date];
-            optionChart.xAxis[1].data = [...json.Date];
+            optionChart.xAxis[0].data = arrDate;
+            optionChart.xAxis[1].data = arrDate;
             delete optionChart.tooltip.formatter; // set default formatter
 
             optionChart.series = [{
@@ -410,7 +418,7 @@ window.addEventListener('load', () => {
 
     // ローカル環境のときデバッグモード
     if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = '^GDAXI';
+        document.querySelector('#text_box').value = 'open';
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });
