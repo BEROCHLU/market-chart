@@ -74,15 +74,16 @@ const setDrawCandle = (strURL) => {
             const arrChikou = calculateChikouSpan(aoaPlot);
             const arrSSA = calculateSenkouSpanA(arrKijun, arrTenkan);
             const arrSSB = calculateSenkouSpanB(aoaPlot);
-            //console.log(calculateSenkouSpanA(arrKijun, arrTenkan));
             //console.log(calculateSenkouSpanB(aoaPlot));
             let arrDate = [...json.Date];
-            let startDate = moment(_.last(arrDate));
+            let moLastdate = moment(_.last(arrDate));
 
-            for (let i = 0; i < 27; i++) {
-                const newDate = moment(startDate).add(i, 'days');
-                // 'yyyy-mm-dd'形式に変換して配列に追加
-                arrDate.push(newDate.format('YYYY-MM-DD'));
+            for (let i = 0; i < 26;) {
+                moLastdate.add(1, 'days');
+                if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
+                    arrDate.push(moLastdate.format('YYYY-MM-DD'));
+                    i++;
+                }
             }
 
             optionChart.title.text = json['companyName'][0];
@@ -107,7 +108,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: arrTenkan,
                     smooth: false,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     lineStyle: {
@@ -124,7 +125,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: arrKijun,
                     smooth: false,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     lineStyle: {
@@ -141,7 +142,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: arrSSA,
                     smooth: false,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     areaStyle: {
@@ -155,7 +156,10 @@ const setDrawCandle = (strURL) => {
                     },
                     lineStyle: {
                         width: 1,
-                        color: 'rgba(255, 215, 0, 0.8)'
+                        color: 'rgba(255, 215, 0, 0.2)'
+                    },
+                    itemStyle: {
+                        color: 'rgba(255, 215, 0, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
                     }
                 },
                 {
@@ -163,7 +167,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: arrSSB,
                     smooth: false,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     areaStyle: {
@@ -177,7 +181,10 @@ const setDrawCandle = (strURL) => {
                     },
                     lineStyle: {
                         width: 1,
-                        color: 'rgba(30, 144, 255, 0.8)'
+                        color: 'rgba(30, 144, 255, 0.2)'
+                    },
+                    itemStyle: {
+                        color: 'rgba(30, 144, 255, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
                     }
                 },
                 {
@@ -185,7 +192,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: arrChikou,
                     smooth: false,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     lineStyle: {
@@ -202,7 +209,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: calculateMA(15, aoaPlot),
                     smooth: true,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     lineStyle: {
@@ -219,7 +226,7 @@ const setDrawCandle = (strURL) => {
                     type: 'line',
                     data: calculateMA(45, aoaPlot),
                     smooth: true,
-                    symbol: 'none', //none
+                    symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
                     lineStyle: {
@@ -355,7 +362,7 @@ const setDrawAlpha = (strURL) => {
                     itemStyle: {
                         color: '#7fbe9e'
                     },
-                    data: _.values(json.Volume)
+                    data: [...json.Volume]
                 }
             ]
         })
@@ -418,7 +425,7 @@ window.addEventListener('load', () => {
 
     // ローカル環境のときデバッグモード
     if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = 'open';
+        document.querySelector('#text_box').value = 'SHY';
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });

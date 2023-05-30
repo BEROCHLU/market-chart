@@ -62,7 +62,7 @@ export function calculateSenkouSpanA(kijunSen, tenkanSen) {
         return parseFloat(averageValue.toFixed(2));
     });
 
-    console.log(`last index: ${n}, next start: ${n-25}`);
+    //console.log(`last index: ${n}, next start: ${n-25}`);
 
     for (let i = n - 25; i <= n; i++) {
         const averageValue = (Number(kijunSen[i]) + Number(tenkanSen[i])) / 2;
