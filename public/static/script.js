@@ -79,7 +79,7 @@ const setDrawCandle = (strURL) => {
             let arrDate = [...json.Date];
             let startDate = moment(_.last(arrDate));
 
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 27; i++) {
                 const newDate = moment(startDate).add(i, 'days');
                 // 'yyyy-mm-dd'形式に変換して配列に追加
                 arrDate.push(newDate.format('YYYY-MM-DD'));

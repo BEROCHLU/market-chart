@@ -52,14 +52,32 @@ export function calculateTenkanSen(aoaPlot) {
 }
 
 export function calculateSenkouSpanA(kijunSen, tenkanSen) {
-    return kijunSen.map((_, index) => index < 26 ? '-' : ((Number(kijunSen[index - 26]) + Number(tenkanSen[index - 26])) / 2).toFixed(2));
+    // Create a new array with the same length as `kijunSen`
+    let n;
+    let arrSpanA = kijunSen.map((_, index) => {
+        if (index < 26) return '-';
+        // 残りの平均値が入ってない
+        const averageValue = (Number(kijunSen[index - 26]) + Number(tenkanSen[index - 26])) / 2;
+        n = index; //get last index
+        return parseFloat(averageValue.toFixed(2));
+    });
+
+    console.log(`last index: ${n}, next start: ${n-25}`);
+
+    for (let i = n - 25; i <= n; i++) {
+        const averageValue = (Number(kijunSen[i]) + Number(tenkanSen[i])) / 2;
+        arrSpanA.push(parseFloat(averageValue.toFixed(2)));
+    }
+    return arrSpanA;
 }
 
 export function calculateSenkouSpanB(aoaPlot) {
     const arrSpanB = aoaPlot.map((_, index) => {
         if (index < 52) return '-';
+
         const arrHighLow = calculateHighLow(52, aoaPlot, index);
-        return ((arrHighLow[0] + arrHighLow[1]) / 2).toFixed(2);
+        const averageValue = (arrHighLow[0] + arrHighLow[1]) / 2;
+        return parseFloat(averageValue.toFixed(2));
     });
 
     return [...Array(26).fill('-'), ...arrSpanB];
