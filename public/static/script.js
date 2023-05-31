@@ -59,19 +59,14 @@ const setDrawCandle = (strURL) => {
             let arrLow = [...json.Low];
             let arrHigh = [...json.High];
             let aoaPlot = _.zip([...json.Open], [...json.Close], arrLow, arrHigh); //open close low high
-
+            // checked inverse
             if (check_inverse.checked) {
+                // inverse value
                 aoaPlot = _.map(aoaPlot, (array) => {
                     return _.map(array, (value) => -value);
                 });
                 arrLow = _.map(arrLow, (value) => -value);
                 arrHigh = _.map(arrHigh, (value) => -value);
-
-                optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
-                optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
-            } else {
-                optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
-                optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             }
 
             let [arrMA15, arrMA45] = [calculateMA(aoaPlot, 15), calculateMA(aoaPlot, 45)];
@@ -83,7 +78,7 @@ const setDrawCandle = (strURL) => {
             let arrVolume = [...json.Volume];
             let arrDate = [...json.Date];
             let moLastdate = moment(_.last(arrDate));
-
+            // shift date
             for (let i = 0; i < 26;) {
                 moLastdate.add(1, 'days');
                 if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
@@ -91,15 +86,23 @@ const setDrawCandle = (strURL) => {
                     i++;
                 }
             }
-            // 6moの場合
+            // if selected 6mo, cut forward values
             if (document.querySelector('select.select-period').selectedIndex === 0) {
                 const N = arrDate.length / 2;
 
-                const arrBase = [arrMA15, arrMA45, aoaPlot, arrDate, arrVolume];
-                [arrMA15, arrMA45, aoaPlot, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
+                const arrBase = [arrMA15, arrMA45, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
+                [arrMA15, arrMA45, aoaPlot, arrLow, arrHigh, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
 
                 const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
+            }
+            // checked inverse
+            if (check_inverse.checked) {
+                optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
+                optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
+            } else {
+                optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
+                optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             }
 
             optionChart.title.text = json['companyName'][0];
