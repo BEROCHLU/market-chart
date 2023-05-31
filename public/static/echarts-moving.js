@@ -2,21 +2,22 @@
 /**
  * Calculates the moving average of a given data set for a specified number of days.
  * @param {number} dayCount - The number of days to calculate the moving average for.
- * @param {Array<Array<number>>} data - An array of arrays representing the data set, where each inner array contains two numbers: a timestamp and a value.
+ * @param {Array<Array<number>>} aoa - An array of arrays representing the data set, where each inner array contains two numbers: a timestamp and a value.
  * @returns {Array<string>} An array of strings representing the moving average values for each day. If there is not enough data to calculate the moving average for a particular day, a dash (-) is used instead.
  */
-export const calculateMA = (dayCount, data) => {
+export const calculateMA = (aoa, dayCount) => {
     let result = [];
-    for (let i = 0, len = data.length; i < len; i++) {
+    for (let i = 0, len = aoa.length; i < len; i++) {
         if (i < dayCount) {
             result.push('-');
             continue;
         }
         let sum = 0;
         for (let j = 0; j < dayCount; j++) {
-            sum += data[i - j][1];
+            sum += aoa[i - j][1];
         }
-        result.push((sum / dayCount).toFixed(2));
+        let strAverage = (sum / dayCount).toFixed(2);
+        result.push(parseFloat(strAverage));
     }
     return result;
 };
@@ -30,45 +31,39 @@ export const calculateMA = (dayCount, data) => {
  */
 const calculateHighLow = (period, aoaPlot, index) => {
     //aoaPlot => Open Close Low High, 0 1 2 3
-    let high = -Infinity;
     let low = Infinity;
+    let high = -Infinity;
 
     for (let i = 0; i < period; i++) {
         const arr = aoaPlot[index - i];
-
         low = Math.min(low, arr[2]); // assuming low is at index 2
         high = Math.max(high, arr[3]); // assuming high is at index 3
-
     }
+
     return [high, low];
 };
-
-export function calculateKijunSen(aoaPlot) {
-    return aoaPlot.map((_, index) => index < 26 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
-}
 
 export function calculateTenkanSen(aoaPlot) {
     return aoaPlot.map((_, index) => index < 9 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
 }
 
-export function calculateSenkouSpanA(arrKijun, arrTenkan) {
-    let n;
-    let arrSpanA = arrKijun.map((_, index) => {
+export function calculateKijunSen(aoaPlot) {
+    return aoaPlot.map((_, index) => index < 26 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
+}
+/**
+ * Calculates the Senkou Span A values based on the Kijun and Tenkan arrays.
+ * @param {number[]} arrTenkan - An array of Tenkan values.
+ * @param {number[]} arrKijun - An array of Kijun values.
+ * @returns {number[]} An array of Senkou Span A values.
+ */
+export function calculateSenkouSpanA(arrTenkan, arrKijun) {
+    const arrSpanA = arrKijun.map((_, index) => {
         if (index < 26) return '-';
-        // 残りの平均値が入ってない
-        const averageValue = (arrKijun[index - 26] + arrTenkan[index - 26]) / 2;
-        n = index; //get last index
+        const averageValue = (arrKijun[index] + arrTenkan[index]) / 2;
         return parseFloat(averageValue.toFixed(2));
     });
-
-    //console.log(`last index: ${n}, next start: ${n-25}`);
-
-    for (let i = n - 25; i <= n; i++) {
-        const averageValue = (arrKijun[i] + arrTenkan[i]) / 2;
-        arrSpanA.push(parseFloat(averageValue.toFixed(2)));
-    }
-    
-    return arrSpanA;
+    // shift 26days
+    return [...Array(26).fill('-'), ...arrSpanA];
 }
 /**
  * Calculate SenkouSpanB based on a given data array.
@@ -79,21 +74,12 @@ export function calculateSenkouSpanA(arrKijun, arrTenkan) {
  * the value is set to '-'.
  */
 export function calculateSenkouSpanB(aoaPlot) {
-    // Create a new array based on aoaPlot
     const arrSpanB = aoaPlot.map((_, index) => {
-        // For the first 52 data points, set the value to '-'
         if (index < 52) return '-';
-
-        // Calculate high and low values over a period of 52 data points
         const arrHighLow = calculateHighLow(52, aoaPlot, index);
-
-        // Calculate the average of the high and low values
         const averageValue = (arrHighLow[0] + arrHighLow[1]) / 2;
-
-        // Convert the average value to a float with 2 decimal places
         return parseFloat(averageValue.toFixed(2));
     });
-
     // For the last 26 data points, set the value to '-', and combine it with the rest of the calculated values
     return [...Array(26).fill('-'), ...arrSpanB];
 }
