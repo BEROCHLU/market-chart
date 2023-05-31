@@ -458,19 +458,15 @@ function averageChangeRate(arr) {
 
 function setYAxisBounds(arrLow, arrHigh) {
     let _arrLow, _arrHigh;
+    const {
+        checked
+    } = check_inverse; //デストラクチャリング代入 check_inverseのcheckedプロパティを抽出
     let fMiny, fMaxy;
 
-    if (check_inverse.checked) {
-        //配列の要素がプリミティブ型なので、スプレッド構文でコピーすると深いコピーになる
-        [_arrLow, _arrHigh] = [
-            [...arrHigh],
-            [...arrLow]
-        ];
+    if (checked) {
+        [_arrLow, _arrHigh] = [arrHigh, arrLow];
     } else {
-        [_arrLow, _arrHigh] = [
-            [...arrLow],
-            [...arrHigh]
-        ];
+        [_arrLow, _arrHigh] = [arrLow, arrHigh];
     }
 
     const offsetLow = averageChangeRate(_arrLow);
@@ -478,25 +474,16 @@ function setYAxisBounds(arrLow, arrHigh) {
 
     console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
 
-    if (check_inverse.checked) {
+    if (checked) {
         //optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
         //optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
-        fMiny = _.min(_arrLow) * (1 + offsetLow);
-        fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
+        fMiny = Math.min(..._arrHigh) * (1 + offsetLow);
+        fMaxy = Math.max(..._arrLow) * (1 - offsetHigh);
     } else {
-        fMiny = _.min(_arrLow) * (1 - offsetLow);
-        fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
+        fMiny = Math.min(..._arrLow) * (1 - offsetLow);
+        fMaxy = Math.max(..._arrHigh) * (1 + offsetHigh);
     }
 
-    if (fMiny < 5) {
-        optionChart.yAxis[0].min = _.floor(fMiny, 1);
-    } else {
-        optionChart.yAxis[0].min = _.floor(fMiny);
-    }
-
-    if (fMaxy < 10) {
-        optionChart.yAxis[0].max = _.ceil(fMaxy, 1);
-    } else {
-        optionChart.yAxis[0].max = _.ceil(fMaxy);
-    }
+    optionChart.yAxis[0].min = fMiny < 5 ? Math.floor(fMiny, 1) : Math.floor(fMiny);
+    optionChart.yAxis[0].max = fMaxy < 10 ? Math.ceil(fMaxy, 1) : Math.ceil(fMaxy);
 }
