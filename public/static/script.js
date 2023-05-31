@@ -21,7 +21,11 @@ import {
 
 const echartsPanda = init(document.getElementById('cn'));
 
-
+// This function builds a URL based on user input for ticker, period and interval.
+/**
+ * @function buildUrl
+ * @returns {string} Returns a URL string
+ */
 const buildUrl = () => {
     const ticker = document.querySelector('#text_box').value;
     const period = document.querySelector('.select-period').value;
@@ -34,6 +38,7 @@ const buildUrl = () => {
     }
     const strQuery = new URLSearchParams(params);
 
+    // If the hostname is 'pleasecov.g2.xrea.com', return HTTP URL with query parameters, else return HTTPS URL with query parameters
     return location.hostname === 'pleasecov.g2.xrea.com' ?
         `http://${location.hostname}/pipm/middle.php?${strQuery}` :
         `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${strQuery}`;

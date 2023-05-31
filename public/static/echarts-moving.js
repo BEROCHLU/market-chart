@@ -41,14 +41,14 @@ const calculateHighLow = (period, aoaPlot, index) => {
 
     }
     return [high, low];
-}
+};
 
 export function calculateKijunSen(aoaPlot) {
-    return aoaPlot.map((_, index) => index < 26 ? '-' : ((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2));
+    return aoaPlot.map((_, index) => index < 26 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
 }
 
 export function calculateTenkanSen(aoaPlot) {
-    return aoaPlot.map((_, index) => index < 9 ? '-' : ((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2));
+    return aoaPlot.map((_, index) => index < 9 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
 }
 
 export function calculateSenkouSpanA(kijunSen, tenkanSen) {
@@ -84,21 +84,5 @@ export function calculateSenkouSpanB(aoaPlot) {
 }
 
 export function calculateChikouSpan(aoaPlot) {
-    return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? Number(aoaPlot[index + 26][1]).toFixed(2) : '-'); // assuming close is at index 1
+    return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? aoaPlot[index + 26][1] : '-'); // assuming close is at index 1
 }
-
-/**
- export function calculateSenkouSpanA(kijunSen, tenkanSen) {
-    let arrKijun = [...kijunSen].filter(item => item !== '-');
-    let arrTenkan = [...tenkanSen].slice(17);
-    //基準線に合わせる
-    const arrSpanA = arrKijun.map((_, index) => {
-        let n = (Number(arrKijun[index]) + Number(arrTenkan[index])) / 2;
-        console.log(Number(arrKijun[index]), Number(arrTenkan[index]), n);
-        return n.toFixed(2);
-    });
-
-    return [...Array(26).fill('-'), ...arrSpanA];
-    //return kijunSen.map((_, index) => index < 26 ? '-' : ((Number(kijunSen[index - 26]) + Number(tenkanSen[index - 26])) / 2).toFixed(2));
-}
- */
