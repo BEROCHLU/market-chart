@@ -96,33 +96,8 @@ const setDrawCandle = (strURL) => {
                 const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
             }
-            // checked inverse
-            if (check_inverse.checked) {
-                optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
-                optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
-            } else {
-                //const fMiny = _.min(arrLow) * 0.97;
-                //const fMaxy = _.max(arrHigh) * 1.03;
-                const offsetLow = averageChangeRate(arrLow);
-                const offsetHigh = averageChangeRate(arrHigh);
 
-                console.log(offsetLow, offsetHigh);
-
-                const fMiny = _.min(arrLow) * (1 - offsetLow);
-                const fMaxy = _.max(arrHigh) * (1 + offsetHigh);
-
-                if (fMiny < 5) {
-                    optionChart.yAxis[0].min = _.floor(fMiny, 1);
-                } else {
-                    optionChart.yAxis[0].min = _.floor(fMiny);
-                }
-
-                if (fMaxy < 5) {
-                    optionChart.yAxis[0].max = _.ceil(fMaxy, 1);
-                } else {
-                    optionChart.yAxis[0].max = _.ceil(fMaxy);
-                }
-            }
+            setYAxisBounds(arrLow, arrHigh);
 
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = arrDate;
@@ -479,4 +454,49 @@ function averageChangeRate(arr) {
 
     // 平均値を計算する
     return _.mean(_.compact(changeRates));
+}
+
+function setYAxisBounds(arrLow, arrHigh) {
+    let _arrLow, _arrHigh;
+    let fMiny, fMaxy;
+
+    if (check_inverse.checked) {
+        //配列の要素がプリミティブ型なので、スプレッド構文でコピーすると深いコピーになる
+        [_arrLow, _arrHigh] = [
+            [...arrHigh],
+            [...arrLow]
+        ];
+    } else {
+        [_arrLow, _arrHigh] = [
+            [...arrLow],
+            [...arrHigh]
+        ];
+    }
+
+    const offsetLow = averageChangeRate(_arrLow);
+    const offsetHigh = averageChangeRate(_arrHigh);
+
+    console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
+
+    if (check_inverse.checked) {
+        //optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
+        //optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
+        fMiny = _.min(_arrLow) * (1 + offsetLow);
+        fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
+    } else {
+        fMiny = _.min(_arrLow) * (1 - offsetLow);
+        fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
+    }
+
+    if (fMiny < 5) {
+        optionChart.yAxis[0].min = _.floor(fMiny, 1);
+    } else {
+        optionChart.yAxis[0].min = _.floor(fMiny);
+    }
+
+    if (fMaxy < 10) {
+        optionChart.yAxis[0].max = _.ceil(fMaxy, 1);
+    } else {
+        optionChart.yAxis[0].max = _.ceil(fMaxy);
+    }
 }
