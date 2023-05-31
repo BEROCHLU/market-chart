@@ -464,9 +464,12 @@ function setYAxisBounds(arrLow, arrHigh) {
     let fMiny, fMaxy;
 
     if (checked) {
-        [_arrLow, _arrHigh] = [arrHigh, arrLow];
+        //配列の要素がプリミティブ型なので、スプレッド構文でコピーすると深いコピーになる
+        _arrLow = [...arrHigh];
+        _arrHigh = [...arrLow];
     } else {
-        [_arrLow, _arrHigh] = [arrLow, arrHigh];
+        _arrLow = [...arrLow];
+        _arrHigh = [...arrHigh];
     }
 
     const offsetLow = averageChangeRate(_arrLow);
