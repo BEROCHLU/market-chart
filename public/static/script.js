@@ -101,8 +101,27 @@ const setDrawCandle = (strURL) => {
                 optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
                 optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
             } else {
-                optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
-                optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
+                //const fMiny = _.min(arrLow) * 0.97;
+                //const fMaxy = _.max(arrHigh) * 1.03;
+                const offsetLow = averageChangeRate(arrLow);
+                const offsetHigh = averageChangeRate(arrHigh);
+
+                console.log(offsetLow, offsetHigh);
+
+                const fMiny = _.min(arrLow) * (1 - offsetLow);
+                const fMaxy = _.max(arrHigh) * (1 + offsetHigh);
+
+                if (fMiny < 5) {
+                    optionChart.yAxis[0].min = _.floor(fMiny, 1);
+                } else {
+                    optionChart.yAxis[0].min = _.floor(fMiny);
+                }
+
+                if (fMaxy < 5) {
+                    optionChart.yAxis[0].max = _.ceil(fMaxy, 1);
+                } else {
+                    optionChart.yAxis[0].max = _.ceil(fMaxy);
+                }
             }
 
             optionChart.title.text = json['companyName'][0];
@@ -448,3 +467,16 @@ window.addEventListener('load', () => {
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });
+
+function averageChangeRate(arr) {
+    // 変化率を計算する
+    const changeRates = _.map(arr, (value, index) => {
+        if (index === 0) return null;
+        const previousValue = arr[index - 1];
+        const rate = (value - previousValue) / previousValue;
+        return Math.abs(rate);
+    });
+
+    // 平均値を計算する
+    return _.mean(_.compact(changeRates));
+}
