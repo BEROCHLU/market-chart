@@ -51,13 +51,12 @@ export function calculateTenkanSen(aoaPlot) {
     return aoaPlot.map((_, index) => index < 9 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
 }
 
-export function calculateSenkouSpanA(kijunSen, tenkanSen) {
-    // Create a new array with the same length as `kijunSen`
+export function calculateSenkouSpanA(arrKijun, arrTenkan) {
     let n;
-    let arrSpanA = kijunSen.map((_, index) => {
+    let arrSpanA = arrKijun.map((_, index) => {
         if (index < 26) return '-';
         // 残りの平均値が入ってない
-        const averageValue = (Number(kijunSen[index - 26]) + Number(tenkanSen[index - 26])) / 2;
+        const averageValue = (arrKijun[index - 26] + arrTenkan[index - 26]) / 2;
         n = index; //get last index
         return parseFloat(averageValue.toFixed(2));
     });
@@ -65,21 +64,37 @@ export function calculateSenkouSpanA(kijunSen, tenkanSen) {
     //console.log(`last index: ${n}, next start: ${n-25}`);
 
     for (let i = n - 25; i <= n; i++) {
-        const averageValue = (Number(kijunSen[i]) + Number(tenkanSen[i])) / 2;
+        const averageValue = (arrKijun[i] + arrTenkan[i]) / 2;
         arrSpanA.push(parseFloat(averageValue.toFixed(2)));
     }
+    
     return arrSpanA;
 }
-
+/**
+ * Calculate SenkouSpanB based on a given data array.
+ *
+ * @param {Array} aoaPlot - The data array to base the calculation on.
+ * @returns {Array} - An array of SenkouSpanB values, where each value is the average of high and low values
+ * over a period of 52 data points in the input array. For the first 52 data points and the last 26 data points,
+ * the value is set to '-'.
+ */
 export function calculateSenkouSpanB(aoaPlot) {
+    // Create a new array based on aoaPlot
     const arrSpanB = aoaPlot.map((_, index) => {
+        // For the first 52 data points, set the value to '-'
         if (index < 52) return '-';
 
+        // Calculate high and low values over a period of 52 data points
         const arrHighLow = calculateHighLow(52, aoaPlot, index);
+
+        // Calculate the average of the high and low values
         const averageValue = (arrHighLow[0] + arrHighLow[1]) / 2;
+
+        // Convert the average value to a float with 2 decimal places
         return parseFloat(averageValue.toFixed(2));
     });
 
+    // For the last 26 data points, set the value to '-', and combine it with the rest of the calculated values
     return [...Array(26).fill('-'), ...arrSpanB];
 }
 
