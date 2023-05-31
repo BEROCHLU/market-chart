@@ -74,12 +74,13 @@ const setDrawCandle = (strURL) => {
                 optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
             }
 
-            const arrKijun = calculateKijunSen(aoaPlot);
-            const arrTenkan = calculateTenkanSen(aoaPlot);
-            const arrChikou = calculateChikouSpan(aoaPlot);
-            const arrSSA = calculateSenkouSpanA(arrKijun, arrTenkan);
-            const arrSSB = calculateSenkouSpanB(aoaPlot);
-            //console.log(calculateSenkouSpanB(aoaPlot));
+            let [arrMA15, arrMA45] = [calculateMA(aoaPlot, 15), calculateMA(aoaPlot, 45)];
+
+            let [arrTenkan, arrKijun] = [calculateTenkanSen(aoaPlot), calculateKijunSen(aoaPlot)];
+            let arrChikou = calculateChikouSpan(aoaPlot);
+            let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
+
+            let arrVolume = [...json.Volume];
             let arrDate = [...json.Date];
             let moLastdate = moment(_.last(arrDate));
 
@@ -89,6 +90,16 @@ const setDrawCandle = (strURL) => {
                     arrDate.push(moLastdate.format('YYYY-MM-DD'));
                     i++;
                 }
+            }
+            // 6moの場合
+            if (document.querySelector('select.select-period').selectedIndex === 0) {
+                const N = arrDate.length / 2;
+
+                const arrBase = [arrMA15, arrMA45, aoaPlot, arrDate, arrVolume];
+                [arrMA15, arrMA45, aoaPlot, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
+
+                const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
+                [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
             }
 
             optionChart.title.text = json['companyName'][0];
@@ -212,7 +223,7 @@ const setDrawCandle = (strURL) => {
                 {
                     name: 'SMA15',
                     type: 'line',
-                    data: calculateMA(15, aoaPlot),
+                    data: arrMA15,
                     smooth: true,
                     symbol: 'none',
                     symbolSize: 1,
@@ -229,7 +240,7 @@ const setDrawCandle = (strURL) => {
                 {
                     name: 'SMA45',
                     type: 'line',
-                    data: calculateMA(45, aoaPlot),
+                    data: arrMA45,
                     smooth: true,
                     symbol: 'none',
                     symbolSize: 1,
@@ -253,7 +264,7 @@ const setDrawCandle = (strURL) => {
                     },
                     barMinWidth: 2,
                     barCategoryGap: '2%',
-                    data: [...json.Volume]
+                    data: arrVolume
                 }
             ]
         })
