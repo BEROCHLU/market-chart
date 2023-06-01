@@ -288,6 +288,8 @@ const setDrawAlpha = (strURL) => {
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
             }
 
+            setYAxisBounds(arrLow, arrHigh);
+
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = arrDate;
             optionChart.xAxis[1].data = arrDate;
@@ -346,10 +348,10 @@ const setDrawAlpha = (strURL) => {
                         opacity: 0.9,
                         color: new graphic.LinearGradient(0, 0, 0, 1, [{
                             offset: 0,
-                            color: 'rgba(0, 221, 255)'
+                            color: 'rgb(0, 221, 255)'
                         }, {
                             offset: 1,
-                            color: 'rgba(77, 119, 2550)'
+                            color: 'rgb(77, 119, 255)'
                         }])
                     },
                     emphasis: {
@@ -466,6 +468,7 @@ function setYAxisBounds(arrLow, arrHigh) {
     const offsetHigh = averageChangeRate(_arrHigh);
 
     console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
+    document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
 
     if (checked) {
         //optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
