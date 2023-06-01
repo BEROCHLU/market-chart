@@ -86,7 +86,7 @@ const setDrawCandle = (strURL) => {
                     i++;
                 }
             }
-            // if selected 6mo, cut forward values
+            // if selected '6mo', the forward values will be cut off.
             if (document.querySelector('select.select-period').selectedIndex === 0) {
                 const N = arrDate.length / 2;
 
@@ -159,13 +159,7 @@ const setDrawCandle = (strURL) => {
                     symbolSize: 1,
                     showSymbol: false,
                     areaStyle: {
-                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(255, 215, 0, 0.2)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(255, 215, 0, 0.2)'
-                        }])
+                        color: 'rgba(255, 215, 0, 0.2)'
                     },
                     lineStyle: {
                         width: 1,
@@ -184,13 +178,7 @@ const setDrawCandle = (strURL) => {
                     symbolSize: 1,
                     showSymbol: false,
                     areaStyle: {
-                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(30, 144, 255, 0.2)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(30, 144, 255, 0.2)'
-                        }])
+                        color: 'rgba(30, 144, 255, 0.2)'
                     },
                     lineStyle: {
                         width: 1,
@@ -285,22 +273,24 @@ const setDrawAlpha = (strURL) => {
             let arrLow = [...json.Low];
             let arrHigh = [...json.High];
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
+            let arrVolume = [...json.Volume];
+            let arrDate = [...json.Date];
 
             if (check_inverse.checked) {
                 arrLow = _.map(arrLow, (value) => -value);
                 arrHigh = _.map(arrHigh, (value) => -value);
                 arrDiff = _.map(arrDiff, (value) => -value);
-
-                optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
-                optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
-            } else {
-                optionChart.yAxis[0].min = _.floor(_.min(arrLow) * 0.97);
-                optionChart.yAxis[0].max = _.ceil(_.max(arrHigh) * 1.03);
+            }
+            // if selected '6mo', the forward values will be cut off.
+            if (document.querySelector('select.select-period').selectedIndex === 0) {
+                const N = arrDate.length / 2;
+                const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
+                [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
             }
 
             optionChart.title.text = json['companyName'][0];
-            optionChart.xAxis[0].data = [...json.Date];
-            optionChart.xAxis[1].data = [...json.Date];
+            optionChart.xAxis[0].data = arrDate;
+            optionChart.xAxis[1].data = arrDate;
             optionChart.tooltip.formatter = (arrParam) => {
                 // ['High', 'Low', 'Volume']の順にツールチップを表示
                 arrParam = _.orderBy(arrParam, ['seriesName'], ['High', 'Low', 'Volume']);
@@ -375,7 +365,7 @@ const setDrawAlpha = (strURL) => {
                     itemStyle: {
                         color: '#7fbe9e'
                     },
-                    data: [...json.Volume]
+                    data: arrVolume
                 }
             ]
         })
@@ -487,6 +477,6 @@ function setYAxisBounds(arrLow, arrHigh) {
         fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
     }
 
-    optionChart.yAxis[0].min = fMiny < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
-    optionChart.yAxis[0].max = fMaxy < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
+    optionChart.yAxis[0].min = Math.abs(fMiny) < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
+    optionChart.yAxis[0].max = Math.abs(fMaxy) < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
 }
