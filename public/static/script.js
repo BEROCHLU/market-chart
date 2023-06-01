@@ -480,11 +480,11 @@ function setYAxisBounds(arrLow, arrHigh) {
     if (checked) {
         //optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
         //optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
-        fMiny = Math.min(..._arrHigh) * (1 + offsetLow);
-        fMaxy = Math.max(..._arrLow) * (1 - offsetHigh);
+        fMiny = _.min(_arrLow) * (1 + offsetLow);
+        fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
     } else {
-        fMiny = Math.min(..._arrLow) * (1 - offsetLow);
-        fMaxy = Math.max(..._arrHigh) * (1 + offsetHigh);
+        fMiny = _.min(_arrLow) * (1 - offsetLow);
+        fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
     }
 
     optionChart.yAxis[0].min = fMiny < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
