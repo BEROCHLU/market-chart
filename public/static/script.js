@@ -86,8 +86,9 @@ const setDrawCandle = (strURL) => {
                     i++;
                 }
             }
-            // if selected '6mo', the forward values will be cut off.
-            if (document.querySelector('select.select-period').selectedIndex === 0) {
+            // if selected '6mo' or '1y', the forward values will be cut off.
+            const selectedOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
+            if (selectedOptionText === '6mo' || selectedOptionText === '1y') {
                 const N = arrDate.length / 2;
 
                 const arrBase = [arrMA15, arrMA45, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
@@ -159,14 +160,14 @@ const setDrawCandle = (strURL) => {
                     symbolSize: 1,
                     showSymbol: false,
                     areaStyle: {
-                        color: 'rgba(255, 215, 0, 0.2)'
+                        color: 'rgba(255, 215, 0, 0.25)'
                     },
                     lineStyle: {
                         width: 1,
-                        color: 'rgba(255, 215, 0, 0.2)'
+                        color: 'rgba(255, 215, 0, 0.25)'
                     },
                     itemStyle: {
-                        color: 'rgba(255, 215, 0, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
+                        color: 'rgba(255, 215, 0, 0.25)' //This is the symbol color. It should match it with the color of the lineStyle.
                     }
                 },
                 {
@@ -281,8 +282,9 @@ const setDrawAlpha = (strURL) => {
                 arrHigh = _.map(arrHigh, (value) => -value);
                 arrDiff = _.map(arrDiff, (value) => -value);
             }
-            // if selected '6mo', the forward values will be cut off.
-            if (document.querySelector('select.select-period').selectedIndex === 0) {
+            // if selected '6mo' or '1y', the forward values will be cut off.
+            const selectedOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
+            if (selectedOptionText === '6mo' || selectedOptionText === '1y') {
                 const N = arrDate.length / 2;
                 const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
@@ -468,7 +470,7 @@ function setYAxisBounds(arrLow, arrHigh) {
     const offsetHigh = averageChangeRate(_arrHigh);
 
     console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
-    document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
+    //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
 
     if (checked) {
         //optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);

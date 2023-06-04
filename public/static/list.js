@@ -45,5 +45,7 @@ export const arrTicker = [
 	"^FTSE",
 	"^GDAXI",
 	"^RUT",
-	"^TNX"
+	"^TNX",
+	"^VIX",
+	"DX-Y.NYB",
 ];
