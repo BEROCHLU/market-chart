@@ -77,18 +77,12 @@ const setDrawCandle = (strURL) => {
 
             let arrVolume = [...json.Volume];
             let arrDate = [...json.Date];
-            let moLastdate = moment(_.last(arrDate));
-            // shift date
-            for (let i = 0; i < 26;) {
-                moLastdate.add(1, 'days');
-                if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
-                    arrDate.push(moLastdate.format('YYYY-MM-DD'));
-                    i++;
-                }
-            }
+
+            // shift 26 days
+            arrDate = shift26Days(arrDate);
             // if selected '6mo' or '1y', the forward values will be cut off.
-            const selectedOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-            if (selectedOptionText === '6mo' || selectedOptionText === '1y') {
+            const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
+            if (periodOptionText === '6mo' || periodOptionText === '1y') {
                 const N = arrDate.length / 2;
 
                 const arrBase = [arrMA15, arrMA45, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
@@ -276,15 +270,17 @@ const setDrawAlpha = (strURL) => {
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
             let arrVolume = [...json.Volume];
             let arrDate = [...json.Date];
-
+            // inverse
             if (check_inverse.checked) {
                 arrLow = _.map(arrLow, (value) => -value);
                 arrHigh = _.map(arrHigh, (value) => -value);
                 arrDiff = _.map(arrDiff, (value) => -value);
             }
+            // shift 26 days
+            arrDate = shift26Days(arrDate);
             // if selected '6mo' or '1y', the forward values will be cut off.
-            const selectedOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-            if (selectedOptionText === '6mo' || selectedOptionText === '1y') {
+            const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
+            if (periodOptionText === '6mo' || periodOptionText === '1y') {
                 const N = arrDate.length / 2;
                 const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
@@ -484,4 +480,29 @@ function setYAxisBounds(arrLow, arrHigh) {
 
     optionChart.yAxis[0].min = Math.abs(fMiny) < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
     optionChart.yAxis[0].max = Math.abs(fMaxy) < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
+}
+
+function shift26Days(arrDate) {
+    // shift date
+    let moLastdate = moment(_.last(arrDate));
+    const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
+
+    if (intervalOptionText === '1day') {
+        for (let i = 0; i < 26;) {
+            moLastdate.add(1, 'days');
+            if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
+                arrDate.push(moLastdate.format('YYYY-MM-DD'));
+                i++;
+            }
+        }
+    } else if (intervalOptionText === '1week') {
+        for (let i = 0; i < 26;) {
+            moLastdate.add(1, 'weeks').day(1); // 1週間後の月曜日を取得する
+            const nextMondayFormatted = moLastdate.format('YYYY-MM-DD'); // 次の月曜日をYYYY-MM-DD形式に変換
+            arrDate.push(nextMondayFormatted); // 配列に次の月曜日を追加
+            i++;
+        }
+    }
+
+    return arrDate;
 }
