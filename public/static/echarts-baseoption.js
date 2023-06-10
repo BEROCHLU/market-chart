@@ -95,15 +95,14 @@ export const optionChart = {
         }
     ],
     legend: {
-        data: ['Tenkan', 'Kijun', 'SSA', 'SSB', 'Chikou', 'SMA15', 'SMA45'],
+        data: ['Tenkan', 'Kijun', 'SSA', 'SSB', 'Chikou', 'MA25'],
         selected: {
             'Tenkan': true,
             'Kijun': true,
             'SSA': true,
             'SSB': true,
             'Chikou': false,
-            'SMA15': false,
-            'SMA45': false
+            'MA25': false
         },
         right: '2%',
         fontSize: 9

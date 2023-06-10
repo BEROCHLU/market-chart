@@ -69,8 +69,7 @@ const setDrawCandle = (strURL) => {
                 arrHigh = _.map(arrHigh, (value) => -value);
             }
 
-            let [arrMA15, arrMA45] = [calculateMA(aoaPlot, 15), calculateMA(aoaPlot, 45)];
-
+            let arrMA25 = calculateMA(aoaPlot, 25);
             let [arrTenkan, arrKijun] = [calculateTenkanSen(aoaPlot), calculateKijunSen(aoaPlot)];
             let arrChikou = calculateChikouSpan(aoaPlot);
             let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
@@ -85,8 +84,8 @@ const setDrawCandle = (strURL) => {
             if (periodOptionText === '6mo' || periodOptionText === '1y') {
                 const N = arrDate.length / 2;
 
-                const arrBase = [arrMA15, arrMA45, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
-                [arrMA15, arrMA45, aoaPlot, arrLow, arrHigh, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
+                const arrBase = [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
+                [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
 
                 const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
@@ -97,6 +96,10 @@ const setDrawCandle = (strURL) => {
             optionChart.title.text = json['companyName'][0];
             optionChart.xAxis[0].data = arrDate;
             optionChart.xAxis[1].data = arrDate;
+            optionChart.legend.selector = [{
+                type: 'inverse',
+                title: 'Inv'
+            }];// legend Inv on
             delete optionChart.tooltip.formatter; // set default formatter
 
             optionChart.series = [{
@@ -201,10 +204,10 @@ const setDrawCandle = (strURL) => {
                     }
                 },
                 {
-                    name: 'SMA15',
+                    name: 'MA25',
                     type: 'line',
-                    data: arrMA15,
-                    smooth: true,
+                    data: arrMA25,
+                    smooth: false,
                     symbol: 'none',
                     symbolSize: 1,
                     showSymbol: false,
@@ -215,23 +218,6 @@ const setDrawCandle = (strURL) => {
                     },
                     itemStyle: {
                         color: '#cf9f40'
-                    }
-                },
-                {
-                    name: 'SMA45',
-                    type: 'line',
-                    data: arrMA45,
-                    smooth: true,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    lineStyle: {
-                        width: 1,
-                        opacity: 0.5,
-                        color: '#0066ff'
-                    },
-                    itemStyle: {
-                        color: '#0066ff'
                     }
                 },
                 {
@@ -307,7 +293,8 @@ const setDrawAlpha = (strURL) => {
                 });
 
                 return `<div>${strDate}</div>${strTooltip}`;
-            }
+            };
+            optionChart.legend.selector = false; // legend Inv off
 
             optionChart.series = [{
                     name: 'Low',
