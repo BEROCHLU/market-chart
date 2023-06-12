@@ -419,6 +419,8 @@ window.addEventListener('load', () => {
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });
+// 画面サイズが変更されたときにリサイズする
+window.addEventListener('resize', echartsPanda.resize);
 
 function averageChangeRate(arr) {
     // 変化率を計算する
