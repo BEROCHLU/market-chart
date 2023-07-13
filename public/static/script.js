@@ -1,15 +1,8 @@
 'use strict';
 
-import {
-    init,
-    graphic
-} from "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.esm.min.js";
-import {
-    arrTicker
-} from './list.js';
-import {
-    optionChart
-} from './echarts-baseoption.js';
+import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.esm.min.js";
+import { arrTicker } from './list.js';
+import { optionChart } from './echarts-baseoption.js';
 import {
     calculateMA,
     calculateKijunSen,
@@ -27,6 +20,7 @@ const echartsPanda = init(document.getElementById('cn'));
  * @returns {string} Returns a URL string
  */
 const buildUrl = () => {
+    let strUrl = '';
     const ticker = document.querySelector('#text_box').value;
     const period = document.querySelector('.select-period').value;
     const interval = document.querySelector('.select-interval').value;
@@ -36,12 +30,17 @@ const buildUrl = () => {
         r: period,
         i: interval
     }
-    const strQuery = new URLSearchParams(params);
+    const urlQuery = new URLSearchParams(params);
 
-    // If the hostname is 'pleasecov.g2.xrea.com', return HTTP URL with query parameters, else return HTTPS URL with query parameters
-    return location.hostname === 'pleasecov.g2.xrea.com' ?
-        `http://${location.hostname}/pipm/middle.php?${strQuery}` :
-        `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${strQuery}`;
+    if (location.hostname === 'pleasecov.g2.xrea.com') {
+        strUrl = `http://${location.hostname}/pipm/middle.php?${urlQuery.toString()}`;
+    } else if (location.hostname === 'aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com') {
+        strUrl = `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${urlQuery.toString()}`;
+    } else {
+        strUrl = `/?${urlQuery.toString()}`;
+    }
+
+    return strUrl;
 };
 /**
  * Fetches data from a given URL and sets options for a candlestick chart.
@@ -51,9 +50,9 @@ const buildUrl = () => {
  */
 const setDrawCandle = (strURL) => {
     return fetch(strURL, {
-            method: 'GET',
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        })
+        method: 'GET',
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    })
         .then(response => response.json())
         .then(json => {
             let arrLow = [...json.Low];
@@ -103,135 +102,135 @@ const setDrawCandle = (strURL) => {
             delete optionChart.tooltip.formatter; // set default formatter
 
             optionChart.series = [{
-                    type: 'candlestick',
-                    data: aoaPlot,
-                    itemStyle: {
-                        color: 'white',
-                        color0: '#0064da',
-                        borderColor: 'black',
-                        borderColor0: '#0064da'
-                    },
-                    barMinWidth: 2,
-                    barCategoryGap: '2%',
+                type: 'candlestick',
+                data: aoaPlot,
+                itemStyle: {
+                    color: 'white',
+                    color0: '#0064da',
+                    borderColor: 'black',
+                    borderColor0: '#0064da'
                 },
-                {
-                    name: 'Tenkan',
-                    type: 'line',
-                    data: arrTenkan,
-                    smooth: false,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    lineStyle: {
-                        width: 1,
-                        opacity: 0.5,
-                        color: '#FF0000'
-                    },
-                    itemStyle: {
-                        color: '#FF0000'
-                    }
+                barMinWidth: 2,
+                barCategoryGap: '2%',
+            },
+            {
+                name: 'Tenkan',
+                type: 'line',
+                data: arrTenkan,
+                smooth: false,
+                symbol: 'none',
+                symbolSize: 1,
+                showSymbol: false,
+                lineStyle: {
+                    width: 1,
+                    opacity: 0.5,
+                    color: '#FF0000'
                 },
-                {
-                    name: 'Kijun',
-                    type: 'line',
-                    data: arrKijun,
-                    smooth: false,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    lineStyle: {
-                        width: 1,
-                        opacity: 0.5,
-                        color: '#800000'
-                    },
-                    itemStyle: {
-                        color: '#800000'
-                    }
-                },
-                {
-                    name: 'SSA',
-                    type: 'line',
-                    data: arrSSA,
-                    smooth: false,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    areaStyle: {
-                        color: 'rgba(255, 215, 0, 0.25)'
-                    },
-                    lineStyle: {
-                        width: 1,
-                        color: 'rgba(255, 215, 0, 0.25)'
-                    },
-                    itemStyle: {
-                        color: 'rgba(255, 215, 0, 0.25)' //This is the symbol color. It should match it with the color of the lineStyle.
-                    }
-                },
-                {
-                    name: 'SSB',
-                    type: 'line',
-                    data: arrSSB,
-                    smooth: false,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    areaStyle: {
-                        color: 'rgba(30, 144, 255, 0.2)'
-                    },
-                    lineStyle: {
-                        width: 1,
-                        color: 'rgba(30, 144, 255, 0.2)'
-                    },
-                    itemStyle: {
-                        color: 'rgba(30, 144, 255, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
-                    }
-                },
-                {
-                    name: 'Chikou',
-                    type: 'line',
-                    data: arrChikou,
-                    smooth: false,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    lineStyle: {
-                        width: 1,
-                        opacity: 0.5,
-                        color: '#8080FF'
-                    },
-                    itemStyle: {
-                        color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
-                    }
-                },
-                {
-                    name: 'MA25',
-                    type: 'line',
-                    data: arrMA25,
-                    smooth: false,
-                    symbol: 'none',
-                    symbolSize: 1,
-                    showSymbol: false,
-                    lineStyle: {
-                        width: 1,
-                        opacity: 0.5,
-                        color: '#cf9f40'
-                    },
-                    itemStyle: {
-                        color: '#cf9f40'
-                    }
-                },
-                {
-                    name: 'Volume',
-                    type: 'bar',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    itemStyle: {
-                        color: '#7fbe9e'
-                    },
-                    barMinWidth: 2,
-                    barCategoryGap: '2%',
-                    data: arrVolume
+                itemStyle: {
+                    color: '#FF0000'
                 }
+            },
+            {
+                name: 'Kijun',
+                type: 'line',
+                data: arrKijun,
+                smooth: false,
+                symbol: 'none',
+                symbolSize: 1,
+                showSymbol: false,
+                lineStyle: {
+                    width: 1,
+                    opacity: 0.5,
+                    color: '#800000'
+                },
+                itemStyle: {
+                    color: '#800000'
+                }
+            },
+            {
+                name: 'SSA',
+                type: 'line',
+                data: arrSSA,
+                smooth: false,
+                symbol: 'none',
+                symbolSize: 1,
+                showSymbol: false,
+                areaStyle: {
+                    color: 'rgba(255, 215, 0, 0.25)'
+                },
+                lineStyle: {
+                    width: 1,
+                    color: 'rgba(255, 215, 0, 0.25)'
+                },
+                itemStyle: {
+                    color: 'rgba(255, 215, 0, 0.25)' //This is the symbol color. It should match it with the color of the lineStyle.
+                }
+            },
+            {
+                name: 'SSB',
+                type: 'line',
+                data: arrSSB,
+                smooth: false,
+                symbol: 'none',
+                symbolSize: 1,
+                showSymbol: false,
+                areaStyle: {
+                    color: 'rgba(30, 144, 255, 0.2)'
+                },
+                lineStyle: {
+                    width: 1,
+                    color: 'rgba(30, 144, 255, 0.2)'
+                },
+                itemStyle: {
+                    color: 'rgba(30, 144, 255, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
+                }
+            },
+            {
+                name: 'Chikou',
+                type: 'line',
+                data: arrChikou,
+                smooth: false,
+                symbol: 'none',
+                symbolSize: 1,
+                showSymbol: false,
+                lineStyle: {
+                    width: 1,
+                    opacity: 0.5,
+                    color: '#8080FF'
+                },
+                itemStyle: {
+                    color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
+                }
+            },
+            {
+                name: 'MA25',
+                type: 'line',
+                data: arrMA25,
+                smooth: false,
+                symbol: 'none',
+                symbolSize: 1,
+                showSymbol: false,
+                lineStyle: {
+                    width: 1,
+                    opacity: 0.5,
+                    color: '#cf9f40'
+                },
+                itemStyle: {
+                    color: '#cf9f40'
+                }
+            },
+            {
+                name: 'Volume',
+                type: 'bar',
+                xAxisIndex: 1,
+                yAxisIndex: 1,
+                itemStyle: {
+                    color: '#7fbe9e'
+                },
+                barMinWidth: 2,
+                barCategoryGap: '2%',
+                data: arrVolume
+            }
             ]
         })
         .catch(e => {
@@ -246,9 +245,9 @@ const setDrawCandle = (strURL) => {
  */
 const setDrawAlpha = (strURL) => {
     return fetch(strURL, {
-            method: 'GET',
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        })
+        method: 'GET',
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    })
         .then(response => response.json())
         .then(json => {
             let arrLow = [...json.Low];
@@ -297,63 +296,63 @@ const setDrawAlpha = (strURL) => {
             optionChart.legend.selector = false; // legend Inv off
 
             optionChart.series = [{
-                    name: 'Low',
-                    type: 'line',
-                    stack: 'stack1',
-                    smooth: true,
-                    lineStyle: {
-                        width: 0
-                    },
-                    showSymbol: false,
-                    areaStyle: {
-                        opacity: 0.9,
-                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgba(128, 255, 165, 0.01)'
-                        }, {
-                            offset: 1,
-                            color: 'rgba(1, 191, 236, 0.01)'
-                        }])
-                    },
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: arrLow
+                name: 'Low',
+                type: 'line',
+                stack: 'stack1',
+                smooth: true,
+                lineStyle: {
+                    width: 0
                 },
-                {
-                    name: 'High',
-                    type: 'line',
-                    stack: 'stack1',
-                    smooth: true,
-                    lineStyle: {
-                        width: 0
-                    },
-                    showSymbol: false,
-                    areaStyle: {
-                        opacity: 0.9,
-                        color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                            offset: 0,
-                            color: 'rgb(0, 221, 255)'
-                        }, {
-                            offset: 1,
-                            color: 'rgb(77, 119, 255)'
-                        }])
-                    },
-                    emphasis: {
-                        focus: 'series'
-                    },
-                    data: arrDiff
+                showSymbol: false,
+                areaStyle: {
+                    opacity: 0.9,
+                    color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgba(128, 255, 165, 0.01)'
+                    }, {
+                        offset: 1,
+                        color: 'rgba(1, 191, 236, 0.01)'
+                    }])
                 },
-                {
-                    name: 'Volume',
-                    type: 'bar',
-                    xAxisIndex: 1,
-                    yAxisIndex: 1,
-                    itemStyle: {
-                        color: '#7fbe9e'
-                    },
-                    data: arrVolume
-                }
+                emphasis: {
+                    focus: 'series'
+                },
+                data: arrLow
+            },
+            {
+                name: 'High',
+                type: 'line',
+                stack: 'stack1',
+                smooth: true,
+                lineStyle: {
+                    width: 0
+                },
+                showSymbol: false,
+                areaStyle: {
+                    opacity: 0.9,
+                    color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                        offset: 0,
+                        color: 'rgb(0, 221, 255)'
+                    }, {
+                        offset: 1,
+                        color: 'rgb(77, 119, 255)'
+                    }])
+                },
+                emphasis: {
+                    focus: 'series'
+                },
+                data: arrDiff
+            },
+            {
+                name: 'Volume',
+                type: 'bar',
+                xAxisIndex: 1,
+                yAxisIndex: 1,
+                itemStyle: {
+                    color: '#7fbe9e'
+                },
+                data: arrVolume
+            }
             ]
         })
         .catch(e => {
@@ -437,9 +436,7 @@ function averageChangeRate(arr) {
 
 function setYAxisBounds(arrLow, arrHigh) {
     let _arrLow, _arrHigh;
-    const {
-        checked
-    } = check_inverse; //デストラクチャリング代入 check_inverseのcheckedプロパティを抽出
+    const { checked } = check_inverse; //デストラクチャリング代入 check_inverseのcheckedプロパティを抽出
     let fMiny, fMaxy;
 
     if (checked) {
@@ -458,8 +455,6 @@ function setYAxisBounds(arrLow, arrHigh) {
     //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
 
     if (checked) {
-        //optionChart.yAxis[0].min = _.floor(_.min(arrHigh) * 1.03);
-        //optionChart.yAxis[0].max = _.ceil(_.max(arrLow) * 0.97);
         fMiny = _.min(_arrLow) * (1 + offsetLow);
         fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
     } else {

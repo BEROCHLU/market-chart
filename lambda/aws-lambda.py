@@ -65,8 +65,11 @@ def lambda_handler(event, context):
     hshQuote = hshResult["indicators"]["quote"][0]
     hshQuote["Date"] = hshResult["timestamp"]
 
-    hshSummary = data_summary["quoteSummary"]["result"][0]
-    hshSummary = hshSummary["quoteType"]
+    if data_summary.get("quoteSummary") is None:
+        hshSummary = {"longName": "quoteSummary error", "shortName": None}
+    else:
+        hshSummary = data_summary.get("quoteSummary", {}).get("result", [])[0]
+        hshSummary = hshSummary["quoteType"]
 
     df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
     df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除

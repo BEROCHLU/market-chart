@@ -12,9 +12,7 @@ from dateutil import tz
 
 
 def getQueryURL():
-    while True:
-        yield [8, 11]
-        yield [7, 10]
+    yield from [[8, 11], [7, 10]]
 
 
 app = Bottle()
@@ -53,8 +51,12 @@ def index(action="index"):
             hshQuote = hshResult["indicators"]["quote"][0]
             hshQuote["Date"] = hshResult["timestamp"]
 
-            hshSummary = data_summary["quoteSummary"]["result"][0]
-            hshSummary = hshSummary["quoteType"]
+            # もしdata_summaryに"quoteSummary"がない場合、longName,shortNameにエラーメッセージを入れる
+            if data_summary.get("quoteSummary") is None:
+                hshSummary = {"longName": "quoteSummary error", "shortName": None}
+            else:
+                hshSummary = data_summary.get("quoteSummary", {}).get("result", [])[0]  # data_summary["quoteSummary"]["result"][0]
+                hshSummary = hshSummary["quoteType"]
 
             df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
             df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
@@ -71,7 +73,7 @@ def index(action="index"):
             if action in ["index", "alpha"]:
                 return template(action)
             else:
-                return "error"
+                return "error bottle"
 
         return strDumps
 

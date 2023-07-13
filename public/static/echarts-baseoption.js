@@ -12,49 +12,49 @@ export const optionChart = {
         }
     },
     xAxis: [{
-            type: 'category',
-            data: null,
-            splitLine: {
-                show: true,
-                interval: 'auto',
-                lineStyle: {
-                    type: 'solid'
-                }
-            },
-            axisLabel: {
-                interval: 'auto'
-            },
-            axisPointer: {
-                label: {
-                    show: false //チャートのラベルは日付を非表示
-                }
+        type: 'category',
+        data: null,
+        splitLine: {
+            show: true,
+            interval: 'auto',
+            lineStyle: {
+                type: 'solid'
             }
         },
-        {
-            type: 'category',
-            data: null,
-            gridIndex: 1
+        axisLabel: {
+            interval: 'auto'
+        },
+        axisPointer: {
+            label: {
+                show: false //チャートのラベルは日付を非表示
+            }
         }
+    },
+    {
+        type: 'category',
+        data: null,
+        gridIndex: 1
+    }
     ],
     yAxis: [{
-            min: null,
-            max: null
+        min: null,
+        max: null
+    },
+    {
+        gridIndex: 1,
+        axisLabel: {
+            show: false
         },
-        {
-            gridIndex: 1,
-            axisLabel: {
-                show: false
-            },
-            axisLine: {
-                show: true //y軸
-            },
-            axisTick: {
-                show: false //補助目盛
-            },
-            splitLine: {
-                show: false //補助目盛
-            }
+        axisLine: {
+            show: true //y軸
+        },
+        axisTick: {
+            show: false //補助目盛
+        },
+        splitLine: {
+            show: false //補助目盛
         }
+    }
     ],
     axisPointer: {
         link: {
@@ -80,19 +80,19 @@ export const optionChart = {
         }
     },
     grid: [{
-            left: strGridL,
-            top: '5%',
-            right: strGridR,
-            //bottom: '8%',
-            height: '75%', //チャート描画はtop5% + height75% = 80%を占有する
-            zlevel: 3
-        },
-        {
-            left: strGridL,
-            top: '82%', //80+2%のギャップを空ける
-            right: strGridR,
-            height: '12%' //出来高はtop82%の位置からheight10%を占有する
-        }
+        left: strGridL,
+        top: '5%',
+        right: strGridR,
+        //bottom: '8%',
+        height: '75%', //チャート描画はtop5% + height75% = 80%を占有する
+        zlevel: 3
+    },
+    {
+        left: strGridL,
+        top: '82%', //80+2%のギャップを空ける
+        right: strGridR,
+        height: '12%' //出来高はtop82%の位置からheight10%を占有する
+    }
     ],
     legend: {
         data: ['Tenkan', 'Kijun', 'SSA', 'SSB', 'Chikou', 'MA25'],
@@ -108,20 +108,20 @@ export const optionChart = {
         fontSize: 9
     },
     dataZoom: [{
-            type: 'inside',
-            xAxisIndex: [0, 1], //上下チャート両方含める
-            start: 0,
-            end: 100
-        },
-        {
-            show: false,
-            type: 'slider',
-            xAxisIndex: [0, 1], //上下チャート両方含める
-            bottom: '1%',
-            throttle: 128,
-            start: 0,
-            end: 100
-        }
+        type: 'inside',
+        xAxisIndex: [0, 1], //上下チャート両方含める
+        start: 0,
+        end: 100
+    },
+    {
+        show: false,
+        type: 'slider',
+        xAxisIndex: [0, 1], //上下チャート両方含める
+        bottom: '1%',
+        throttle: 128,
+        start: 0,
+        end: 100
+    }
     ],
     series: null
 };
