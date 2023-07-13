@@ -14,7 +14,7 @@ from dateutil.tz import gettz
 edt = gettz("America/New_York")
 f1 = lambda ms: datetime.datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
-str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEwNy4wLjAuMCBTYWZhcmkvNTM3LjM2"
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTNfNF8xKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE0LjAuMC4wIFNhZmFyaS81MzcuMzY="
 
 if __name__ == "__main__":
     args = sys.argv
@@ -42,19 +42,19 @@ if __name__ == "__main__":
     hshQuote["Date"] = hshResult["timestamp"]
 
     if data_summary.get("quoteSummary") is None:
-        hshSummary = {"longName": "quoteSummary error", "shortName": None}
+        quotename = hshResult["meta"]["symbol"]
     else:
-        hshSummary = data_summary.get("quoteSummary", {}).get("result", [])[0]
+        hshSummary = data_summary["quoteSummary"]["result"][0]  # data_summary.get("quoteSummary", {}).get("result", [])[0]
         hshSummary = hshSummary["quoteType"]
+        quotename = hshSummary["longName"] or hshSummary["shortName"] or "Name Error"
 
     df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
     df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
     df_quote = df_quote.round(2)  # float64 => float32
     df_quote["Date"] = df_quote["Date"].map(f1)  # UNIX time to Datetime string
     df_quote.rename(columns={"open": "Open", "high": "High", "low": "Low", "close": "Close", "volume": "Volume"}, inplace=True)
-    # print(df_quote)
+
     hsh = df_quote.to_dict(orient="list")
-    quotename = hshSummary["longName"] or hshSummary["shortName"] or "Name None"
     hsh["companyName"] = [quotename]
 
     strDumps = json.dumps(hsh)
