@@ -23,7 +23,7 @@ if __name__ == "__main__":
     strRange = args[2]
     strInterval = args[3]
 
-    [a, b] = [random.randint(7, 8), random.randint(10, 11)]  # リクエストを分散して負荷を下げる
+    [a, b] = [random.randint(7, 8), random.choice([6, 10, 11])]  # リクエストを分散して負荷を下げる
 
     url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
     url_summary = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"

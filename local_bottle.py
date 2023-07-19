@@ -12,7 +12,7 @@ from dateutil import tz
 
 
 def getQueryURL():
-    yield from [[8, 11], [7, 10]]
+    yield from [[8, 6], [7, 6]]  # 10|11
 
 
 app = Bottle()
@@ -64,7 +64,7 @@ def index(action="index"):
             df_quote = df_quote.round(2)  # float64 => float32
             df_quote["Date"] = df_quote["Date"].map(f1)  # UNIX time toDatetime string
             df_quote.rename(columns={"open": "Open", "high": "High", "low": "Low", "close": "Close", "volume": "Volume"}, inplace=True)
-            
+
             hsh = df_quote.to_dict(orient="list")
             hsh["companyName"] = [quotename]
 

@@ -46,7 +46,7 @@ def lambda_handler(event, context):
     strRange = event["queryStringParameters"]["r"]
     strInterval = event["queryStringParameters"]["i"]
 
-    [a, b] = [random.randint(7, 8), random.randint(10, 11)]  # リクエストを分散して負荷を下げる
+    [a, b] = [random.randint(7, 8), 6]  # リクエストを分散して負荷を下げる
 
     url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
     url_summary = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
