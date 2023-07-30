@@ -101,7 +101,7 @@ export const optionChart = {
             'Kijun': true,
             'SSA': true,
             'SSB': true,
-            'Chikou': false,
+            'Chikou': true,
             'MA25': false
         },
         right: '2%',
