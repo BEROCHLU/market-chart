@@ -90,6 +90,9 @@ const setDrawCandle = (strURL) => {
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
             }
 
+            const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
+
+            console.log(`${json['companyName'][0]} ${periodOptionText} ${intervalOptionText}`);
             setYAxisBounds(arrLow, arrHigh);
 
             optionChart.title.text = json['companyName'][0];
