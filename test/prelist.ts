@@ -34,16 +34,14 @@ export default [
     'kweb',
     'ijr',
 	'ETH-USD',
-	'qqqj',
 	'faz',
 	'gld',
 	'SARK',
 	'webl',
 	'webs',
 	'^TNX',
-	'QID',
-	'QLD',
 	'SH',
 	'PSQ',
-	'DOG'
+	'DOG',
+	'^FTMC'
 ];
