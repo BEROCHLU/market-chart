@@ -43,5 +43,7 @@ export default [
 	'SH',
 	'PSQ',
 	'DOG',
-	'^FTMC'
+	'^FTMC',
+	"^VIX",
+	"DX-Y.NYB",
 ];

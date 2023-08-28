@@ -4,6 +4,7 @@ export const arrTicker = [
 	"CL%3DF",
 	"DIA",
 	"DOG",
+	"DX-Y.NYB",
 	"ETH-USD",
 	"FAS",
 	"FAZ",
@@ -43,5 +44,6 @@ export const arrTicker = [
 	"^FTSE",
 	"^GDAXI",
 	"^RUT",
-	"^TNX"
+	"^TNX",
+	"^VIX"
 ];
