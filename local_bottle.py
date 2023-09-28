@@ -19,7 +19,7 @@ app = Bottle()
 edt = tz.gettz("America/New_York")
 f1 = lambda ms: datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
 # hash
-str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTNfNF8xKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTE0LjAuMC4wIFNhZmFyaS81MzcuMzY="
+str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzExNy4wLjAuMCBTYWZhcmkvNTM3LjM2"
 # index.htmlがあるフォルダ
 TEMPLATE_PATH.append("./public")
 
