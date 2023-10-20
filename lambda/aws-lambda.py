@@ -46,30 +46,20 @@ def lambda_handler(event, context):
     strRange = event["queryStringParameters"]["r"]
     strInterval = event["queryStringParameters"]["i"]
 
-    [a, b] = [random.randint(7, 8), 6]  # リクエストを分散して負荷を下げる
-
-    url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
-    url_summary = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
-
     ua = base64.b64decode(str_ua).decode()
     headers = {"User-Agent": ua}
 
+    a = random.randint(7, 8)  # リクエストを分散して負荷を下げる
+    url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
+
     data_chart = requests.get(url_ticker, params={"range": strRange, "interval": strInterval}, headers=headers)
     data_chart = data_chart.json()
-
-    data_summary = requests.get(url_summary, params={"modules": "quotetype"}, headers=headers)
-    data_summary = data_summary.json()
 
     hshResult = data_chart["chart"]["result"][0]
     hshQuote = hshResult["indicators"]["quote"][0]
     hshQuote["Date"] = hshResult["timestamp"]
 
-    if data_summary.get("quoteSummary") is None:
-        quotename = hshResult["meta"]["symbol"]
-    else:
-        hshSummary = data_summary["quoteSummary"]["result"][0]  # data_summary.get("quoteSummary", {}).get("result", [])[0]
-        hshSummary = hshSummary["quoteType"]
-        quotename = hshSummary["longName"] or hshSummary["shortName"] or "Name Error"
+    quotename = hshResult["meta"]["symbol"]
 
     df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
     df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除

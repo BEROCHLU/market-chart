@@ -3,17 +3,13 @@
 
 import base64
 import json
+import random
 from datetime import datetime
 
 import pandas as pd
 import requests
 from bottle import TEMPLATE_PATH, Bottle, debug, request, static_file, template
 from dateutil import tz
-
-
-def getQueryURL():
-    yield from [[8, 6], [7, 6]]  # 10|11
-
 
 app = Bottle()
 edt = tz.gettz("America/New_York")
@@ -33,31 +29,20 @@ def index(action="index"):
         strInterval = request.query.i
 
         if ticker:
-            [a, b] = getQueryURL().__next__()
-
-            url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
-            url_quote = f"https://query2.finance.yahoo.com/v{b}/finance/quoteSummary/{ticker}"
-
             ua = base64.b64decode(str_ua).decode()
             headers = {"User-Agent": ua}
 
+            a = random.randint(7, 8)  # リクエストを分散して負荷を下げる
+            url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
+
             data_chart = requests.get(url_ticker, params={"range": strRange, "interval": strInterval}, headers=headers)
             data_chart = data_chart.json()
-
-            data_summary = requests.get(url_quote, params={"modules": "quotetype"}, headers=headers)
-            data_summary = data_summary.json()
 
             hshResult = data_chart["chart"]["result"][0]
             hshQuote = hshResult["indicators"]["quote"][0]
             hshQuote["Date"] = hshResult["timestamp"]
 
-            # もしdata_summaryに"quoteSummary"がない場合、symbolを入れる
-            if data_summary.get("quoteSummary") is None:
-                quotename = hshResult["meta"]["symbol"]
-            else:
-                hshSummary = data_summary["quoteSummary"]["result"][0]  # data_summary.get("quoteSummary", {}).get("result", [])[0]
-                hshSummary = hshSummary["quoteType"]
-                quotename = hshSummary["longName"] or hshSummary["shortName"] or "Name Error"
+            quotename = hshResult["meta"]["symbol"]
 
             df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
             df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
