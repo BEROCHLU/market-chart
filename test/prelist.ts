@@ -32,7 +32,6 @@ export default [
 	"^GDAXI",
 	"^RUT",
     'kweb',
-    'ijr',
 	'ETH-USD',
 	'faz',
 	'gld',
@@ -43,7 +42,6 @@ export default [
 	'SH',
 	'PSQ',
 	'DOG',
-	'^FTMC',
 	"^VIX",
 	"DX-Y.NYB",
 ];
