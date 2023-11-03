@@ -101,8 +101,8 @@ export const optionChart = {
             'Kijun': false,
             'SSA': false,
             'SSB': false,
-            'Chikou': true,
-            'MA25': true
+            'Chikou': false,
+            'MA25': false
         },
         right: '2%',
         fontSize: 9
