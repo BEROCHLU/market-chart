@@ -41,6 +41,7 @@ export const arrTicker = [
 	"^FCHI",
 	"^FTSE",
 	"^GDAXI",
+	"^IXIC",
 	"^RUT",
 	"^TNX",
 	"^VIX"

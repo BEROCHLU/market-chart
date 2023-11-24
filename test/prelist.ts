@@ -44,4 +44,5 @@ export default [
 	'DOG',
 	"^VIX",
 	"DX-Y.NYB",
+	"^IXIC",
 ];
