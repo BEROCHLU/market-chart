@@ -51,6 +51,7 @@ const buildUrl = () => {
 const setDrawCandle = (strURL) => {
     return fetch(strURL, {
         method: 'GET',
+        mode: "cors", // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     })
         .then(response => response.json())
@@ -249,6 +250,7 @@ const setDrawCandle = (strURL) => {
 const setDrawAlpha = (strURL) => {
     return fetch(strURL, {
         method: 'GET',
+        mode: "cors", // no-cors, *cors, same-origin
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     })
         .then(response => response.json())
@@ -454,7 +456,7 @@ function setYAxisBounds(arrLow, arrHigh) {
     const offsetLow = averageChangeRate(_arrLow);
     const offsetHigh = averageChangeRate(_arrHigh);
 
-    console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
+    //console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
     //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
 
     if (checked) {
