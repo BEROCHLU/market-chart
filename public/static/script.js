@@ -90,10 +90,9 @@ const setDrawCandle = (strURL) => {
                 const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
             }
-
+            /** 
             const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
-
-            console.log(`${json['companyName'][0]} ${periodOptionText} ${intervalOptionText}`);
+            console.log(`${json['companyName'][0]} ${periodOptionText} ${intervalOptionText}`);*/
             setYAxisBounds(arrLow, arrHigh);
 
             optionChart.title.text = json['companyName'][0];
@@ -452,11 +451,10 @@ function setYAxisBounds(arrLow, arrHigh) {
         _arrLow = [...arrLow];
         _arrHigh = [...arrHigh];
     }
-
+    /** 
     const offsetLow = averageChangeRate(_arrLow);
     const offsetHigh = averageChangeRate(_arrHigh);
-
-    //console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
+    console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));*/
     //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
 
     if (checked) {
