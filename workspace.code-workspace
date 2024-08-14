@@ -1,14 +1,7 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"[python]": {
-			"editor.defaultFormatter": "ms-python.black-formatter"
-		},
-		"python.formatting.provider": "none"
-	},
-	//"settings": {"liveServer.settings.port": 80}
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
 }
