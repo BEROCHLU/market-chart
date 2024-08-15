@@ -116,9 +116,7 @@
         ];
     </script>
 
-    <script>
-        'use strict';
-
+    <script type="module">
         const strGridL = '10%';
         const strGridR = '5%';
 
@@ -332,16 +330,9 @@
         function calculateChikouSpan(aoaPlot) {
             return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? aoaPlot[index + 26][1] : '-'); // assuming close is at index 1
         }
-    </script>
-
-    <script type="module">
-        'use strict';
 
         import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js";
-
         const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
-
-        // This function builds a URL based on user input for ticker, period and interval.
         /**
          * @function buildUrl
          * @returns {string} Returns a URL string

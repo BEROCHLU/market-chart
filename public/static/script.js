@@ -1,5 +1,3 @@
-'use strict';
-
 import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js";
 import { arrTicker } from './list.js';
 import { optionChart } from './echarts-baseoption.js';
@@ -13,8 +11,6 @@ import {
 } from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
-
-// This function builds a URL based on user input for ticker, period and interval.
 /**
  * @function buildUrl
  * @returns {string} Returns a URL string
