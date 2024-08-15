@@ -55,7 +55,7 @@ def index(action="index"):
 
             strDumps = json.dumps(hsh)
         else:
-            if action in ["index", "alpha"]:
+            if action in ["index", "review.html"]:
                 return template(action)
             else:
                 return "error bottle"
