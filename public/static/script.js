@@ -12,7 +12,7 @@ import {
     calculateChikouSpan
 } from './echarts-moving.js';
 
-const echartsPanda = init(document.getElementById('cn'));
+const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
 
 // This function builds a URL based on user input for ticker, period and interval.
 /**

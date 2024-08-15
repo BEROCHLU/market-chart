@@ -123,5 +123,6 @@ export const optionChart = {
         end: 100
     }
     ],
+    animation: false,
     series: null
 };
