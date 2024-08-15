@@ -20,16 +20,15 @@ const echartsPanda = init(document.getElementById('cn'));
  * @returns {string} Returns a URL string
  */
 const buildUrl = () => {
-    let strUrl = '';
     const ticker = document.querySelector('#text_box').value;
     const period = document.querySelector('.select-period').value;
     const interval = document.querySelector('.select-interval').value;
 
-    const params = {
+    const params = new URLSearchParams({
         t: ticker,
         r: period,
         i: interval
-    }
+    });
 
     let baseUrl;
     switch (location.hostname) {
