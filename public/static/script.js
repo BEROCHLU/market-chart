@@ -30,17 +30,20 @@ const buildUrl = () => {
         r: period,
         i: interval
     }
-    const urlQuery = new URLSearchParams(params);
 
-    if (location.hostname === 'pleasecov.g2.xrea.com') {
-        strUrl = `http://${location.hostname}/pipm/middle.php?${urlQuery.toString()}`;
-    } else if (location.hostname === 'aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com') {
-        strUrl = `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage?${urlQuery.toString()}`;
-    } else {
-        strUrl = `/?${urlQuery.toString()}`;
+    let baseUrl;
+    switch (location.hostname) {
+        case 'pleasecov.g2.xrea.com':
+            baseUrl = `http://${location.hostname}/pipm/middle.php`;
+            break;
+        case 'aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com':
+            baseUrl = `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage`;
+            break;
+        default:
+            baseUrl = '/';
     }
 
-    return strUrl;
+    return `${baseUrl}?${params.toString()}`;
 };
 /**
  * Fetches data from a given URL and sets options for a candlestick chart.
