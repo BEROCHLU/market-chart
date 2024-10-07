@@ -452,7 +452,7 @@ function setYAxisBounds(arrLow, arrHigh) {
 
     const offsetLow = averageChangeRate(_arrLow);
     const offsetHigh = averageChangeRate(_arrHigh);
-    //console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
+    console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2), ((offsetLow + offsetHigh) / 2 * 100).toFixed(2));
     //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
 
     if (checked) {
