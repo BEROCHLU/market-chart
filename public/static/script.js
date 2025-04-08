@@ -363,7 +363,7 @@ const setDrawAlpha = (strURL) => {
 }
 /**
  * Clears the EChartsPanda and sets the value of the select-ticker to an empty string.
- * If check_alpha is checked, setDrawAlpha is called and then echartsPanda is updated with the optionChart.
+ * If check_highlight is checked, setDrawAlpha is called and then echartsPanda is updated with the optionChart.
  * Otherwise, setDrawCandle is called and then echartsPanda is updated with the optionChart.
  *
  * @function drawChart
@@ -374,7 +374,7 @@ const drawChart = () => {
     document.querySelector('select[name="select-ticker"]').value = '';
     const strURL = buildUrl();
 
-    if (check_alpha.checked) {
+    if (check_highlight.checked) {
         setDrawAlpha(strURL).then(() => {
             echartsPanda.setOption(optionChart);
         });
@@ -391,7 +391,7 @@ const clearInputs = () => {
 };
 
 document.querySelector('#chart_button').addEventListener('click', drawChart);
-//document.querySelector('#check_alpha').addEventListener('change', drawChart);
+//document.querySelector('#check_highlight').addEventListener('change', drawChart);
 document.querySelector('#text_box').addEventListener('change', drawChart);
 document.querySelector('#clear_button').addEventListener('click', clearInputs);
 document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {

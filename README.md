@@ -12,45 +12,47 @@ backend: php + python
 http://pleasecov.g2.xrea.com/pipm/  
 
 # Market-Chart User Guide
+A web-based financial charting tool that displays **candlestick patterns**, **technical indicators**, and a unique **Highlight Chart** mode for visualizing price ranges.
 
-Welcome to the `Market-Chart` application! This guide will help you navigate and utilize the features of the application to view and analyze stock market data effectively.
+## Key Features
 
-## Getting Started
+### 📊 Chart Types
+- **Candlestick Chart** (OHLC bars)
+- **Highlight Chart** (gradient-filled high/low range)
 
-### Accessing the Application
-Simply open your web browser and navigate to the URL where the `Market-Chart` application is hosted. No installation or setup is required.
+### 📈 Technical Indicators
+- Ichimoku Cloud (Tenkan, Kijun, Span A/B, Chikou)
+- 25-day Moving Average
 
-## Using the Application
+### ⚙️ Customization
+- Timeframes: `6mo` / `1y` / `2y` / `5y` / `10y` / `max`
+- Intervals: `1day` / `1week`
+- **Invert Mode** (🔃): Flip prices to provide another view
+- **Highlight Mode** (🌡): Switch to gradient-based high/low visualization
 
-### Main Features
+## How to Use
 
-1. **Ticker Input**: 
-   - Enter the stock ticker symbol in the provided text box to specify which stock's data you want to view.
+1. **Enter a Ticker Symbol**
+   - Type in the input box (e.g., `MSFT`, `AAPL`)
+   - Or select from the dropdown menu.
 
-2. **Period Selection**:
-   - Use the dropdown menu to select the time period for which you want to view the data. Options include 6 months, 1 year, 2 years, etc.
+2. **Adjust Settings**
+   - Choose a **timeframe** and **interval**.
+   - Toggle **Highlight Mode** (🌡) for price-range emphasis.
 
-3. **Interval Selection**:
-   - Choose the interval at which data points are displayed on the chart. You can select between daily (`1day`) and weekly (`1week`) intervals.
+3. **View Charts**
+   - Click **"Chart"** to render.
 
-4. **Inverse & Alpha Options**:
-   - **Inverse (🔃)**: Check this box if you want to invert the values on the chart.
-   - **Alpha (🌡)**: Check this box to apply alpha blending effects, which provide a different visual representation of the data.
+4. **Reset**
+   - Click **"C"** to clear inputs.
 
-5. **Buttons**:
-   - **Chart**: Click this button to generate the chart based on your selected options.
-   - **Clear (c)**: Click this button to clear all input fields and reset the selections.
+## Example Tickers
+Preloaded symbols include:
+```
+ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, ^VIX, ^TNX
+```
+*(Full list in the dropdown menu)*
 
-### Viewing the Chart
-
-- Once you have entered the ticker symbol and selected your desired options, click the **Chart** button. The application will fetch the relevant data and display it as a candlestick or line chart.
-- The chart provides a visual representation of the stock's performance over the selected period and interval, with additional technical indicators like moving averages and Ichimoku clouds.
-
-### Additional Tips
-
-- **Responsive Design**: The application adjusts its layout based on your device's screen size, ensuring a seamless experience whether you're on a desktop or mobile device.
-- **Interactive Elements**: Hover over the chart elements to view detailed information about specific data points.
-
-## Conclusion
-
-The `Market-Chart` application is designed to be user-friendly and intuitive, allowing you to quickly access and analyze stock market data. Explore different options and settings to gain insights into market trends and make informed decisions. Enjoy using the application!
+## Technical Notes
+- **Libraries**: ECharts (visualization), Lodash
+- **Mobile-Friendly**: Responsive design for all devices
