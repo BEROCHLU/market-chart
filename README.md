@@ -54,5 +54,5 @@ ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, ^VIX, ^TNX
 *(Full list in the dropdown menu)*
 
 ## Technical Notes
-- **Libraries**: ECharts (visualization), Lodash
+- **Libraries**: ECharts (visualization), Lodash, Moment.js
 - **Mobile-Friendly**: Responsive design for all devices
