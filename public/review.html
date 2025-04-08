@@ -24,7 +24,7 @@
             justify-content: space-between;
             width: 100%;
             border-radius: 8px;
-            background-color: #fffff4;
+            background-color: #fffff1;
             padding: 3px;
             border-bottom: 3px solid black;
         }
@@ -33,7 +33,7 @@
             height: calc(100% - 40px);
             width: 100%;
             border-radius: 8px;
-            background-color: #fffff4;
+            background-color: #fffff1;
             padding: 5px;
         }
 
@@ -108,712 +108,757 @@
             </span>
         </div>
         <div id="cn"></div>
-    </div>
+        <script>
+            const arrTicker = [
+                "ARKK",
+                "BTC-USD",
+                "CL%3DF",
+                "DIA",
+                "DOG",
+                "DX-Y.NYB",
+                "ETH-USD",
+                "FAS",
+                "FAZ",
+                "FXI",
+                "GLD",
+                "IWM",
+                "KWEB",
+                "PSQ",
+                "QQQ",
+                "SARK",
+                "SDOW",
+                "SH",
+                "SOXL",
+                "SOXS",
+                "SPXL",
+                "SPXS",
+                "SPXU",
+                "SPY",
+                "SQQQ",
+                "TECL",
+                "TECS",
+                "TLT",
+                "TNA",
+                "TQQQ",
+                "TZA",
+                "UDOW",
+                "UPRO",
+                "UVXY",
+                "VXX",
+                "VYM",
+                "WEBL",
+                "WEBS",
+                "XRP-USD",
+                "^FCHI",
+                "^FTSE",
+                "^GDAXI",
+                "^IXIC",
+                "^RUT",
+                "^TNX",
+                "^VIX"
+            ];
+        </script>
+        <script type="module">
+            'use strict';
 
-    <script>
-        const arrTicker = [
-            "ARKK", "BTC-USD", "CL%3DF", "DIA", "DOG", "DX-Y.NYB", "ETH-USD", "FAS", "FAZ", "FXI", "GLD", "IWM", "KWEB", "PSQ", "QQQ", "SARK", "SDOW", "SH", "SOXL", "SOXS", "SPXL", "SPXS", "SPXU", "SPY", "SQQQ", "TECL", "TECS", "TLT", "TNA", "TQQQ", "TZA", "UDOW", "UPRO", "UVXY", "VXX", "VYM", "WEBL", "WEBS", "XRP-USD", "^FCHI", "^FTSE", "^GDAXI", "^IXIC", "^RUT", "^TNX", "^VIX"
-        ];
-    </script>
+            const strGridL = '10%';
+            const strGridR = '5%';
 
-    <script type="module">
-        const strGridL = '10%';
-        const strGridR = '5%';
-
-        const optionChart = {
-            title: {
-                text: null,
-                left: '0%',
-                textStyle: {
-                    fontSize: 15,
-                }
-            },
-            xAxis: [{
-                type: 'category',
-                data: null,
-                splitLine: {
-                    show: true,
-                    interval: 'auto',
-                    lineStyle: {
-                        type: 'solid'
+            const optionChart = {
+                title: {
+                    text: null,
+                    left: '0%',
+                    textStyle: {
+                        fontSize: 15,
                     }
                 },
-                axisLabel: {
-                    interval: 'auto'
+                xAxis: [{
+                    type: 'category',
+                    data: null,
+                    splitLine: {
+                        show: true,
+                        interval: 'auto',
+                        lineStyle: {
+                            type: 'solid'
+                        }
+                    },
+                    axisLabel: {
+                        interval: 'auto'
+                    },
+                    axisPointer: {
+                        label: {
+                            show: false //チャートのラベルは日付を非表示
+                        }
+                    }
                 },
+                {
+                    type: 'category',
+                    data: null,
+                    gridIndex: 1
+                }
+                ],
+                yAxis: [{
+                    min: null,
+                    max: null
+                },
+                {
+                    gridIndex: 1,
+                    axisLabel: {
+                        show: false
+                    },
+                    axisLine: {
+                        show: true //y軸
+                    },
+                    axisTick: {
+                        show: false //補助目盛
+                    },
+                    splitLine: {
+                        show: false //補助目盛
+                    }
+                }
+                ],
                 axisPointer: {
+                    link: {
+                        xAxisIndex: [0, 1], //all | 上下チャートの軸を同期する
+                    },
                     label: {
-                        show: false //チャートのラベルは日付を非表示
+                        backgroundColor: '#777',
+                        precision: 'auto' //tickの小数点は上下別々に設定できない
                     }
-                }
-            },
-            {
-                type: 'category',
-                data: null,
-                gridIndex: 1
-            }
-            ],
-            yAxis: [{
-                min: null,
-                max: null
-            },
-            {
-                gridIndex: 1,
-                axisLabel: {
-                    show: false
                 },
-                axisLine: {
-                    show: true //y軸
-                },
-                axisTick: {
-                    show: false //補助目盛
-                },
-                splitLine: {
-                    show: false //補助目盛
-                }
-            }
-            ],
-            axisPointer: {
-                link: {
-                    xAxisIndex: [0, 1], //all | 上下チャートの軸を同期する
-                },
-                label: {
-                    backgroundColor: '#777',
-                    precision: 'auto' //tickの小数点は上下別々に設定できない
-                }
-            },
-            tooltip: {
-                trigger: 'axis', //item | axis | node
-                axisPointer: {
-                    type: 'cross'
-                }
-            },
-            toolbox: {
-                feature: {
-                    dataView: {
-                        title: 'data view',
-                        lang: ['data view', 'turn off', 'refresh']
+                tooltip: {
+                    trigger: 'axis', //item | axis | node
+                    axisPointer: {
+                        type: 'cross'
                     }
-                }
-            },
-            grid: [{
-                left: strGridL,
-                top: '5%',
-                right: strGridR,
-                height: '75%', //チャート描画はtop5% + height75% = 80%を占有する
-                zlevel: 3
-            },
-            {
-                left: strGridL,
-                top: '82%', //80+2%のギャップを空ける
-                right: strGridR,
-                height: '12%' //出来高はtop82%の位置からheight10%を占有する
-            }
-            ],
-            legend: {
-                data: ['Tenkan', 'Kijun', 'SSA', 'SSB', 'Chikou', 'MA25'],
-                selected: {
-                    'Tenkan': false,
-                    'Kijun': false,
-                    'SSA': false,
-                    'SSB': false,
-                    'Chikou': false,
-                    'MA25': false
                 },
-                right: '2%',
-                fontSize: 9
-            },
-            dataZoom: [{
-                type: 'inside',
-                xAxisIndex: [0, 1], //上下チャート両方含める
-                start: 0,
-                end: 100
-            },
-            {
-                show: false,
-                type: 'slider',
-                xAxisIndex: [0, 1], //上下チャート両方含める
-                bottom: '1%',
-                throttle: 128,
-                start: 0,
-                end: 100
-            }
-            ],
-            animation: false,
-            series: null
-        };
-        /**
-         * Calculates the moving average of a given data set for a specified number of days.
-         * @param {number} dayCount - The number of days to calculate the moving average for.
-         * @param {Array<Array<number>>} aoa - An array of arrays representing the data set, where each inner array contains two numbers: a timestamp and a value.
-         * @returns {Array<string>} An array of strings representing the moving average values for each day. If there is not enough data to calculate the moving average for a particular day, a dash (-) is used instead.
-         */
-        const calculateMA = (aoa, dayCount) => {
-            let result = [];
-            for (let i = 0, len = aoa.length; i < len; i++) {
-                if (i < dayCount) {
-                    result.push('-');
-                    continue;
+                toolbox: {
+                    feature: {
+                        dataView: {
+                            title: 'data view',
+                            lang: ['data view', 'turn off', 'refresh']
+                        }
+                    }
+                },
+                grid: [{
+                    left: strGridL,
+                    top: '5%',
+                    right: strGridR,
+                    //bottom: '8%',
+                    height: '75%', //チャート描画はtop5% + height75% = 80%を占有する
+                    zlevel: 3
+                },
+                {
+                    left: strGridL,
+                    top: '82%', //80+2%のギャップを空ける
+                    right: strGridR,
+                    height: '12%' //出来高はtop82%の位置からheight10%を占有する
                 }
-                let sum = 0;
-                for (let j = 0; j < dayCount; j++) {
-                    sum += aoa[i - j][1];
+                ],
+                legend: {
+                    data: ['Tenkan', 'Kijun', 'SSA', 'SSB', 'Chikou', 'MA25'],
+                    selected: {
+                        'Tenkan': false,
+                        'Kijun': false,
+                        'SSA': false,
+                        'SSB': false,
+                        'Chikou': false,
+                        'MA25': false
+                    },
+                    right: '2%',
+                    fontSize: 9
+                },
+                dataZoom: [{
+                    type: 'inside',
+                    xAxisIndex: [0, 1], //上下チャート両方含める
+                    start: 0,
+                    end: 100
+                },
+                {
+                    show: false,
+                    type: 'slider',
+                    xAxisIndex: [0, 1], //上下チャート両方含める
+                    bottom: '1%',
+                    throttle: 128,
+                    start: 0,
+                    end: 100
                 }
-                let strAverage = (sum / dayCount).toFixed(2);
-                result.push(parseFloat(strAverage));
-            }
-            return result;
-        };
-        /**
-         * Calculates the highest and lowest values of a given period in a dataset.
-         *
-         * @param {number} period - The number of data points to include in the calculation.
-         * @param {Array<Array<number>>} aoaPlot - An array of arrays containing the dataset to calculate from.
-         * @param {number} index - The index of the starting point for the calculation.
-         * @returns {Array<number>} An array containing the highest and lowest values within the specified period.
-         */
-        const calculateHighLow = (period, aoaPlot, index) => {
-            //aoaPlot => Open Close Low High, 0 1 2 3
-            let low = Infinity;
-            let high = -Infinity;
+                ],
+                animation: false,
+                series: null
+            };
+            /**
+             * Calculates the moving average of a given data set for a specified number of days.
+             * @param {number} dayCount - The number of days to calculate the moving average for.
+             * @param {Array<Array<number>>} aoa - An array of arrays representing the data set, where each inner array contains two numbers: a timestamp and a value.
+             * @returns {Array<string>} An array of strings representing the moving average values for each day. If there is not enough data to calculate the moving average for a particular day, a dash (-) is used instead.
+             */
+            const calculateMA = (aoa, dayCount) => {
+                let result = [];
+                for (let i = 0, len = aoa.length; i < len; i++) {
+                    if (i < dayCount) {
+                        result.push('-');
+                        continue;
+                    }
+                    let sum = 0;
+                    for (let j = 0; j < dayCount; j++) {
+                        sum += aoa[i - j][1];
+                    }
+                    let strAverage = (sum / dayCount).toFixed(2);
+                    result.push(parseFloat(strAverage));
+                }
+                return result;
+            };
+            /**
+             * Calculates the highest and lowest values of a given period in a dataset.
+             *
+             * @param {number} period - The number of data points to include in the calculation.
+             * @param {Array<Array<number>>} aoaPlot - An array of arrays containing the dataset to calculate from.
+             * @param {number} index - The index of the starting point for the calculation.
+             * @returns {Array<number>} An array containing the highest and lowest values within the specified period.
+             */
+            const calculateHighLow = (period, aoaPlot, index) => {
+                //aoaPlot => Open Close Low High, 0 1 2 3
+                let low = Infinity;
+                let high = -Infinity;
 
-            for (let i = 0; i < period; i++) {
-                const arr = aoaPlot[index - i];
-                low = Math.min(low, arr[2]); // assuming low is at index 2
-                high = Math.max(high, arr[3]); // assuming high is at index 3
-            }
+                for (let i = 0; i < period; i++) {
+                    const arr = aoaPlot[index - i];
+                    low = Math.min(low, arr[2]); // assuming low is at index 2
+                    high = Math.max(high, arr[3]); // assuming high is at index 3
+                }
 
-            return [high, low];
-        };
+                return [high, low];
+            };
 
-        function calculateTenkanSen(aoaPlot) {
-            return aoaPlot.map((_, index) => index < 9 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
-        }
-
-        function calculateKijunSen(aoaPlot) {
-            return aoaPlot.map((_, index) => index < 26 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
-        }
-        /**
-         * Calculates the Senkou Span A values based on the Kijun and Tenkan arrays.
-         * @param {number[]} arrTenkan - An array of Tenkan values.
-         * @param {number[]} arrKijun - An array of Kijun values.
-         * @returns {number[]} An array of Senkou Span A values.
-         */
-        function calculateSenkouSpanA(arrTenkan, arrKijun) {
-            const arrSpanA = arrKijun.map((_, index) => {
-                if (index < 26) return '-';
-                const averageValue = (arrKijun[index] + arrTenkan[index]) / 2;
-                return parseFloat(averageValue.toFixed(2));
-            });
-            // shift 26days
-            return [...Array(26).fill('-'), ...arrSpanA];
-        }
-        /**
-         * Calculate SenkouSpanB based on a given data array.
-         *
-         * @param {Array} aoaPlot - The data array to base the calculation on.
-         * @returns {Array} - An array of SenkouSpanB values, where each value is the average of high and low values
-         * over a period of 52 data points in the input array. For the first 52 data points and the last 26 data points,
-         * the value is set to '-'.
-         */
-        function calculateSenkouSpanB(aoaPlot) {
-            const arrSpanB = aoaPlot.map((_, index) => {
-                if (index < 52) return '-';
-                const arrHighLow = calculateHighLow(52, aoaPlot, index);
-                const averageValue = (arrHighLow[0] + arrHighLow[1]) / 2;
-                return parseFloat(averageValue.toFixed(2));
-            });
-            // For the last 26 data points, set the value to '-', and combine it with the rest of the calculated values
-            return [...Array(26).fill('-'), ...arrSpanB];
-        }
-
-        function calculateChikouSpan(aoaPlot) {
-            return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? aoaPlot[index + 26][1] : '-'); // assuming close is at index 1
-        }
-
-        import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js";
-        const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
-        /**
-         * @function buildUrl
-         * @returns {string} Returns a URL string
-         */
-        const buildUrl = () => {
-            const ticker = document.querySelector('#text_box').value;
-            const period = document.querySelector('.select-period').value;
-            const interval = document.querySelector('.select-interval').value;
-
-            const params = new URLSearchParams({
-                t: ticker,
-                r: period,
-                i: interval
-            });
-
-            let baseUrl;
-            switch (location.hostname) {
-                case 'pleasecov.g2.xrea.com':
-                    baseUrl = `http://${location.hostname}/pipm/middle.php`;
-                    break;
-                case 'aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com':
-                    baseUrl = `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage`;
-                    break;
-                default:
-                    baseUrl = '/';
+            function calculateTenkanSen(aoaPlot) {
+                return aoaPlot.map((_, index) => index < 9 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
             }
 
-            return `${baseUrl}?${params.toString()}`;
-        };
-        /**
-         * Fetches data from a given URL and sets options for a candlestick chart.
-         * 
-         * @param {string} strURL - The URL to fetch data from.
-         * @returns {Promise} A Promise that resolves with the chart options object.
-         */
-        const setDrawCandle = (strURL) => {
-            return fetch(strURL, {
-                method: 'GET',
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            })
-                .then(response => response.json())
-                .then(json => {
-                    let arrLow = [...json.Low];
-                    let arrHigh = [...json.High];
-                    let aoaPlot = _.zip([...json.Open], [...json.Close], arrLow, arrHigh); //open close low high
-                    // checked inverse
-                    if (check_inverse.checked) {
-                        // inverse value
-                        aoaPlot = _.map(aoaPlot, (array) => {
-                            return _.map(array, (value) => -value);
-                        });
-                        arrLow = _.map(arrLow, (value) => -value);
-                        arrHigh = _.map(arrHigh, (value) => -value);
-                    }
+            function calculateKijunSen(aoaPlot) {
+                return aoaPlot.map((_, index) => index < 26 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
+            }
+            /**
+             * Calculates the Senkou Span A values based on the Kijun and Tenkan arrays.
+             * @param {number[]} arrTenkan - An array of Tenkan values.
+             * @param {number[]} arrKijun - An array of Kijun values.
+             * @returns {number[]} An array of Senkou Span A values.
+             */
+            function calculateSenkouSpanA(arrTenkan, arrKijun) {
+                const arrSpanA = arrKijun.map((_, index) => {
+                    if (index < 26) return '-';
+                    const averageValue = (arrKijun[index] + arrTenkan[index]) / 2;
+                    return parseFloat(averageValue.toFixed(2));
+                });
+                // shift 26days
+                return [...Array(26).fill('-'), ...arrSpanA];
+            }
+            /**
+             * Calculate SenkouSpanB based on a given data array.
+             *
+             * @param {Array} aoaPlot - The data array to base the calculation on.
+             * @returns {Array} - An array of SenkouSpanB values, where each value is the average of high and low values
+             * over a period of 52 data points in the input array. For the first 52 data points and the last 26 data points,
+             * the value is set to '-'.
+             */
+            function calculateSenkouSpanB(aoaPlot) {
+                const arrSpanB = aoaPlot.map((_, index) => {
+                    if (index < 52) return '-';
+                    const arrHighLow = calculateHighLow(52, aoaPlot, index);
+                    const averageValue = (arrHighLow[0] + arrHighLow[1]) / 2;
+                    return parseFloat(averageValue.toFixed(2));
+                });
+                // For the last 26 data points, set the value to '-', and combine it with the rest of the calculated values
+                return [...Array(26).fill('-'), ...arrSpanB];
+            }
 
-                    let arrMA25 = calculateMA(aoaPlot, 25);
-                    let [arrTenkan, arrKijun] = [calculateTenkanSen(aoaPlot), calculateKijunSen(aoaPlot)];
-                    let arrChikou = calculateChikouSpan(aoaPlot);
-                    let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
+            function calculateChikouSpan(aoaPlot) {
+                return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? aoaPlot[index + 26][1] : '-'); // assuming close is at index 1
+            }
+            import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js";
+            const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
+            /**
+             * @function buildUrl
+             * @returns {string} Returns a URL string
+             */
+            const buildUrl = () => {
+                const ticker = document.querySelector('#text_box').value;
+                const period = document.querySelector('.select-period').value;
+                const interval = document.querySelector('.select-interval').value;
 
-                    let arrVolume = [...json.Volume];
-                    let arrDate = [...json.Date];
+                const params = new URLSearchParams({
+                    t: ticker,
+                    r: period,
+                    i: interval
+                });
 
-                    // shift 26 days
-                    arrDate = shift26Days(arrDate);
-                    // if selected '6mo' or '1y', the forward values will be cut off.
-                    const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-                    if (periodOptionText === '6mo' || '1y') {
-                        const N = arrDate.length / 2;
+                let baseUrl;
+                switch (location.hostname) {
+                    case 'pleasecov.g2.xrea.com':
+                        baseUrl = `http://${location.hostname}/pipm/middle.php`;
+                        break;
+                    case 'aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com':
+                        baseUrl = `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage`;
+                        break;
+                    default:
+                        baseUrl = '/';
+                }
 
-                        const arrBase = [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
-                        [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
-
-                        const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
-                        [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
-                    }
-                    /** 
-                    const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
-                    console.log(`${json['companyName'][0]} ${periodOptionText} ${intervalOptionText}`);*/
-                    setYAxisBounds(arrLow, arrHigh);
-
-                    optionChart.title.text = json['companyName'][0];
-                    optionChart.xAxis[0].data = arrDate;
-                    optionChart.xAxis[1].data = arrDate;
-                    optionChart.legend.selector = [{
-                        type: 'inverse',
-                        title: 'Inv'
-                    }];// legend Inv on
-                    delete optionChart.tooltip.formatter; // set default formatter
-
-                    optionChart.series = [{
-                        type: 'candlestick',
-                        data: aoaPlot,
-                        itemStyle: {
-                            color: 'white',
-                            color0: '#0064da',
-                            borderColor: 'black',
-                            borderColor0: '#0064da'
-                        },
-                        barMinWidth: 2,
-                        barCategoryGap: '2%',
-                    },
-                    {
-                        name: 'Tenkan',
-                        type: 'line',
-                        data: arrTenkan,
-                        smooth: false,
-                        symbol: 'none',
-                        symbolSize: 1,
-                        showSymbol: false,
-                        lineStyle: {
-                            width: 1,
-                            opacity: 0.5,
-                            color: '#FF0000'
-                        },
-                        itemStyle: {
-                            color: '#FF0000'
-                        }
-                    },
-                    {
-                        name: 'Kijun',
-                        type: 'line',
-                        data: arrKijun,
-                        smooth: false,
-                        symbol: 'none',
-                        symbolSize: 1,
-                        showSymbol: false,
-                        lineStyle: {
-                            width: 1,
-                            opacity: 0.5,
-                            color: '#800000'
-                        },
-                        itemStyle: {
-                            color: '#800000'
-                        }
-                    },
-                    {
-                        name: 'SSA',
-                        type: 'line',
-                        data: arrSSA,
-                        smooth: false,
-                        symbol: 'none',
-                        symbolSize: 1,
-                        showSymbol: false,
-                        areaStyle: {
-                            color: 'rgba(255, 215, 0, 0.25)'
-                        },
-                        lineStyle: {
-                            width: 1,
-                            color: 'rgba(255, 215, 0, 0.25)'
-                        },
-                        itemStyle: {
-                            color: 'rgba(255, 215, 0, 0.25)' //This is the symbol color. It should match it with the color of the lineStyle.
-                        }
-                    },
-                    {
-                        name: 'SSB',
-                        type: 'line',
-                        data: arrSSB,
-                        smooth: false,
-                        symbol: 'none',
-                        symbolSize: 1,
-                        showSymbol: false,
-                        areaStyle: {
-                            color: 'rgba(30, 144, 255, 0.2)'
-                        },
-                        lineStyle: {
-                            width: 1,
-                            color: 'rgba(30, 144, 255, 0.2)'
-                        },
-                        itemStyle: {
-                            color: 'rgba(30, 144, 255, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
-                        }
-                    },
-                    {
-                        name: 'Chikou',
-                        type: 'line',
-                        data: arrChikou,
-                        smooth: false,
-                        symbol: 'none',
-                        symbolSize: 1,
-                        showSymbol: false,
-                        lineStyle: {
-                            width: 1,
-                            opacity: 0.5,
-                            color: '#8080FF'
-                        },
-                        itemStyle: {
-                            color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
-                        }
-                    },
-                    {
-                        name: 'MA25',
-                        type: 'line',
-                        data: arrMA25,
-                        smooth: false,
-                        symbol: 'none',
-                        symbolSize: 1,
-                        showSymbol: false,
-                        lineStyle: {
-                            width: 1,
-                            opacity: 0.5,
-                            color: '#cf9f40'
-                        },
-                        itemStyle: {
-                            color: '#cf9f40'
-                        }
-                    },
-                    {
-                        name: 'Volume',
-                        type: 'bar',
-                        xAxisIndex: 1,
-                        yAxisIndex: 1,
-                        itemStyle: {
-                            color: '#7fbe9e'
-                        },
-                        barMinWidth: 2,
-                        barCategoryGap: '2%',
-                        data: arrVolume
-                    }
-                    ]
+                return `${baseUrl}?${params.toString()}`;
+            };
+            /**
+             * Fetches data from a given URL and sets options for a candlestick chart.
+             * 
+             * @param {string} strURL - The URL to fetch data from.
+             * @returns {Promise} A Promise that resolves with the chart options object.
+             */
+            const setDrawCandle = (strURL) => {
+                return fetch(strURL, {
+                    method: 'GET',
+                    mode: "cors", // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 })
-                .catch(e => {
-                    console.log(e)
-                });
-        }
-        /**
-         * Fetches data from a specified URL, calculates chart options based on the data, and updates the chart.
-         * 
-         * @param {string} strURL - The URL to fetch data from.
-         * @returns {Promise<void>} A Promise that resolves when the chart has been updated.
-         */
-        const setDrawAlpha = (strURL) => {
-            return fetch(strURL, {
-                method: 'GET',
-                mode: "cors", // no-cors, *cors, same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            })
-                .then(response => response.json())
-                .then(json => {
-                    let arrLow = [...json.Low];
-                    let arrHigh = [...json.High];
-                    let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
-                    let arrVolume = [...json.Volume];
-                    let arrDate = [...json.Date];
-                    // inverse
-                    if (check_inverse.checked) {
-                        arrLow = _.map(arrLow, (value) => -value);
-                        arrHigh = _.map(arrHigh, (value) => -value);
-                        arrDiff = _.map(arrDiff, (value) => -value);
-                    }
-                    // shift 26 days
-                    arrDate = shift26Days(arrDate);
-                    // if selected '6mo' || '1y', the forward values will be cut off.
-                    const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-                    if (periodOptionText === '6mo' || '1y') {
-                        const N = arrDate.length / 2;
-                        const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
-                        [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
-                    }
+                    .then(response => response.json())
+                    .then(json => {
+                        let arrLow = [...json.Low];
+                        let arrHigh = [...json.High];
+                        let aoaPlot = _.zip([...json.Open], [...json.Close], arrLow, arrHigh); //open close low high
+                        // checked inverse
+                        if (check_inverse.checked) {
+                            // inverse value
+                            aoaPlot = _.map(aoaPlot, (array) => {
+                                return _.map(array, (value) => -value);
+                            });
+                            arrLow = _.map(arrLow, (value) => -value);
+                            arrHigh = _.map(arrHigh, (value) => -value);
+                        }
 
-                    setYAxisBounds(arrLow, arrHigh);
+                        let arrMA25 = calculateMA(aoaPlot, 25);
+                        let [arrTenkan, arrKijun] = [calculateTenkanSen(aoaPlot), calculateKijunSen(aoaPlot)];
+                        let arrChikou = calculateChikouSpan(aoaPlot);
+                        let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
 
-                    optionChart.title.text = json['companyName'][0];
-                    optionChart.xAxis[0].data = arrDate;
-                    optionChart.xAxis[1].data = arrDate;
-                    optionChart.tooltip.formatter = (arrParam) => {
-                        // ['High', 'Low', 'Volume']の順にツールチップを表示
-                        arrParam = _.orderBy(arrParam, ['seriesName'], ['High', 'Low', 'Volume']);
-                        let strTooltip = '';
-                        let strDate;
+                        let arrVolume = [...json.Volume];
+                        let arrDate = [...json.Date];
 
-                        _.forEach(arrParam, param => {
-                            const sn = param.seriesName;
-                            const v = sn === 'High' ? arrHigh[param.dataIndex] : param.value;
-                            const s = `<div>${sn} ${v.toLocaleString()}</div>`;
+                        // shift 26 days
+                        arrDate = shift26Days(arrDate);
+                        // if selected '6mo' or '1y', the forward values will be cut off.
+                        const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
+                        if (periodOptionText === '6mo' || periodOptionText === '1y') {
+                            const N = arrDate.length / 2;
 
-                            strTooltip += s;
-                            strDate = param.name;
-                        });
+                            const arrBase = [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
+                            [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
 
-                        return `<div>${strDate}</div>${strTooltip}`;
-                    };
-                    optionChart.legend.selector = false; // legend Inv off
+                            const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
+                            [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
+                        }
+                        /** 
+                        const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
+                        console.log(`${json['companyName'][0]} ${periodOptionText} ${intervalOptionText}`);*/
+                        setYAxisBounds(arrLow, arrHigh);
 
-                    optionChart.series = [{
-                        name: 'Low',
-                        type: 'line',
-                        stack: 'stack1',
-                        smooth: true,
-                        lineStyle: {
-                            width: 0
+                        optionChart.title.text = json['companyName'][0];
+                        optionChart.xAxis[0].data = arrDate;
+                        optionChart.xAxis[1].data = arrDate;
+                        optionChart.legend.selector = [{
+                            type: 'inverse',
+                            title: 'Inv'
+                        }];// legend Inv on
+                        delete optionChart.tooltip.formatter; // set default formatter
+
+                        optionChart.series = [{
+                            type: 'candlestick',
+                            data: aoaPlot,
+                            itemStyle: {
+                                color: 'white',
+                                color0: '#0064da',
+                                borderColor: 'black',
+                                borderColor0: '#0064da'
+                            },
+                            barMinWidth: 2,
+                            barCategoryGap: '2%',
                         },
-                        showSymbol: false,
-                        areaStyle: {
-                            opacity: 0.9,
-                            color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgba(128, 255, 165, 0.01)'
-                            }, {
-                                offset: 1,
-                                color: 'rgba(1, 191, 236, 0.01)'
-                            }])
+                        {
+                            name: 'Tenkan',
+                            type: 'line',
+                            data: arrTenkan,
+                            smooth: false,
+                            symbol: 'none',
+                            symbolSize: 1,
+                            showSymbol: false,
+                            lineStyle: {
+                                width: 1,
+                                opacity: 0.5,
+                                color: '#FF0000'
+                            },
+                            itemStyle: {
+                                color: '#FF0000'
+                            }
                         },
-                        emphasis: {
-                            focus: 'series'
+                        {
+                            name: 'Kijun',
+                            type: 'line',
+                            data: arrKijun,
+                            smooth: false,
+                            symbol: 'none',
+                            symbolSize: 1,
+                            showSymbol: false,
+                            lineStyle: {
+                                width: 1,
+                                opacity: 0.5,
+                                color: '#800000'
+                            },
+                            itemStyle: {
+                                color: '#800000'
+                            }
                         },
-                        data: arrLow
-                    },
-                    {
-                        name: 'High',
-                        type: 'line',
-                        stack: 'stack1',
-                        smooth: true,
-                        lineStyle: {
-                            width: 0
+                        {
+                            name: 'SSA',
+                            type: 'line',
+                            data: arrSSA,
+                            smooth: false,
+                            symbol: 'none',
+                            symbolSize: 1,
+                            showSymbol: false,
+                            areaStyle: {
+                                color: 'rgba(255, 215, 0, 0.25)'
+                            },
+                            lineStyle: {
+                                width: 1,
+                                color: 'rgba(255, 215, 0, 0.25)'
+                            },
+                            itemStyle: {
+                                color: 'rgba(255, 215, 0, 0.25)' //This is the symbol color. It should match it with the color of the lineStyle.
+                            }
                         },
-                        showSymbol: false,
-                        areaStyle: {
-                            opacity: 0.9,
-                            color: new graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(0, 221, 255)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(77, 119, 255)'
-                            }])
+                        {
+                            name: 'SSB',
+                            type: 'line',
+                            data: arrSSB,
+                            smooth: false,
+                            symbol: 'none',
+                            symbolSize: 1,
+                            showSymbol: false,
+                            areaStyle: {
+                                color: 'rgba(30, 144, 255, 0.2)'
+                            },
+                            lineStyle: {
+                                width: 1,
+                                color: 'rgba(30, 144, 255, 0.2)'
+                            },
+                            itemStyle: {
+                                color: 'rgba(30, 144, 255, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
+                            }
                         },
-                        emphasis: {
-                            focus: 'series'
+                        {
+                            name: 'Chikou',
+                            type: 'line',
+                            data: arrChikou,
+                            smooth: false,
+                            symbol: 'none',
+                            symbolSize: 1,
+                            showSymbol: false,
+                            lineStyle: {
+                                width: 1,
+                                opacity: 0.5,
+                                color: '#8080FF'
+                            },
+                            itemStyle: {
+                                color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
+                            }
                         },
-                        data: arrDiff
-                    },
-                    {
-                        name: 'Volume',
-                        type: 'bar',
-                        xAxisIndex: 1,
-                        yAxisIndex: 1,
-                        itemStyle: {
-                            color: '#7fbe9e'
+                        {
+                            name: 'MA25',
+                            type: 'line',
+                            data: arrMA25,
+                            smooth: false,
+                            symbol: 'none',
+                            symbolSize: 1,
+                            showSymbol: false,
+                            lineStyle: {
+                                width: 1,
+                                opacity: 0.5,
+                                color: '#cf9f40'
+                            },
+                            itemStyle: {
+                                color: '#cf9f40'
+                            }
                         },
-                        data: arrVolume
-                    }
-                    ]
+                        {
+                            name: 'Volume',
+                            type: 'bar',
+                            xAxisIndex: 1,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: '#7fbe9e'
+                            },
+                            barMinWidth: 2,
+                            barCategoryGap: '2%',
+                            data: arrVolume
+                        }
+                        ]
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    });
+            }
+            /**
+             * Fetches data from a specified URL, calculates chart options based on the data, and updates the chart.
+             * 
+             * @param {string} strURL - The URL to fetch data from.
+             * @returns {Promise<void>} A Promise that resolves when the chart has been updated.
+             */
+            const setDrawAlpha = (strURL) => {
+                return fetch(strURL, {
+                    method: 'GET',
+                    mode: "cors", // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                 })
-                .catch(e => {
-                    console.log(e)
-                });
-        }
-        /**
-         * Clears the EChartsPanda and sets the value of the select-ticker to an empty string.
-         * If check_highlight is checked, setDrawAlpha is called and then echartsPanda is updated with the optionChart.
-         * Otherwise, setDrawCandle is called and then echartsPanda is updated with the optionChart.
-         *
-         * @function drawChart
-         * @returns {void}
-         */
-        const drawChart = () => {
-            echartsPanda.clear();
-            document.querySelector('select[name="select-ticker"]').value = '';
-            const strURL = buildUrl();
+                    .then(response => response.json())
+                    .then(json => {
+                        let arrLow = [...json.Low];
+                        let arrHigh = [...json.High];
+                        let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
+                        let arrVolume = [...json.Volume];
+                        let arrDate = [...json.Date];
+                        // inverse
+                        if (check_inverse.checked) {
+                            arrLow = _.map(arrLow, (value) => -value);
+                            arrHigh = _.map(arrHigh, (value) => -value);
+                            arrDiff = _.map(arrDiff, (value) => -value);
+                        }
+                        // shift 26 days
+                        arrDate = shift26Days(arrDate);
+                        // if selected '6mo' or '1y', the forward values will be cut off.
+                        const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
+                        if (periodOptionText === '6mo' || periodOptionText === '1y') {
+                            const N = arrDate.length / 2;
+                            const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
+                            [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
+                        }
 
-            if (check_highlight.checked) {
-                setDrawAlpha(strURL).then(() => {
-                    echartsPanda.setOption(optionChart);
-                });
-            } else {
-                setDrawCandle(strURL).then(() => {
-                    echartsPanda.setOption(optionChart);
-                });
+                        setYAxisBounds(arrLow, arrHigh);
+
+                        optionChart.title.text = json['companyName'][0];
+                        optionChart.xAxis[0].data = arrDate;
+                        optionChart.xAxis[1].data = arrDate;
+                        optionChart.tooltip.formatter = (arrParam) => {
+                            // ['High', 'Low', 'Volume']の順にツールチップを表示
+                            arrParam = _.orderBy(arrParam, ['seriesName'], ['High', 'Low', 'Volume']);
+                            let strTooltip = '';
+                            let strDate;
+
+                            _.forEach(arrParam, param => {
+                                const sn = param.seriesName;
+                                const v = sn === 'High' ? arrHigh[param.dataIndex] : param.value;
+                                const s = `<div>${sn} ${v.toLocaleString()}</div>`;
+
+                                strTooltip += s;
+                                strDate = param.name;
+                            });
+
+                            return `<div>${strDate}</div>${strTooltip}`;
+                        };
+                        optionChart.legend.selector = false; // legend Inv off
+
+                        optionChart.series = [{
+                            name: 'Low',
+                            type: 'line',
+                            stack: 'stack1',
+                            smooth: true,
+                            lineStyle: {
+                                width: 0
+                            },
+                            showSymbol: false,
+                            areaStyle: {
+                                opacity: 0.9,
+                                color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgba(128, 255, 165, 0.01)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgba(1, 191, 236, 0.01)'
+                                }])
+                            },
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            data: arrLow
+                        },
+                        {
+                            name: 'High',
+                            type: 'line',
+                            stack: 'stack1',
+                            smooth: true,
+                            lineStyle: {
+                                width: 0
+                            },
+                            showSymbol: false,
+                            areaStyle: {
+                                opacity: 0.9,
+                                color: new graphic.LinearGradient(0, 0, 0, 1, [{
+                                    offset: 0,
+                                    color: 'rgb(0, 221, 255)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgb(77, 119, 255)'
+                                }])
+                            },
+                            emphasis: {
+                                focus: 'series'
+                            },
+                            data: arrDiff
+                        },
+                        {
+                            name: 'Volume',
+                            type: 'bar',
+                            xAxisIndex: 1,
+                            yAxisIndex: 1,
+                            itemStyle: {
+                                color: '#7fbe9e'
+                            },
+                            data: arrVolume
+                        }
+                        ]
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    });
             }
-        };
+            /**
+             * Clears the EChartsPanda and sets the value of the select-ticker to an empty string.
+             * If check_highlight is checked, setDrawAlpha is called and then echartsPanda is updated with the optionChart.
+             * Otherwise, setDrawCandle is called and then echartsPanda is updated with the optionChart.
+             *
+             * @function drawChart
+             * @returns {void}
+             */
+            const drawChart = () => {
+                echartsPanda.clear();
+                document.querySelector('select[name="select-ticker"]').value = '';
+                const strURL = buildUrl();
 
-        const clearInputs = () => {
-            document.querySelector('#text_box').value = '';
-            document.querySelector('select[name="select-ticker"]').value = '';
-        };
+                if (check_highlight.checked) {
+                    setDrawAlpha(strURL).then(() => {
+                        echartsPanda.setOption(optionChart);
+                    });
+                } else {
+                    setDrawCandle(strURL).then(() => {
+                        echartsPanda.setOption(optionChart);
+                    });
+                }
+            };
 
-        document.querySelector('#chart_button').addEventListener('click', drawChart);
-        //document.querySelector('#check_highlight').addEventListener('change', drawChart);
-        document.querySelector('#text_box').addEventListener('change', drawChart);
-        document.querySelector('#clear_button').addEventListener('click', clearInputs);
-        document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {
-            if (evt.currentTarget.value === 'empty') return;
-            document.querySelector('#text_box').value = evt.currentTarget.value;
-            drawChart();
-        });
-        //画面のロードが完了
-        window.addEventListener('load', () => {
-            //画面サイズが767px以下の時にEchatsのtitleを左寄せにする。
-            if (window.innerWidth <= 767) {
-                optionChart.title.left = '0%';
-            } else {
-                optionChart.title.left = '9%';
-            }
+            const clearInputs = () => {
+                document.querySelector('#text_box').value = '';
+                document.querySelector('select[name="select-ticker"]').value = '';
+            };
 
-            const select = document.querySelector('select[name="select-ticker"]');
-            _.forEach(arrTicker, ticker => {
-                const option = new Option(ticker, ticker);
-                select.add(option);
+            document.querySelector('#chart_button').addEventListener('click', drawChart);
+            //document.querySelector('#check_highlight').addEventListener('change', drawChart);
+            document.querySelector('#text_box').addEventListener('change', drawChart);
+            document.querySelector('#clear_button').addEventListener('click', clearInputs);
+            document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {
+                if (evt.currentTarget.value === 'empty') return;
+                document.querySelector('#text_box').value = evt.currentTarget.value;
+                drawChart();
             });
+            //画面のロードが完了
+            window.addEventListener('load', () => {
+                //画面サイズが767px以下の時にEchatsのtitleを左寄せにする。
+                if (window.innerWidth <= 767) {
+                    optionChart.title.left = '0%';
+                } else {
+                    optionChart.title.left = '9%';
+                }
 
-            // ローカル環境のときデバッグモード
-            if (location.hostname === '127.0.0.1') {
-                document.querySelector('#text_box').value = 'SHY';
-                setTimeout(() => document.querySelector('#chart_button').click(), 500);
-            }
-        });
-        // 画面サイズが変更されたときにリサイズする
-        window.addEventListener('resize', echartsPanda.resize);
+                const select = document.querySelector('select[name="select-ticker"]');
+                _.forEach(arrTicker, ticker => {
+                    const option = new Option(ticker, ticker);
+                    select.add(option);
+                });
 
-        function averageChangeRate(arr) {
-            // 変化率を計算する
-            const changeRates = _.map(arr, (value, index) => {
-                if (index === 0) return null;
-                const previousValue = arr[index - 1];
-                const rate = (value - previousValue) / previousValue;
-                return Math.abs(rate);
+                // ローカル環境のときデバッグモード
+                if (location.hostname === '127.0.0.1') {
+                    document.querySelector('#text_box').value = 'SHY';
+                    setTimeout(() => document.querySelector('#chart_button').click(), 500);
+                }
             });
+            // 画面サイズが変更されたときにリサイズする
+            window.addEventListener('resize', echartsPanda.resize);
 
-            // 平均値を計算する
-            return _.mean(_.compact(changeRates));
-        }
+            function averageChangeRate(arr) {
+                // 変化率を計算する
+                const changeRates = _.map(arr, (value, index) => {
+                    if (index === 0) return null;
+                    const previousValue = arr[index - 1];
+                    const rate = (value - previousValue) / previousValue;
+                    return Math.abs(rate);
+                });
 
-        function setYAxisBounds(arrLow, arrHigh) {
-            let _arrLow, _arrHigh;
-            const { checked } = check_inverse; //デストラクチャリング代入 check_inverseのcheckedプロパティを抽出
-            let fMiny, fMaxy;
-
-            if (checked) {
-                //配列の要素がプリミティブ型なので、スプレッド構文でコピーすると深いコピーになる
-                _arrLow = [...arrHigh];
-                _arrHigh = [...arrLow];
-            } else {
-                _arrLow = [...arrLow];
-                _arrHigh = [...arrHigh];
+                // 平均値を計算する
+                return _.mean(_.compact(changeRates));
             }
 
-            const offsetLow = averageChangeRate(_arrLow);
-            const offsetHigh = averageChangeRate(_arrHigh);
-            //console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2));
-            //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
+            function setYAxisBounds(arrLow, arrHigh) {
+                let _arrLow, _arrHigh;
+                const { checked } = check_inverse; //デストラクチャリング代入 check_inverseのcheckedプロパティを抽出
+                let fMiny, fMaxy;
 
-            if (checked) {
-                fMiny = _.min(_arrLow) * (1 + offsetLow);
-                fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
-            } else {
-                fMiny = _.min(_arrLow) * (1 - offsetLow);
-                fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
+                if (checked) {
+                    //配列の要素がプリミティブ型なので、スプレッド構文でコピーすると深いコピーになる
+                    _arrLow = [...arrHigh];
+                    _arrHigh = [...arrLow];
+                } else {
+                    _arrLow = [...arrLow];
+                    _arrHigh = [...arrHigh];
+                }
+
+                const offsetLow = averageChangeRate(_arrLow);
+                const offsetHigh = averageChangeRate(_arrHigh);
+                console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2), ((offsetLow + offsetHigh) / 2 * 100).toFixed(2));
+                //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
+
+                if (checked) {
+                    fMiny = _.min(_arrLow) * (1 + offsetLow);
+                    fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
+                } else {
+                    fMiny = _.min(_arrLow) * (1 - offsetLow);
+                    fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
+                }
+
+                optionChart.yAxis[0].min = Math.abs(fMiny) < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
+                optionChart.yAxis[0].max = Math.abs(fMaxy) < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
             }
 
-            optionChart.yAxis[0].min = Math.abs(fMiny) < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
-            optionChart.yAxis[0].max = Math.abs(fMaxy) < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
-        }
+            function shift26Days(arrDate) {
+                // shift date
+                let moLastdate = moment(_.last(arrDate));
+                const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
 
-        function shift26Days(arrDate) {
-            // shift date
-            let moLastdate = moment(_.last(arrDate));
-            const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
-
-            if (intervalOptionText === '1day') {
-                for (let i = 0; i < 26;) {
-                    moLastdate.add(1, 'days');
-                    if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
-                        arrDate.push(moLastdate.format('YYYY-MM-DD'));
+                if (intervalOptionText === '1day') {
+                    for (let i = 0; i < 26;) {
+                        moLastdate.add(1, 'days');
+                        if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
+                            arrDate.push(moLastdate.format('YYYY-MM-DD'));
+                            i++;
+                        }
+                    }
+                } else if (intervalOptionText === '1week') {
+                    for (let i = 0; i < 26;) {
+                        moLastdate.add(1, 'weeks').day(1); // 1週間後の月曜日を取得する
+                        const nextMondayFormatted = moLastdate.format('YYYY-MM-DD'); // 次の月曜日をYYYY-MM-DD形式に変換
+                        arrDate.push(nextMondayFormatted); // 配列に次の月曜日を追加
                         i++;
                     }
                 }
-            } else if (intervalOptionText === '1week') {
-                for (let i = 0; i < 26;) {
-                    moLastdate.add(1, 'weeks').day(1); // 1週間後の月曜日を取得する
-                    const nextMondayFormatted = moLastdate.format('YYYY-MM-DD'); // 次の月曜日をYYYY-MM-DD形式に変換
-                    arrDate.push(nextMondayFormatted); // 配列に次の月曜日を追加
-                    i++;
-                }
-            }
 
-            return arrDate;
-        }
-    </script>
+                return arrDate;
+            }
+        </script>
+    </div>
 </body>
 
 </html>

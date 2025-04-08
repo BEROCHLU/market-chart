@@ -54,5 +54,6 @@ ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, ^VIX, ^TNX
 *(Full list in the dropdown menu)*
 
 ## Technical Notes
+- **Data Source**: Yahoo Finance-compatible API
 - **Libraries**: ECharts (visualization), Lodash, Moment.js
 - **Mobile-Friendly**: Responsive design for all devices
