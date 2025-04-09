@@ -1,13 +1,13 @@
 {
   "name": "market-chart",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "No description",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "createlist": "cd test && ts-node sortarray.ts"
+    "createlist": "cd dev && ts-node sortarray.ts"
   },
   "repository": {
     "type": "git",

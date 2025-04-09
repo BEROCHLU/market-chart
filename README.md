@@ -38,7 +38,6 @@ A web-based financial charting tool that displays **candlestick patterns**, **te
 
 2. **Adjust Settings**
    - Choose a **timeframe** and **interval**.
-   - Toggle **Highlight Mode** (🌡) for price-range emphasis.
 
 3. **View Charts**
    - Click **"Chart"** to render.
@@ -54,6 +53,6 @@ ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, ^VIX, ^TNX
 *(Full list in the dropdown menu)*
 
 ## Technical Notes
-- **Data Source**: Yahoo Finance-compatible API
-- **Libraries**: ECharts (visualization), Lodash, Moment.js
+- **Data Source**: Yahoo Finance API
+- **Libraries**:  Apache ECharts, Lodash, Moment.js
 - **Mobile-Friendly**: Responsive design for all devices

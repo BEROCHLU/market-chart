@@ -8,8 +8,6 @@ import pandas as pd
 import requests
 from pprint import pprint
 
-from sqlalchemy import null
-
 lst_origins = ["http://127.0.0.1:5500", "http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com"]
 
 dc_event = {
