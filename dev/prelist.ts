@@ -22,7 +22,6 @@ export default [
 	"SOXS",
 	"SOXX",
 	"SPXL",
-	"SPXS",
 	"SPXU",
 	"SPY",
 	"SQQQ",
@@ -39,11 +38,13 @@ export default [
 	"VYM",
 	"WEBL",
 	"WEBS",
-	"XRP-USD",
+	"SOL-USD",
 	"^FCHI",
 	"^FTSE",
 	"^GDAXI",
 	"^RUT",
 	"^TNX",
-	"^VIX"
+	"^VIX",
+	"QLD",
+	"QID"
 ];
