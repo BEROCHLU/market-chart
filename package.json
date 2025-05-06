@@ -1,6 +1,6 @@
 {
   "name": "market-chart",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "No description",
   "main": "index.js",
   "directories": {
@@ -15,7 +15,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/BEROCHLU/market-chart/issues"
   },

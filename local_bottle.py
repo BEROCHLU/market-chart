@@ -23,7 +23,7 @@ def index(action="index"):
             df_hist = df_hist.reset_index()  # index（日時）を通常の列に戻す（JSONに含めるため）
             df_hist = df_hist.rename(columns={"index": "Date"})
 
-            df_hist = df_hist.drop(columns=["Dividends", "Stock Splits", "Capital Gains"])
+            df_hist = df_hist.drop(columns=["Dividends", "Stock Splits"])  # コメントアウトでいいかも
             df_hist = df_hist.dropna(subset=["Open", "High", "Low", "Close"])  # OHLCに欠損値''が1つでもあれば行削除
             df_hist = df_hist.round(2)  # float64 => float32
 

@@ -414,7 +414,7 @@ window.addEventListener('load', () => {
 
     // ローカル環境のときデバッグモード
     if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = 'SHY';
+        document.querySelector('#text_box').value = 'SHY'; //SHY
         setTimeout(() => document.querySelector('#chart_button').click(), 500);
     }
 });

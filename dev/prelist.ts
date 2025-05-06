@@ -1,10 +1,8 @@
 export default [
 	"ARKK",
 	"BTC-USD",
-	"CL%3DF",
 	"DIA",
 	"DOG",
-	"DX-Y.NYB",
 	"ETH-USD",
 	"FAS",
 	"FAZ",
@@ -39,12 +37,6 @@ export default [
 	"WEBL",
 	"WEBS",
 	"SOL-USD",
-	"^FCHI",
-	"^FTSE",
-	"^GDAXI",
-	"^RUT",
-	"^TNX",
-	"^VIX",
 	"QLD",
 	"QID"
 ];

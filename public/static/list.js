@@ -1,10 +1,8 @@
 export const arrTicker = [
 	"ARKK",
 	"BTC-USD",
-	"CL%3DF",
 	"DIA",
 	"DOG",
-	"DX-Y.NYB",
 	"ETH-USD",
 	"FAS",
 	"FAZ",
@@ -40,11 +38,5 @@ export const arrTicker = [
 	"VXX",
 	"VYM",
 	"WEBL",
-	"WEBS",
-	"^FCHI",
-	"^FTSE",
-	"^GDAXI",
-	"^RUT",
-	"^TNX",
-	"^VIX"
+	"WEBS"
 ];

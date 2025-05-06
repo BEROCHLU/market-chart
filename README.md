@@ -4,7 +4,7 @@ pip install -r requirements.txt
 ```
 # Usage
 `python local_bottle.py`
-# Deployment Url
+# Deployment Url(suspended)
 backend: AWS Lambda + API Gateway  
 http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/  
 or  
@@ -53,6 +53,6 @@ ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, ^VIX, ^TNX
 *(Full list in the dropdown menu)*
 
 ## Technical Notes
-- **Data Source**: Yahoo Finance API
+- **Data Source**: [yfinance](https://github.com/ranaroussi/yfinance)
 - **Libraries**:  Apache ECharts, Lodash, Moment.js
 - **Mobile-Friendly**: Responsive design for all devices
