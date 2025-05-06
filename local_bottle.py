@@ -1,66 +1,48 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import base64
-import json
-import random
-from datetime import datetime
-
-import pandas as pd
-import requests
 from bottle import TEMPLATE_PATH, Bottle, debug, request, static_file, template
-from dateutil import tz
+import yfinance
 
 app = Bottle()
-edt = tz.gettz("America/New_York")
-f1 = lambda ms: datetime.fromtimestamp(ms, tz=edt).strftime("%Y-%m-%d")
-# hash
-str_ua = b"TW96aWxsYS81LjAgKE1hY2ludG9zaDsgSW50ZWwgTWFjIE9TIFggMTBfMTVfNykgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzNC4wLjAuMCBTYWZhcmkvNTM3LjM2"
-# index.htmlがあるフォルダ
+# Bottleがテンプレート（index.htmlなど）を探すディレクトリ
 TEMPLATE_PATH.append("./public")
 
 
 @app.route("/")
-@app.route("/<action>")
+@app.route("/<action>")  # "index" 以外にも review.html など任意のページに対応（静的HTMLテンプレート）
 def index(action="index"):
     try:
         ticker = request.query.t
-        strRange = request.query.r
-        strInterval = request.query.i
+        range = request.query.r
+        interval = request.query.i
 
         if ticker:
-            ua = base64.b64decode(str_ua).decode()
-            headers = {"User-Agent": ua}
+            yft = yfinance.Ticker(ticker)
+            df_hist = yft.history(period=range, interval=interval)
+            df_hist = df_hist.reset_index()  # index（日時）を通常の列に戻す（JSONに含めるため）
+            df_hist = df_hist.rename(columns={"index": "Date"})
 
-            a = random.randint(7, 8)  # リクエストを分散して負荷を下げる
-            url_ticker = f"https://query2.finance.yahoo.com/v{a}/finance/chart/{ticker}"
+            df_hist = df_hist.drop(columns=["Dividends", "Stock Splits", "Capital Gains"])
+            df_hist = df_hist.dropna(subset=["Open", "High", "Low", "Close"])  # OHLCに欠損値''が1つでもあれば行削除
+            df_hist = df_hist.round(2)  # float64 => float32
 
-            data_chart = requests.get(url_ticker, params={"range": strRange, "interval": strInterval}, headers=headers)
-            data_chart = data_chart.json()
+            if "longName" in yft.info:
+                df_hist["companyName"] = yft.info["longName"]
+            elif "shortName" in yft.info:
+                df_hist["companyName"] = yft.info["shortName"]
+            else:
+                df_hist["companyName"] = "Error Nothing"
 
-            hshResult = data_chart["chart"]["result"][0]
-            hshQuote = hshResult["indicators"]["quote"][0]
-            hshQuote["Date"] = hshResult["timestamp"]
+            df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # datetime → 文字列（ISO形式）へ整形
 
-            quotename = hshResult["meta"]["symbol"]
-
-            df_quote = pd.DataFrame(hshQuote.values(), index=hshQuote.keys()).T
-            df_quote = df_quote.dropna(subset=["open", "high", "low", "close"])  # OHLCに欠損値''が1つでもあれば行削除
-            df_quote = df_quote.round(2)  # float64 => float32
-            df_quote["Date"] = df_quote["Date"].map(f1)  # UNIX time toDatetime string
-            df_quote.rename(columns={"open": "Open", "high": "High", "low": "Low", "close": "Close", "volume": "Volume"}, inplace=True)
-
-            hsh = df_quote.to_dict(orient="list")
-            hsh["companyName"] = [quotename]
-
-            strDumps = json.dumps(hsh)
+            hsh = df_hist.to_json(orient="records", force_ascii=False)  # fetchのためJSON配列の文字列に変換
         else:
             if action in ["index", "review.html"]:
-                return template(action)
+                return template(action)  # 該当のHTMLテンプレートファイル（例: index.tpl, review.html）を描画
             else:
                 return "error bottle"
-
-        return strDumps
+        return hsh
 
     except:
         print("except error")

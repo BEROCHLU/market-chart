@@ -54,9 +54,9 @@ const setDrawCandle = (strURL) => {
     })
         .then(response => response.json())
         .then(json => {
-            let arrLow = [...json.Low];
-            let arrHigh = [...json.High];
-            let aoaPlot = _.zip([...json.Open], [...json.Close], arrLow, arrHigh); //open close low high
+            let arrLow = _.map(json, 'Low');
+            let arrHigh = _.map(json, 'High');
+            let aoaPlot = _.zip(_.map(json, 'Open'), _.map(json, 'Close'), arrLow, arrHigh); //open close low high
             // checked inverse
             if (check_inverse.checked) {
                 // inverse value
@@ -72,8 +72,8 @@ const setDrawCandle = (strURL) => {
             let arrChikou = calculateChikouSpan(aoaPlot);
             let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
 
-            let arrVolume = [...json.Volume];
-            let arrDate = [...json.Date];
+            let arrVolume = _.map(json, 'Volume');
+            let arrDate = _.map(json, 'Date');
 
             // shift 26 days
             arrDate = shift26Days(arrDate);
@@ -88,12 +88,10 @@ const setDrawCandle = (strURL) => {
                 const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
             }
-            /** 
-            const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
-            console.log(`${json['companyName'][0]} ${periodOptionText} ${intervalOptionText}`);*/
+
             setYAxisBounds(arrLow, arrHigh);
 
-            optionChart.title.text = json['companyName'][0];
+            optionChart.title.text = json[0]['companyName'];
             optionChart.xAxis[0].data = arrDate;
             optionChart.xAxis[1].data = arrDate;
             optionChart.legend.selector = [{
@@ -252,11 +250,11 @@ const setDrawAlpha = (strURL) => {
     })
         .then(response => response.json())
         .then(json => {
-            let arrLow = [...json.Low];
-            let arrHigh = [...json.High];
+            let arrLow = _.map(json, 'Low');
+            let arrHigh = _.map(json, 'High');
             let arrDiff = _.zipWith(arrHigh, arrLow, (fHigh, fLow) => fHigh - fLow);
-            let arrVolume = [...json.Volume];
-            let arrDate = [...json.Date];
+            let arrVolume = _.map(json, 'Volume');
+            let arrDate = _.map(json, 'Date');
             // inverse
             if (check_inverse.checked) {
                 arrLow = _.map(arrLow, (value) => -value);
@@ -275,7 +273,7 @@ const setDrawAlpha = (strURL) => {
 
             setYAxisBounds(arrLow, arrHigh);
 
-            optionChart.title.text = json['companyName'][0];
+            optionChart.title.text = json[0]['companyName'];
             optionChart.xAxis[0].data = arrDate;
             optionChart.xAxis[1].data = arrDate;
             optionChart.tooltip.formatter = (arrParam) => {
