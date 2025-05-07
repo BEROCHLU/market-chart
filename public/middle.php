@@ -5,7 +5,7 @@
     $i = escapeshellarg($_GET["i"]);
 
     $command = "~/local/python38/bin/python3.8 ~/public_html/pipm/wakeup.py $t $r $i";
-    $result = exec($command, $arrOut, $returnVar);
+    exec($command, $arrOut, $returnVar);
     
     header("Content-Type: application/json; charset=utf-8");
     if($returnVar !== 0) {
