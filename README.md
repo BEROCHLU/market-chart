@@ -4,7 +4,7 @@ pip install -r requirements.txt
 ```
 # Usage
 `python local_bottle.py`
-# Deployment Url(suspended)
+# Deployment Url
 backend: php + python  
 http://pleasecov.g2.xrea.com/pipm/index.html  
 or
