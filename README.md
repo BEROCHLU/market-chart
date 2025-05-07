@@ -5,10 +5,10 @@ pip install -r requirements.txt
 # Usage
 `python local_bottle.py`
 # Deployment Url
-backend: php + python  
+php + python  
 http://pleasecov.g2.xrea.com/pipm/index.html  
-or
-backend: AWS Lambda + API Gateway  
+or  
+AWS Lambda + API Gateway  
 ~~http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/~~
 # Market-Chart User Guide
 A web-based financial charting tool that displays **candlestick patterns**, **technical indicators**, and a unique **Highlight Chart** mode for visualizing price ranges.
