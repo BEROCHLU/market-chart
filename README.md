@@ -25,7 +25,7 @@ A web-based financial charting tool that displays **candlestick patterns**, **te
 
 ### ⚙️ Customization
 - Timeframes: `6mo` / `1y` / `2y` / `5y` / `10y` / `max`
-- Intervals: `1day` / `1week`
+- Intervals: `1day` / `1week` / `1month`
 - **Invert Mode** (🔃): Flip prices to provide another view
 - **Highlight Mode** (🌡): Switch to gradient-based high/low visualization
 
@@ -47,7 +47,7 @@ A web-based financial charting tool that displays **candlestick patterns**, **te
 ## Example Tickers
 Preloaded symbols include:
 ```
-ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, ^VIX, ^TNX
+ARKK, BTC-USD, ETH-USD, SPY, QQQ, TLT, VXX
 ```
 *(Full list in the dropdown menu)*
 
