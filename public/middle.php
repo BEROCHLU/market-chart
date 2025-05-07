@@ -4,13 +4,14 @@
     $r = escapeshellarg($_GET["r"]);
     $i = escapeshellarg($_GET["i"]);
 
-    $command = "python3 /virtual/pleasecov/public_html/pipm/wakeup.py $t $r $i";
+    $command = "~/local/python38/bin/python3.8 ~/public_html/pipm/wakeup.py $t $r $i";
     $result = exec($command, $arrOut, $returnVar);
-
+    
     header("Content-Type: application/json; charset=utf-8");
     if($returnVar !== 0) {
-        echo json_encode(['error' => 'Script execution failed']);
+        echo json_encode(['error' => 'Script execution failed', 'message' => implode("\n", $arrOut)]);
     } else {
         echo $arrOut[0];
     }
+    
 ?>
