@@ -1,17 +1,49 @@
 <?php
-    // Input validation is needed here
-    $t = escapeshellarg($_GET["t"]);
-    $r = escapeshellarg($_GET["r"]);
-    $i = escapeshellarg($_GET["i"]);
+function run_py($script, $args) {
+    // コマンド組み立て
+    $command = "~/local/python38/bin/python3.8 $script " . implode(" ", $args);
 
-    $command = "~/local/python38/bin/python3.8 ~/public_html/pipm/wakeup.py $t $r $i";
-    exec($command, $arrOut, $returnVar);
-    
-    header("Content-Type: application/json; charset=utf-8");
-    if($returnVar !== 0) {
-        echo json_encode(['error' => 'Script execution failed', 'message' => implode("\n", $arrOut)]);
+    // パイプ定義
+    $descriptors = [
+        0 => ["pipe", "r"],  // stdin
+        1 => ["pipe", "w"],  // stdout
+        2 => ["pipe", "w"]   // stderr
+    ];
+
+    // プロセスをオープン
+    $process = proc_open($command, $descriptors, $pipes);
+
+    if (is_resource($process)) {
+        // 標準出力と標準エラーを取得
+        $output = stream_get_contents($pipes[1]);
+        $error = stream_get_contents($pipes[2]);
+        
+        // パイプを閉じる
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+
+        // プロセスを閉じる
+        $return_var = proc_close($process);
+
+        // 成功時
+        if ($return_var === 0) {
+            return ['status' => 'success', 'output' => $output];
+        } else {
+            return ['status' => 'error', 'message' => $error];
+        }
     } else {
-        echo $arrOut[0];
+        return ['status' => 'error', 'message' => 'Failed to start process'];
     }
-    
+}
+
+// 実行
+$t = escapeshellarg($_GET["t"]);
+$r = escapeshellarg($_GET["r"]);
+$i = escapeshellarg($_GET["i"]);
+$result = run_py("~/public_html/pipm/wakeup.py", [$t, $r, $i]);
+
+// JSONで返す
+header("Content-Type: application/json; charset=utf-8");
+echo json_encode($result);
 ?>
