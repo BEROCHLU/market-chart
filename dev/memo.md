@@ -5,11 +5,6 @@
 - Python 3.10 ではメモリ不足や `gcc(8.5)` のPGOエラーでインストール不可。
 - **Python 3.8** でのインストールが安定。
 
-## 注意点
-
-- **GCC 9.0以上**ならPGO（Profile Guided Optimization）は安定しているが、それ未満では問題が多い。
-- `--enable-optimizations` オプションを外すのがシンプルな解決策。
-
 ---
 
 ## インストール手順
