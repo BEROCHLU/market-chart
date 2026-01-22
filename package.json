@@ -23,7 +23,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.173",
     "@types/node": "^16.9.2",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "ts-node": "^10.2.1"
   }
 }
