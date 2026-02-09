@@ -60,4 +60,4 @@ def send_static(filename):
 
 if __name__ == "__main__":
     debug(True)  # reloaderを使うためデバッグモードで起動
-    app.run(host="127.0.0.1", port=5400, reloader=True)
+    app.run(host="127.0.0.1", port=5501, reloader=True) # 0.0.0.0 | 127.0.0.1
