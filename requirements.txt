@@ -1,1 +1,4 @@
-bottle
+bottle<0.14.0
+yfinance==0.2.66
+pandas
+requests

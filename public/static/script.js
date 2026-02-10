@@ -1,4 +1,4 @@
-import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.esm.min.js";
+import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.min.js";
 import { arrTicker } from './list.js';
 import { optionChart } from './echarts-baseoption.js';
 import {

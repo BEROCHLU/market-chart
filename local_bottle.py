@@ -9,13 +9,13 @@ app = Bottle()
 TEMPLATE_PATH.append("./public")
 
 
-@app.route("/")
-@app.route("/<action>")  # "index" 以外にも review.html など任意のページに対応（静的HTMLテンプレート）
+@app.get("/")  # type: ignore
+@app.get("/<action>")  # type: ignore # "index" 以外にも review.html など任意のページに対応（静的HTMLテンプレート）
 def index(action="index"):
     try:
-        ticker = request.query.t
-        range = request.query.r
-        interval = request.query.i
+        ticker = request.query.t  # type: ignore
+        range = request.query.r  # type: ignore
+        interval = request.query.i  # type: ignore
 
         if ticker:
             yft = yfinance.Ticker(ticker)
@@ -34,7 +34,7 @@ def index(action="index"):
             else:
                 df_hist["companyName"] = "Error Nothing"
 
-            df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # datetime → 文字列（ISO形式）へ整形
+            df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # type: ignore # datetime → 文字列（ISO形式）へ整形
 
             hsh = df_hist.to_json(orient="records", force_ascii=False)  # fetchのためJSON配列の文字列に変換
         else:
@@ -53,11 +53,11 @@ def index(action="index"):
 
 
 # staticファイルがあるフォルダ
-@app.route("/static/<filename:path>")
+@app.get("/static/<filename:path>")  # type: ignore
 def send_static(filename):
     return static_file(filename, root="./public/static")  # pyから見たstaticファイルのありか
 
 
 if __name__ == "__main__":
     debug(True)  # reloaderを使うためデバッグモードで起動
-    app.run(host="127.0.0.1", port=5501, reloader=True) # 0.0.0.0 | 127.0.0.1
+    app.run(host="127.0.0.1", port=5501, reloader=True)  # 0.0.0.0 | 127.0.0.1

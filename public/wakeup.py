@@ -29,7 +29,7 @@ if __name__ == "__main__":
             else:
                 df_hist["companyName"] = "Error Nothing"
 
-            df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # datetime → 文字列（ISO形式）へ整形
+            df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # type: ignore # datetime → 文字列（ISO形式）へ整形
 
             hsh = df_hist.to_json(orient="records", force_ascii=False)  # fetchのためJSON配列の文字列に変換
             print(hsh)
