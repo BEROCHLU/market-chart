@@ -20,8 +20,10 @@ pip install -r requirements.txt
 ### Environment Specifics
 
 * **php + python (Shared Hosting)**:  
-Developed and tested on XREA Free. For details on building Python 3.8 in legacy Linux environments, see.  
-URL: [http://pleasecov.g2.xrea.com/pipm/index.html](http://pleasecov.g2.xrea.com/pipm/index.html)
+Developed and tested on XREA Free.  
+[http://pleasecov.g2.xrea.com/pipm/index.html](http://pleasecov.g2.xrea.com/pipm/index.html)  
+For details on building Python 3.8 in legacy Linux environments, see.  
+[dev/memo.md](dev/memo.md)  
 * **AWS Lambda + API Gateway**:  
 ~~http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/~~
 
