@@ -24,7 +24,7 @@ Developed and tested on XREA Free.
 [http://pleasecov.g2.xrea.com/pipm/index.html](http://pleasecov.g2.xrea.com/pipm/index.html)  
 For details on building Python 3.8 in legacy Linux environments, see.  
 [dev/memo.md](dev/memo.md)  
-* **AWS Lambda + API Gateway**:  
+* ~~**AWS Lambda + API Gateway**~~:  
 ~~http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/~~
 
 ### Automated Deployment (GitHub Actions)
@@ -81,5 +81,4 @@ Preloaded symbols include:
 
 * **Data Source**: [yfinance](https://github.com/ranaroussi/yfinance)
 * **Libraries**: Apache ECharts, Lodash, Moment.js
-* **Backend**: Python (Bottle / Pandas)
 * **Mobile-Friendly**: Responsive design for all devices
