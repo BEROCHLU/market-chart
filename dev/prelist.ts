@@ -38,5 +38,7 @@ export default [
 	"WEBS",
 	"SOL-USD",
 	"QLD",
-	"QID"
+	"QID",
+	"CL=F",
+	"GC=F"
 ];
