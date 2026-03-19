@@ -8,7 +8,7 @@ $params = [];
 
 // パラメータの存在と簡易バリデーション（例：英数字のみ許可）
 foreach ($required as $key) {
-    if (!isset($_GET[$key]) || !preg_match('/^[\w\-]{1,9}$/', $_GET[$key])) {
+    if (!isset($_GET[$key]) || !preg_match('/^[\w\-\=\^\.]{1,15}$/', $_GET[$key])) {
         http_response_code(400);
         echo json_encode([
             'error' => "Invalid or missing parameter: $key"
