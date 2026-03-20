@@ -1,12 +1,19 @@
 @charset "utf-8";
 
+* {
+    box-sizing: border-box; /* paddingとborderを高さ・幅に含める設定 */
+}
+
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden; /* 画面外へのはみ出しを完全に防ぐ */
 }
 
 .wrapper {
-    height: 99.6vh;
+/* vhを先に書き、dvhを後に書く（dvh未対応ブラウザへの対策） */
+    height: 100vh;
+    height: 100dvh;
     width: 1024px;
     margin: 0 auto;
 }
@@ -47,7 +54,8 @@ select[name="select-ticker"] {
     }
 
     .wrapper {
-        height: 99.7vh;
+        height: 100vh;
+        height: 100dvh;
         width: 100%;
         margin: 0 auto;
     }
