@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 * **php + python (Shared Hosting)**:  
 Developed and tested on XREA Free.  
-[http://pleasecov.g2.xrea.com/pipm/index.html](http://pleasecov.g2.xrea.com/pipm/index.html)  
+[https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
 For details on building Python 3.8 in legacy Linux environments, see.  
 [dev/memo.md](dev/memo.md)  
 * ~~**AWS Lambda + API Gateway**~~:  

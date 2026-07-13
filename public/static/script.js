@@ -28,8 +28,8 @@ const buildUrl = () => {
 
     let baseUrl;
     switch (location.hostname) {
-        case 'pleasecov.g2.xrea.com':
-            baseUrl = `http://${location.hostname}/pipm/middle.php`;
+        case 'ss1.xrea.com':
+            baseUrl = `https://${location.hostname}/pleasecov.g2.xrea.com/pipm/middle.php`;
             break;
         case 'aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com':
             baseUrl = `https://l8u8iob6v1.execute-api.ap-northeast-1.amazonaws.com/new_stage`;

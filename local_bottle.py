@@ -10,8 +10,8 @@ TEMPLATE_PATH.append("./public")
 
 
 @app.get("/")  # type: ignore
-@app.get("/<action>")  # type: ignore # "index" 以外にも review.html など任意のページに対応（静的HTMLテンプレート）
-def index(action="index"):
+@app.get("/index")  # type: ignore
+def index():
     try:
         ticker = request.query.t  # type: ignore
         range = request.query.r  # type: ignore
@@ -38,18 +38,12 @@ def index(action="index"):
 
             hsh = df_hist.to_json(orient="records", force_ascii=False)  # fetchのためJSON配列の文字列に変換
         else:
-            if action in ["index", "review.html"]:
-                return template(action)  # 該当のHTMLテンプレートファイル（例: index.tpl, review.html）を描画
-            else:
-                return "error bottle"
+            return template("index")
         return hsh
 
     except:
         print("except error")
-        if action in ["index", "alpha"]:
-            return template(action)
-        else:
-            return "except error"
+        return template("index")
 
 
 # staticファイルがあるフォルダ
