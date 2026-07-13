@@ -12,12 +12,12 @@ TEMPLATE_PATH.append("./public")
 @app.get("/")  # type: ignore
 @app.get("/index")  # type: ignore
 def index():
-    try:
-        ticker = request.query.t  # type: ignore
-        range = request.query.r  # type: ignore
-        interval = request.query.i  # type: ignore
+    ticker = request.query.t  # type: ignore
+    range = request.query.r  # type: ignore
+    interval = request.query.i  # type: ignore
 
-        if ticker:
+    if ticker:
+        try:
             yft = yfinance.Ticker(ticker)
             df_hist = yft.history(period=range, interval=interval)
             df_hist = df_hist.reset_index()  # index（日時）を通常の列に戻す（JSONに含めるため）
@@ -37,12 +37,11 @@ def index():
             df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # type: ignore # datetime → 文字列（ISO形式）へ整形
 
             hsh = df_hist.to_json(orient="records", force_ascii=False)  # fetchのためJSON配列の文字列に変換
-        else:
-            return template("index")
-        return hsh
-
-    except:
-        print("except error")
+            return hsh
+        except Exception as e:
+            print(f"except error: {e}")
+            return {"error": str(e)}
+    else:
         return template("index")
 
 

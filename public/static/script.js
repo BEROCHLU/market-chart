@@ -74,9 +74,6 @@ const setDrawCandle = (strURL) => {
 
             let arrVolume = _.map(json, 'Volume');
             let arrDate = _.map(json, 'Date');
-
-            // shift 26 days
-            arrDate = shift26Days(arrDate);
             // if selected '6mo' or '1y', the forward values will be cut off.
             const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
             if (periodOptionText === '6mo' || periodOptionText === '1y') {
@@ -87,6 +84,30 @@ const setDrawCandle = (strURL) => {
 
                 const arrIchimoku = [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou];
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
+            }
+
+            // 雲の描画用データの算出
+            let arrKumoBase = [];
+            let arrKumoA = [];
+            let arrKumoB = [];
+            for (let i = 0; i < arrSSA.length; i++) {
+                const valA = arrSSA[i];
+                const valB = arrSSB[i];
+                if (valA === '-' || valB === '-') {
+                    arrKumoBase.push('-');
+                    arrKumoA.push('-');
+                    arrKumoB.push('-');
+                } else {
+                    const minVal = Math.min(valA, valB);
+                    arrKumoBase.push(minVal);
+                    if (valA >= valB) {
+                        arrKumoA.push(parseFloat((valA - valB).toFixed(2)));
+                        arrKumoB.push(0);
+                    } else {
+                        arrKumoA.push(0);
+                        arrKumoB.push(parseFloat((valB - valA).toFixed(2)));
+                    }
+                }
             }
 
             setYAxisBounds(arrLow, arrHigh);
@@ -154,15 +175,12 @@ const setDrawCandle = (strURL) => {
                 symbol: 'none',
                 symbolSize: 1,
                 showSymbol: false,
-                areaStyle: {
-                    color: 'rgba(255, 215, 0, 0.25)'
-                },
                 lineStyle: {
                     width: 1,
-                    color: 'rgba(255, 215, 0, 0.25)'
+                    color: 'rgba(255, 215, 0, 0.4)'
                 },
                 itemStyle: {
-                    color: 'rgba(255, 215, 0, 0.25)' //This is the symbol color. It should match it with the color of the lineStyle.
+                    color: 'rgba(255, 215, 0, 0.4)'
                 }
             },
             {
@@ -173,15 +191,49 @@ const setDrawCandle = (strURL) => {
                 symbol: 'none',
                 symbolSize: 1,
                 showSymbol: false,
-                areaStyle: {
-                    color: 'rgba(30, 144, 255, 0.2)'
-                },
                 lineStyle: {
                     width: 1,
-                    color: 'rgba(30, 144, 255, 0.2)'
+                    color: 'rgba(30, 144, 255, 0.3)'
                 },
                 itemStyle: {
-                    color: 'rgba(30, 144, 255, 0.2)' //This is the symbol color. It should match it with the color of the lineStyle.
+                    color: 'rgba(30, 144, 255, 0.3)'
+                }
+            },
+            {
+                name: 'KumoBase',
+                type: 'line',
+                data: arrKumoBase,
+                smooth: false,
+                symbol: 'none',
+                showSymbol: false,
+                lineStyle: { opacity: 0 },
+                stack: 'Kumo',
+                areaStyle: { color: 'transparent' }
+            },
+            {
+                name: 'KumoA',
+                type: 'line',
+                data: arrKumoA,
+                smooth: false,
+                symbol: 'none',
+                showSymbol: false,
+                lineStyle: { opacity: 0 },
+                stack: 'Kumo',
+                areaStyle: {
+                    color: 'rgba(255, 215, 0, 0.18)'
+                }
+            },
+            {
+                name: 'KumoB',
+                type: 'line',
+                data: arrKumoB,
+                smooth: false,
+                symbol: 'none',
+                showSymbol: false,
+                lineStyle: { opacity: 0 },
+                stack: 'Kumo',
+                areaStyle: {
+                    color: 'rgba(30, 144, 255, 0.15)'
                 }
             },
             {
@@ -198,7 +250,7 @@ const setDrawCandle = (strURL) => {
                     color: '#8080FF'
                 },
                 itemStyle: {
-                    color: '#8080FF' //This is the symbol color. Let's match it with the color of the lineStyle.
+                    color: '#8080FF'
                 }
             },
             {
@@ -261,8 +313,6 @@ const setDrawAlpha = (strURL) => {
                 arrHigh = _.map(arrHigh, (value) => -value);
                 arrDiff = _.map(arrDiff, (value) => -value);
             }
-            // shift 26 days
-            arrDate = shift26Days(arrDate);
             // if selected '6mo' or '1y', the forward values will be cut off.
             const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
             if (periodOptionText === '6mo' || periodOptionText === '1y') {
@@ -463,29 +513,4 @@ function setYAxisBounds(arrLow, arrHigh) {
 
     optionChart.yAxis[0].min = Math.abs(fMiny) < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
     optionChart.yAxis[0].max = Math.abs(fMaxy) < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
-}
-
-function shift26Days(arrDate) {
-    // shift date
-    let moLastdate = moment(_.last(arrDate));
-    const intervalOptionText = document.querySelector('select.select-interval').selectedOptions[0].text;
-
-    if (intervalOptionText === '1day') {
-        for (let i = 0; i < 26;) {
-            moLastdate.add(1, 'days');
-            if (1 <= moLastdate.day() && moLastdate.day() <= 5) {
-                arrDate.push(moLastdate.format('YYYY-MM-DD'));
-                i++;
-            }
-        }
-    } else if (intervalOptionText === '1week') {
-        for (let i = 0; i < 26;) {
-            moLastdate.add(1, 'weeks').day(1); // 1週間後の月曜日を取得する
-            const nextMondayFormatted = moLastdate.format('YYYY-MM-DD'); // 次の月曜日をYYYY-MM-DD形式に変換
-            arrDate.push(nextMondayFormatted); // 配列に次の月曜日を追加
-            i++;
-        }
-    }
-
-    return arrDate;
 }
