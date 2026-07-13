@@ -14,35 +14,39 @@
 <body>
 	<div class="wrapper">
 		<div class="market-header">
-			<span class="ticker-textbox">
-				<select name="select-ticker">
-					<option value="empty"> </option>
-				</select>
-				<input type="text" id="text_box">
-			</span>
-			<span class="chart-clear">
-				<button id="chart_button">chart</button>
-				<button id="clear_button">c</button>
-			</span>
-			<span class="period-interval">
-				<select class="select-period">
-					<option value="1y">6mo</option>
-					<option value="2y">1y</option>
-					<option value="2y">2y</option>
-					<option value="5y">5y</option>
-					<option value="10y">10y</option>
-					<option value="max">max</option>
-				</select>
-				<select class="select-interval">
-					<option value="1d">1d</option>
-					<option value="1wk">1wk</option>
-					<option value="1mo">1mo</option>
-				</select>
-			</span>
-			<span>
-				<input type="checkbox" id="check_inverse"><label for="check_inverse">🔃</label>
-				<input type="checkbox" id="check_highlight"><label for="check_highlight">🌡</label>
-			</span>
+			<div class="header-left">
+				<span class="ticker-textbox">
+					<select name="select-ticker">
+						<option value="empty"> </option>
+					</select>
+					<input type="text" id="text_box">
+				</span>
+				<span class="chart-clear">
+					<button id="chart_button">📈</button>
+					<button id="clear_button">🧹</button>
+				</span>
+			</div>
+			<div class="header-right">
+				<span class="period-interval">
+					<select class="select-period">
+						<option value="1y">6mo</option>
+						<option value="2y">1y</option>
+						<option value="2y">2y</option>
+						<option value="5y">5y</option>
+						<option value="10y">10y</option>
+						<option value="max">max</option>
+					</select>
+					<select class="select-interval">
+						<option value="1d">1d</option>
+						<option value="1wk">1wk</option>
+						<option value="1mo">1mo</option>
+					</select>
+				</span>
+				<span class="switch-group">
+					<input type="checkbox" id="check_inverse"><label for="check_inverse">🔃</label>
+					<input type="checkbox" id="check_highlight"><label for="check_highlight">🌡</label>
+				</span>
+			</div>
 		</div>
 		<div id="cn"></div>
 		<script src="./static/script.js" type="module"></script>

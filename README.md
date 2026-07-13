@@ -22,8 +22,7 @@ pip install -r requirements.txt
 * **php + python (Shared Hosting)**:  
 Developed and tested on XREA Free.  
 [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
-For details on building Python 3.8 in legacy Linux environments, see.  
-[dev/memo.md](dev/memo.md)  
+For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).  
 * ~~**AWS Lambda + API Gateway**~~:  
 ~~http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/~~
 
@@ -64,11 +63,11 @@ This repository includes workflows for FTP and AWS S3 deployment. To use these, 
 
 
 3. **View Charts**
-* Click **"Chart"** to render.
+* Click **"📈"** to render.
 
 
 4. **Reset**
-* Click **"C"** to clear inputs.
+* Click **"🧹"** to clear inputs.
 
 
 
