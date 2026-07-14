@@ -107,10 +107,6 @@ select[name="select-ticker"] {
     color: #0f172a;
 }
 
-#clear_button {
-    margin-left: 4px; /* 🧹ボタンの左マージンを少し空ける */
-}
-
 /* チェックボックスと絵文字ラベルの整列 */
 .market-header input[type="checkbox"] {
     cursor: pointer;

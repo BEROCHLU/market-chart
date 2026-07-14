@@ -433,15 +433,14 @@ const drawChart = () => {
     }
 };
 
-const clearInputs = () => {
-    document.querySelector('#text_box').value = '';
-    document.querySelector('select[name="select-ticker"]').value = '';
-};
-
 document.querySelector('#chart_button').addEventListener('click', drawChart);
 //document.querySelector('#check_highlight').addEventListener('change', drawChart);
 document.querySelector('#text_box').addEventListener('change', drawChart);
-document.querySelector('#clear_button').addEventListener('click', clearInputs);
+document.querySelector('#text_box').addEventListener('search', (evt) => {
+    if (evt.currentTarget.value === '') {
+        document.querySelector('select[name="select-ticker"]').value = 'empty';
+    }
+});
 document.querySelector('select[name="select-ticker"]').addEventListener('change', (evt) => {
     if (evt.currentTarget.value === 'empty') return;
     document.querySelector('#text_box').value = evt.currentTarget.value;

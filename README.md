@@ -75,7 +75,7 @@ This repository includes workflows for FTP and AWS S3 deployment. To use these, 
 
 
 4. **Reset**
-* Click **"🧹"** to clear inputs.
+* Click the **"✕"** button inside the input box to clear.
 
 
 
