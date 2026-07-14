@@ -16,7 +16,6 @@ export const arrTicker = [
 	"QID",
 	"QLD",
 	"QQQ",
-	"SARK",
 	"SDOW",
 	"SH",
 	"SMH",

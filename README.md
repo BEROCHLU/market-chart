@@ -1,6 +1,6 @@
 # Market-Chart
 
-A web-based financial charting tool that displays **candlestick patterns**, **technical indicators**, and a unique **Highlight Chart** mode for visualizing price ranges.
+A web-based financial charting tool that displays **candlestick charts**, **technical indicators**, and a unique **Highlight Chart** mode for visualizing price ranges.
 
 ## Install
 
@@ -14,6 +14,14 @@ pip install -r requirements.txt
 ## Usage
 
 `python local_bottle.py`
+
+## Development: update the ticker list
+
+Only when changing `dev/ticker-source.js`, regenerate `public/static/list.js` with Node.js:
+
+```bash
+npm run build-tickers
+```
 
 ## Deployment
 

@@ -177,10 +177,10 @@ const setDrawCandle = (strURL) => {
                 showSymbol: false,
                 lineStyle: {
                     width: 1,
-                    color: 'rgba(255, 215, 0, 0.4)'
+                    color: 'rgba(245, 158, 11, 0.6)'
                 },
                 itemStyle: {
-                    color: 'rgba(255, 215, 0, 0.4)'
+                    color: 'rgba(245, 158, 11, 0.6)'
                 }
             },
             {
@@ -220,7 +220,7 @@ const setDrawCandle = (strURL) => {
                 lineStyle: { opacity: 0 },
                 stack: 'Kumo',
                 areaStyle: {
-                    color: 'rgba(255, 215, 0, 0.18)'
+                    color: 'rgba(245, 158, 11, 0.22)'
                 }
             },
             {
