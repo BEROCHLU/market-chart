@@ -1,4 +1,4 @@
-bottle>=0.12
-yfinance==0.2.66
+bottle>=0.13
+yfinance>=0.2.66
 pandas
 requests
