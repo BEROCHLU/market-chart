@@ -89,22 +89,25 @@ select[name="select-ticker"] {
 
 .market-header button {
     height: 20px;
-    border: 1px solid #cbd5e1;
+    width: 20px;
+    border: 1.5px solid #000000;
     border-radius: 4px;
-    background-color: #f8fafc;
-    color: #334155;
-    font-size: 11px;
-    font-weight: 500;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
     font-family: inherit;
-    padding: 0 6px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
 .market-header button:hover {
     background-color: #f1f5f9;
-    border-color: #94a3b8;
-    color: #0f172a;
+    border-color: #000000;
+    color: #000000;
 }
 
 /* チェックボックスと絵文字ラベルの整列 */
@@ -118,7 +121,7 @@ select[name="select-ticker"] {
 
 .market-header label {
     cursor: pointer;
-    font-size: 13px;
+    font-size: 16px;
     vertical-align: middle;
     margin-left: 2px;
     margin-right: 8px;
