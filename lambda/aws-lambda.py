@@ -77,16 +77,11 @@ def lambda_handler(event, context):
         df_hist = df_hist.dropna(subset=["Open", "High", "Low", "Close"])
         df_hist = df_hist.round(2)
         
-        # レスポンス用データの組み立て
-        hsh = {
-            "Open": df_hist["Open"].tolist(),
-            "High": df_hist["High"].tolist(),
-            "Low": df_hist["Low"].tolist(),
-            "Close": df_hist["Close"].tolist(),
-            "Volume": df_hist["Volume"].tolist(),
-            "Date": df_hist["Date"].tolist(),
-            "companyName": [company_name]
-        }
+        # 企業名カラムを追加
+        df_hist["companyName"] = company_name
+
+        # オブジェクトの配列形式（records）に変換
+        records = df_hist.to_dict(orient="records")
 
         return {
             "statusCode": 200,
@@ -95,7 +90,7 @@ def lambda_handler(event, context):
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
             },
-            "body": json.dumps(hsh),
+            "body": json.dumps(records),
         }
 
     except Exception as e:
