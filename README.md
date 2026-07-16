@@ -31,8 +31,9 @@ npm run build-tickers
 Developed and tested on XREA Free.  
 [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
 For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).  
-* ~~**AWS Lambda + API Gateway**~~:  
-~~http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/~~
+* **AWS Lambda + API Gateway**:  
+[AWS S3 Website Link](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
+*(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
 
 ### Automated Deployment (GitHub Actions)
 
@@ -89,3 +90,31 @@ Preloaded symbols include:
 * **Data Source**: [yfinance](https://github.com/ranaroussi/yfinance)
 * **Libraries**: Apache ECharts, Lodash, Moment.js
 * **Mobile-Friendly**: Responsive design for all devices
+
+## AWS Lambda Layer Setup
+
+To run `aws-lambda.py` on AWS Lambda, you need to create a custom Lambda Layer containing `yfinance` and its dependencies (compiled for Linux environment).
+
+### Building Layer ZIP via WSL2 (Ubuntu)
+
+Ensure your WSL2 environment has Python installed (e.g., Python 3.13) to match the Lambda runtime version.
+
+```bash
+# Create directory structure
+mkdir -p lambda_layer/python
+cd lambda_layer
+
+# Install yfinance and requests targeting the python folder
+pip3 install --target=./python yfinance requests
+
+# Package into ZIP
+zip -r yfinance_layer.zip python
+
+# Copy to Windows Desktop
+cp yfinance_layer.zip /mnt/c/Users/sadaco/Desktop/
+```
+
+1. Upload `yfinance_layer.zip` as a new Lambda Layer on AWS Console.
+2. Select **Python 3.13** (or matching version) as the compatible runtime.
+3. Attach the layer to your Lambda function.
+4. Set the function's timeout configuration to **12 seconds** to prevent timeouts during data fetching.
