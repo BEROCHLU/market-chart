@@ -32,7 +32,7 @@ Developed and tested on XREA Free.
 [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
 For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).  
 * **AWS Lambda + API Gateway**:  
-[AWS S3 Website Link](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
+[http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
 *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
 
 ### Automated Deployment (GitHub Actions)
