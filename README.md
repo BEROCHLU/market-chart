@@ -27,13 +27,15 @@ npm run build-tickers
 
 ### Environment Specifics
 
-* **php + python (Shared Hosting)**:  *slow*  
-Developed and tested on XREA Free.  
-[https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
-For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).  
-* **AWS Lambda + API Gateway**:  *fast*  
-[http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
-*(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
+**AWS Lambda + API Gateway** (Serverless)  
+> Performance: ★★★★★  
+> [http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
+> *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
+
+**XREA Free PHP + Python** (Shared Hosting)  
+> Performance: ★☆☆☆☆  
+> [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
+> *(For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).)*  
 
 ### Automated Deployment (GitHub Actions)
 
