@@ -101,11 +101,11 @@ Preloaded symbols include:
 
 To run `aws-lambda.py` on AWS Lambda, you need to create a custom Lambda Layer containing `yfinance` and its dependencies (compiled for Linux environment).
 
-### Building a compatible Layer ZIP
+### Building Layer ZIP via WSL2 (Ubuntu 22.04)
 
-Build the layer with the same Python version and CPU architecture as the target Lambda runtime. Because `yfinance` depends on packages with native components (such as pandas), use an Amazon Linux-compatible environment, such as a matching Docker image or an Amazon Linux EC2 instance. WSL2 Ubuntu alone is not a compatibility guarantee.
+This project's Layer was built using WSL2 Ubuntu 22.04. Ensure that the Python version in WSL2 (for example, Python 3.13) matches the Python runtime configured for the Lambda function.
 
-The following commands must be run in that compatible environment. Replace `python3.13` with the Python version configured for the Lambda function.
+Run the following commands in WSL2. Replace `python3.13` with the Python version configured for the Lambda function.
 
 ```bash
 # Create directory structure
