@@ -13,7 +13,11 @@ pip install -r requirements.txt
 
 ## Usage
 
-`python local_bottle.py`
+```bash
+python local_bottle.py
+```
+
+Then open [http://127.0.0.1:5501/](http://127.0.0.1:5501/) in your browser.
 
 ## Development: update the ticker list
 
@@ -97,9 +101,11 @@ Preloaded symbols include:
 
 To run `aws-lambda.py` on AWS Lambda, you need to create a custom Lambda Layer containing `yfinance` and its dependencies (compiled for Linux environment).
 
-### Building Layer ZIP via WSL2 (Ubuntu)
+### Building a compatible Layer ZIP
 
-Ensure your WSL2 environment has Python installed (e.g., Python 3.13) to match the Lambda runtime version.
+Build the layer with the same Python version and CPU architecture as the target Lambda runtime. Because `yfinance` depends on packages with native components (such as pandas), use an Amazon Linux-compatible environment, such as a matching Docker image or an Amazon Linux EC2 instance. WSL2 Ubuntu alone is not a compatibility guarantee.
+
+The following commands must be run in that compatible environment. Replace `python3.13` with the Python version configured for the Lambda function.
 
 ```bash
 # Create directory structure
@@ -107,7 +113,7 @@ mkdir -p lambda_layer/python
 cd lambda_layer
 
 # Install yfinance and requests targeting the python folder
-pip3 install --target=./python yfinance requests
+python3.13 -m pip install --target=./python yfinance requests
 
 # Package into ZIP
 zip -r yfinance_layer.zip python
@@ -117,5 +123,5 @@ cp yfinance_layer.zip /mnt/c/Users/username/Desktop/
 ```
 
 1. Upload `yfinance_layer.zip` as a new Lambda Layer on AWS Console.
-2. Select **Python 3.13** (or matching version) as the compatible runtime.
+2. Select the same Python runtime used to build the layer as the compatible runtime.
 3. Attach the layer to your Lambda function.
