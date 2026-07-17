@@ -113,10 +113,9 @@ pip3 install --target=./python yfinance requests
 zip -r yfinance_layer.zip python
 
 # Copy to Windows Desktop
-cp yfinance_layer.zip /mnt/c/Users/sadaco/Desktop/
+cp yfinance_layer.zip /mnt/c/Users/username/Desktop/
 ```
 
 1. Upload `yfinance_layer.zip` as a new Lambda Layer on AWS Console.
 2. Select **Python 3.13** (or matching version) as the compatible runtime.
 3. Attach the layer to your Lambda function.
-4. Set the function's timeout configuration to **12 seconds** to prevent timeouts during data fetching.
