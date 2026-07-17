@@ -17,7 +17,7 @@ pip install -r requirements.txt
 python local_bottle.py
 ```
 
-Then open [http://127.0.0.1:5501/](http://127.0.0.1:5501/) in your browser.
+Then open url in your browser.
 
 ## Development: update the ticker list
 
