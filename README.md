@@ -37,7 +37,7 @@ npm run build-tickers
 > *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
 
 **XREA Free PHP + Python** (Shared Hosting)  
-> Performance: ★☆☆☆☆  
+> Performance: ★★☆☆☆  
 > [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
 > *(For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).)*  
 

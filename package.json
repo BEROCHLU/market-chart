@@ -7,7 +7,6 @@
     "test": "test"
   },
   "scripts": {
-    "createlist": "node dev/build-tickers.js",
     "build-tickers": "node dev/build-tickers.js"
   },
   "repository": {
