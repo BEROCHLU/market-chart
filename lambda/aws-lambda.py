@@ -2,35 +2,39 @@ import json
 import yfinance as yf
 
 # 許可するCORSオリジン
-lst_origins = ["http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com", "http://127.0.0.1:5400"]
+ALLOWED_ORIGINS = {
+    "http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com",
+    "http://127.0.0.1:5400",
+}
 
 def lambda_handler(event, context):
-    strHeadersOrigin = None
-    allowedOrigin = False
-
     # CORS用のオリジンチェック
     headers = event.get("headers", {}) or {}
-    strHeadersOrigin = headers.get("origin") or headers.get("Origin")
+    req_origin = headers.get("origin") or headers.get("Origin")
     
-    if not strHeadersOrigin:
+    if not req_origin:
         print(event)
         return {
-            "statusCode": 500,
+            "statusCode": 400,
             "headers": {"Content-Type": "text/plain; charset=UTF-8"},
-            "body": "Not Found [Origin, origin]",
+            "body": "Missing Origin header",
         }
 
-    for strOrigin in lst_origins:
-        if strOrigin in strHeadersOrigin:
-            allowedOrigin = True
-
-    if not allowedOrigin:
+    if req_origin not in ALLOWED_ORIGINS:
         print(event)
         return {
             "statusCode": 403,
             "headers": {"Content-Type": "text/html; charset=UTF-8"},
-            "body": "<!DOCTYPE html><html><head><title>403 Not Found</title></head><body><h1>Not Found</h1><p>An error occurred on the server.</p></body></html>",
+            "body": "<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>Forbidden</h1><p>Origin not allowed.</p></body></html>",
         }
+
+    # レスポンス用共通ヘッダー
+    cors_headers = {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": req_origin,
+        "Access-Control-Allow-Methods": "OPTIONS,GET",
+        "Vary": "Origin",
+    }
 
     # クエリパラメータからティッカーや期間を取得
     params = event.get("queryStringParameters", {}) or {}
@@ -39,9 +43,11 @@ def lambda_handler(event, context):
     strInterval = params.get("i")
 
     if not ticker:
+        headers_400 = dict(cors_headers)
+        headers_400["Content-Type"] = "application/json"
         return {
             "statusCode": 400,
-            "headers": {"Content-Type": "application/json"},
+            "headers": headers_400,
             "body": json.dumps({"error": "Missing parameter: t"}),
         }
 
@@ -83,24 +89,20 @@ def lambda_handler(event, context):
         # オブジェクトの配列形式（records）に変換
         records = df_hist.to_dict(orient="records")
 
+        headers_200 = dict(cors_headers)
+        headers_200["Content-Type"] = "application/json"
         return {
             "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-            },
+            "headers": headers_200,
             "body": json.dumps(records),
         }
 
     except Exception as e:
         print(f"Error fetching data: {str(e)}")
+        headers_500 = dict(cors_headers)
+        headers_500["Content-Type"] = "application/json"
         return {
             "statusCode": 500,
-            "headers": {
-                "Access-Control-Allow-Headers": "Content-Type",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-            },
+            "headers": headers_500,
             "body": json.dumps({"error": str(e)}),
         }

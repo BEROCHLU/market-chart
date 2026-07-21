@@ -8,7 +8,7 @@
 export const calculateMA = (aoa, dayCount) => {
     let result = [];
     for (let i = 0, len = aoa.length; i < len; i++) {
-        if (i < dayCount) {
+        if (i < dayCount - 1) {
             result.push('-');
             continue;
         }
@@ -44,11 +44,11 @@ const calculateHighLow = (period, aoaPlot, index) => {
 };
 
 export function calculateTenkanSen(aoaPlot) {
-    return aoaPlot.map((_, index) => index < 9 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
+    return aoaPlot.map((_, index) => index < 8 ? '-' : parseFloat(((calculateHighLow(9, aoaPlot, index)[0] + calculateHighLow(9, aoaPlot, index)[1]) / 2).toFixed(2)));
 }
 
 export function calculateKijunSen(aoaPlot) {
-    return aoaPlot.map((_, index) => index < 26 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
+    return aoaPlot.map((_, index) => index < 25 ? '-' : parseFloat(((calculateHighLow(26, aoaPlot, index)[0] + calculateHighLow(26, aoaPlot, index)[1]) / 2).toFixed(2)));
 }
 /**
  * Calculates the Senkou Span A values based on the Kijun and Tenkan arrays.
@@ -75,7 +75,7 @@ export function calculateSenkouSpanA(arrTenkan, arrKijun) {
  */
 export function calculateSenkouSpanB(aoaPlot) {
     const arrSpanB = aoaPlot.map((_, index) => {
-        if (index < 52) return '-';
+        if (index < 51) return '-';
         const arrHighLow = calculateHighLow(52, aoaPlot, index);
         const averageValue = (arrHighLow[0] + arrHighLow[1]) / 2;
         return parseFloat(averageValue.toFixed(2));
