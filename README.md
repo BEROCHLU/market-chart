@@ -31,7 +31,7 @@ npm run build-tickers
 
 ### Environment Specifics
 
-**AWS Lambda + API Gateway** (Serverless)  
+**AWS Lambda (Function URL)** (Serverless)  
 > Performance: ★★★★★  
 > [http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
 > *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*

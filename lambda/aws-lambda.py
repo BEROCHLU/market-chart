@@ -1,41 +1,7 @@
 import json
 import yfinance as yf
 
-# 許可するCORSオリジン
-ALLOWED_ORIGINS = {
-    "http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com",
-    "http://127.0.0.1:5400",
-}
-
 def lambda_handler(event, context):
-    # CORS用のオリジンチェック
-    headers = event.get("headers", {}) or {}
-    req_origin = headers.get("origin") or headers.get("Origin")
-    
-    if not req_origin:
-        print(event)
-        return {
-            "statusCode": 400,
-            "headers": {"Content-Type": "text/plain; charset=UTF-8"},
-            "body": "Missing Origin header",
-        }
-
-    if req_origin not in ALLOWED_ORIGINS:
-        print(event)
-        return {
-            "statusCode": 403,
-            "headers": {"Content-Type": "text/html; charset=UTF-8"},
-            "body": "<!DOCTYPE html><html><head><title>403 Forbidden</title></head><body><h1>Forbidden</h1><p>Origin not allowed.</p></body></html>",
-        }
-
-    # レスポンス用共通ヘッダー
-    cors_headers = {
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": req_origin,
-        "Access-Control-Allow-Methods": "OPTIONS,GET",
-        "Vary": "Origin",
-    }
-
     # クエリパラメータからティッカーや期間を取得
     params = event.get("queryStringParameters", {}) or {}
     ticker = params.get("t")
@@ -43,11 +9,9 @@ def lambda_handler(event, context):
     strInterval = params.get("i")
 
     if not ticker:
-        headers_400 = dict(cors_headers)
-        headers_400["Content-Type"] = "application/json"
         return {
             "statusCode": 400,
-            "headers": headers_400,
+            "headers": {"Content-Type": "application/json"},
             "body": json.dumps({"error": "Missing parameter: t"}),
         }
 
@@ -89,20 +53,16 @@ def lambda_handler(event, context):
         # オブジェクトの配列形式（records）に変換
         records = df_hist.to_dict(orient="records")
 
-        headers_200 = dict(cors_headers)
-        headers_200["Content-Type"] = "application/json"
         return {
             "statusCode": 200,
-            "headers": headers_200,
+            "headers": {"Content-Type": "application/json"},
             "body": json.dumps(records),
         }
 
     except Exception as e:
         print(f"Error fetching data: {str(e)}")
-        headers_500 = dict(cors_headers)
-        headers_500["Content-Type"] = "application/json"
         return {
             "statusCode": 500,
-            "headers": headers_500,
+            "headers": {"Content-Type": "application/json"},
             "body": json.dumps({"error": str(e)}),
         }
