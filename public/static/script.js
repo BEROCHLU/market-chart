@@ -421,6 +421,9 @@ const setDrawAlpha = (strURL) => {
  * @returns {void}
  */
 const drawChart = () => {
+    const ticker = document.querySelector('#text_box').value.trim();
+    if (!ticker) return;
+
     echartsPanda.clear();
     document.querySelector('select[name="select-ticker"]').value = '';
     const strURL = buildUrl();
