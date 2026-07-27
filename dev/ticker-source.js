@@ -33,8 +33,6 @@ module.exports = [
     "UVXY",
     "VXX",
     "VYM",
-    "WEBL",
-    "WEBS",
     "SOL-USD",
     "QLD",
     "QID",

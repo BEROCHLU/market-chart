@@ -37,7 +37,5 @@ export const arrTicker = [
 	"UPRO",
 	"UVXY",
 	"VXX",
-	"VYM",
-	"WEBL",
-	"WEBS"
+	"VYM"
 ];
