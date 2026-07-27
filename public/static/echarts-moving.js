@@ -87,3 +87,30 @@ export function calculateSenkouSpanB(aoaPlot) {
 export function calculateChikouSpan(aoaPlot) {
     return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? aoaPlot[index + 26][1] : '-'); // assuming close is at index 1
 }
+
+/**
+ * Calculates Average True Range (ATR) for a given dataset and period.
+ * @param {Array<Array<number>>} aoaPlot - An array of arrays representing open, close, low, high.
+ * @param {number} period - The period over which to calculate ATR.
+ * @returns {number} The ATR value.
+ */
+export function calculateATR(aoaPlot, period = 14) {
+    if (!aoaPlot || aoaPlot.length === 0) return 0;
+    let trList = [];
+    for (let i = 0; i < aoaPlot.length; i++) {
+        const [open, close, low, high] = aoaPlot[i];
+        if (i === 0) {
+            trList.push(high - low);
+        } else {
+            const priorClose = aoaPlot[i - 1][1];
+            const tr = Math.max(
+                high - low,
+                Math.abs(high - priorClose),
+                Math.abs(low - priorClose)
+            );
+            trList.push(tr);
+        }
+    }
+    const recentTRs = trList.slice(-period);
+    return recentTRs.reduce((sum, val) => sum + val, 0) / recentTRs.length;
+}
