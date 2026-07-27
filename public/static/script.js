@@ -76,8 +76,8 @@ const setDrawCandle = (strURL) => {
             let arrDate = _.map(json, 'Date');
             // if selected '6mo' or '1y', the forward values will be cut off.
             const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-            if (periodOptionText === '6mo' || periodOptionText === '1y') {
-                const N = arrDate.length / 2;
+            if ((periodOptionText === '6mo' || periodOptionText === '1y') && arrDate.length >= 60) {
+                const N = Math.floor(arrDate.length / 2);
 
                 const arrBase = [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
                 [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
@@ -313,8 +313,8 @@ const setDrawAlpha = (strURL) => {
             }
             // if selected '6mo' or '1y', the forward values will be cut off.
             const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-            if (periodOptionText === '6mo' || periodOptionText === '1y') {
-                const N = arrDate.length / 2;
+            if ((periodOptionText === '6mo' || periodOptionText === '1y') && arrDate.length >= 60) {
+                const N = Math.floor(arrDate.length / 2);
                 const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
             }
