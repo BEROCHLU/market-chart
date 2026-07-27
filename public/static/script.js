@@ -7,7 +7,8 @@ import {
     calculateTenkanSen,
     calculateSenkouSpanA,
     calculateSenkouSpanB,
-    calculateChikouSpan
+    calculateChikouSpan,
+    calculateATR
 } from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
@@ -71,6 +72,7 @@ const setDrawCandle = (strURL) => {
             let [arrTenkan, arrKijun] = [calculateTenkanSen(aoaPlot), calculateKijunSen(aoaPlot)];
             let arrChikou = calculateChikouSpan(aoaPlot);
             let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
+            optionChart.currentATR = calculateATR(aoaPlot, 14);
 
             let arrVolume = _.map(json, 'Volume');
             let arrDate = _.map(json, 'Date');
@@ -319,6 +321,11 @@ const setDrawAlpha = (strURL) => {
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
             }
 
+            let arrOpen = _.map(json, 'Open');
+            let arrClose = _.map(json, 'Close');
+            let aoaPlot = _.zip(arrOpen, arrClose, arrLow, arrHigh);
+            optionChart.currentATR = calculateATR(aoaPlot, 14);
+
             optionChart.title.text = json[0]['companyName'];
             optionChart.xAxis[0].data = arrDate;
             optionChart.xAxis[1].data = arrDate;
@@ -456,12 +463,6 @@ window.addEventListener('load', () => {
         const option = new Option(ticker, ticker);
         select.add(option);
     });
-
-    // ローカル環境のときデバッグモード
-    if (location.hostname === '127.0.0.1') {
-        document.querySelector('#text_box').value = 'SHY'; //SHY
-        setTimeout(() => document.querySelector('#chart_button').click(), 500);
-    }
 });
 // 画面サイズが変更されたときにリサイズする
 window.addEventListener('resize', echartsPanda.resize);

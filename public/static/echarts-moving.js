@@ -89,7 +89,7 @@ export function calculateChikouSpan(aoaPlot) {
 }
 
 /**
- * Calculates Average True Range (ATR) for a given dataset and period.
+ * Calculates Average True Range (ATR) for a given dataset and period with safe fallback.
  * @param {Array<Array<number>>} aoaPlot - An array of arrays representing open, close, low, high.
  * @param {number} period - The period over which to calculate ATR.
  * @returns {number} The ATR value.
@@ -111,6 +111,8 @@ export function calculateATR(aoaPlot, period = 14) {
             trList.push(tr);
         }
     }
-    const recentTRs = trList.slice(-period);
-    return recentTRs.reduce((sum, val) => sum + val, 0) / recentTRs.length;
+    const calcPeriod = Math.min(period, trList.length);
+    if (calcPeriod === 0) return 0;
+    const recentTRs = trList.slice(-calcPeriod);
+    return recentTRs.reduce((sum, val) => sum + val, 0) / calcPeriod;
 }
