@@ -37,8 +37,16 @@ export const optionChart = {
     }
     ],
     yAxis: [{
-        min: null,
-        max: null
+        min: (value) => {
+            const padding = optionChart.currentATR ? optionChart.currentATR * 1.5 : (value.max - value.min) * 0.05;
+            const minVal = value.min - padding;
+            return Math.abs(minVal) < 5 ? _.floor(minVal, 1) : _.floor(minVal);
+        },
+        max: (value) => {
+            const padding = optionChart.currentATR ? optionChart.currentATR * 1.5 : (value.max - value.min) * 0.05;
+            const maxVal = value.max + padding;
+            return Math.abs(maxVal) < 10 ? _.ceil(maxVal, 1) : _.ceil(maxVal);
+        }
     },
     {
         gridIndex: 1,
@@ -124,5 +132,6 @@ export const optionChart = {
     }
     ],
     animation: false,
+    currentATR: 0,
     series: null
 };

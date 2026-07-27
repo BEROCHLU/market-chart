@@ -7,7 +7,8 @@ import {
     calculateTenkanSen,
     calculateSenkouSpanA,
     calculateSenkouSpanB,
-    calculateChikouSpan
+    calculateChikouSpan,
+    calculateATR
 } from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
@@ -71,6 +72,7 @@ const setDrawCandle = (strURL) => {
             let [arrTenkan, arrKijun] = [calculateTenkanSen(aoaPlot), calculateKijunSen(aoaPlot)];
             let arrChikou = calculateChikouSpan(aoaPlot);
             let [arrSSA, arrSSB] = [calculateSenkouSpanA(arrTenkan, arrKijun), calculateSenkouSpanB(aoaPlot)];
+            optionChart.currentATR = calculateATR(aoaPlot, 14);
 
             let arrVolume = _.map(json, 'Volume');
             let arrDate = _.map(json, 'Date');
@@ -109,8 +111,6 @@ const setDrawCandle = (strURL) => {
                     }
                 }
             }
-
-            setYAxisBounds(arrLow, arrHigh);
 
             optionChart.title.text = json[0]['companyName'];
             optionChart.xAxis[0].data = arrDate;
@@ -321,7 +321,10 @@ const setDrawAlpha = (strURL) => {
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
             }
 
-            setYAxisBounds(arrLow, arrHigh);
+            let arrOpen = _.map(json, 'Open');
+            let arrClose = _.map(json, 'Close');
+            let aoaPlot = _.zip(arrOpen, arrClose, arrLow, arrHigh);
+            optionChart.currentATR = calculateATR(aoaPlot, 14);
 
             optionChart.title.text = json[0]['companyName'];
             optionChart.xAxis[0].data = arrDate;
@@ -469,47 +472,4 @@ window.addEventListener('load', () => {
 });
 // 画面サイズが変更されたときにリサイズする
 window.addEventListener('resize', echartsPanda.resize);
-
-function averageChangeRate(arr) {
-    // 変化率を計算する
-    const changeRates = _.map(arr, (value, index) => {
-        if (index === 0) return null;
-        const previousValue = arr[index - 1];
-        const rate = (value - previousValue) / previousValue;
-        return Math.abs(rate);
-    });
-
-    // 平均値を計算する
-    return _.mean(_.compact(changeRates));
-}
-
-function setYAxisBounds(arrLow, arrHigh) {
-    let _arrLow, _arrHigh;
-    const { checked } = check_inverse; //デストラクチャリング代入 check_inverseのcheckedプロパティを抽出
-    let fMiny, fMaxy;
-
-    if (checked) {
-        //配列の要素がプリミティブ型なので、スプレッド構文でコピーすると深いコピーになる
-        _arrLow = [...arrHigh];
-        _arrHigh = [...arrLow];
-    } else {
-        _arrLow = [...arrLow];
-        _arrHigh = [...arrHigh];
-    }
-
-    const offsetLow = averageChangeRate(_arrLow);
-    const offsetHigh = averageChangeRate(_arrHigh);
-    //console.log((offsetLow * 100).toFixed(2), (offsetHigh * 100).toFixed(2), ((offsetLow + offsetHigh) / 2 * 100).toFixed(2));
-    //document.getElementById('text_box').title = `${(offsetLow * 100).toFixed(2)} ${(offsetHigh * 100).toFixed(2)}`;
-
-    if (checked) {
-        fMiny = _.min(_arrLow) * (1 + offsetLow);
-        fMaxy = _.max(_arrHigh) * (1 - offsetHigh);
-    } else {
-        fMiny = _.min(_arrLow) * (1 - offsetLow);
-        fMaxy = _.max(_arrHigh) * (1 + offsetHigh);
-    }
-
-    optionChart.yAxis[0].min = Math.abs(fMiny) < 5 ? _.floor(fMiny, 1) : _.floor(fMiny);
-    optionChart.yAxis[0].max = Math.abs(fMaxy) < 10 ? _.ceil(fMaxy, 1) : _.ceil(fMaxy);
-}
+
