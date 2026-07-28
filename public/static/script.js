@@ -17,7 +17,7 @@ const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg'
  * @returns {string} Returns a URL string
  */
 const buildUrl = () => {
-    const ticker = document.querySelector('#text_box').value;
+    const ticker = document.querySelector('#text_box').value.toUpperCase();
     const period = document.querySelector('.select-period').value;
     const interval = document.querySelector('.select-interval').value;
 

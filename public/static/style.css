@@ -64,6 +64,7 @@ body {
     font-size: 11px;
     font-family: inherit;
     background-color: #ffffff;
+    text-transform: uppercase;
 }
 
 select[name="select-ticker"] {
