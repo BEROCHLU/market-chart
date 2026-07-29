@@ -208,7 +208,8 @@ const setDrawCandle = (strURL) => {
                 showSymbol: false,
                 lineStyle: { opacity: 0 },
                 stack: 'Kumo',
-                areaStyle: { color: 'transparent' }
+                areaStyle: { color: 'transparent' },
+                tooltip: { show: false }
             },
             {
                 name: 'KumoA',
@@ -221,7 +222,8 @@ const setDrawCandle = (strURL) => {
                 stack: 'Kumo',
                 areaStyle: {
                     color: 'rgba(245, 158, 11, 0.22)'
-                }
+                },
+                tooltip: { show: false }
             },
             {
                 name: 'KumoB',
@@ -234,7 +236,8 @@ const setDrawCandle = (strURL) => {
                 stack: 'Kumo',
                 areaStyle: {
                     color: 'rgba(30, 144, 255, 0.15)'
-                }
+                },
+                tooltip: { show: false }
             },
             {
                 name: 'Chikou',
