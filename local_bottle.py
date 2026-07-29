@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from bottle import TEMPLATE_PATH, Bottle, debug, request, static_file, template
-import yfinance
+import yfinance as yf
 
 app = Bottle()
 # Bottleがテンプレート（index.htmlなど）を探すディレクトリ
@@ -13,28 +13,43 @@ TEMPLATE_PATH.append("./public")
 @app.get("/index")  # type: ignore
 def index():
     ticker = request.query.t  # type: ignore
-    range = request.query.r  # type: ignore
-    interval = request.query.i  # type: ignore
+    strRange = request.query.r  # type: ignore
+    strInterval = request.query.i  # type: ignore
 
     if ticker:
         try:
-            yft = yfinance.Ticker(ticker)
-            df_hist = yft.history(period=range, interval=interval)
-            df_hist = df_hist.reset_index()  # index（日時）を通常の列に戻す（JSONに含めるため）
-            df_hist = df_hist.rename(columns={"index": "Date"})
+            yft = yf.Ticker(ticker)
+            df_hist = yft.history(period=strRange, interval=strInterval)
 
-            df_hist = df_hist.drop(columns=["Dividends", "Stock Splits"])  # コメントアウトでいいかも
-            df_hist = df_hist.dropna(subset=["Open", "High", "Low", "Close"])  # OHLCに欠損値''が1つでもあれば行削除
-            df_hist = df_hist.round(2)  # float64 => float32
+            if df_hist.empty:
+                raise Exception("No data returned from yfinance for the specified parameters")
 
-            if "longName" in yft.info:
-                df_hist["companyName"] = yft.info["longName"]
-            elif "shortName" in yft.info:
-                df_hist["companyName"] = yft.info["shortName"]
-            else:
-                df_hist["companyName"] = "Error Nothing"
+            # 企業名の取得処理 (yft.info から優先して安全に取得、失敗時はティッカー名で代替)
+            company_name = ticker
+            try:
+                if yft.info:
+                    if "longName" in yft.info:
+                        company_name = yft.info["longName"]
+                    elif "shortName" in yft.info:
+                        company_name = yft.info["shortName"]
+            except Exception:
+                pass  # infoが取得できない場合はティッカー名で代替
 
-            df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")  # type: ignore # datetime → 文字列（ISO形式）へ整形
+            # インデックス（Date / Datetime）をリセットして列として扱えるようにする
+            df_hist = df_hist.reset_index()
+
+            # 日付フォーマットの変換
+            if "Date" in df_hist.columns:
+                df_hist["Date"] = df_hist["Date"].dt.strftime("%Y-%m-%d")
+            elif "Datetime" in df_hist.columns:
+                df_hist["Date"] = df_hist["Datetime"].dt.strftime("%Y-%m-%d %H:%M:%S")
+
+            # 欠損値の削除と端数の丸め処理
+            df_hist = df_hist.dropna(subset=["Open", "High", "Low", "Close"])
+            df_hist = df_hist.round(2)
+
+            # 企業名カラムを追加
+            df_hist["companyName"] = company_name
 
             hsh = df_hist.to_json(orient="records", force_ascii=False)  # fetchのためJSON配列の文字列に変換
             return hsh
