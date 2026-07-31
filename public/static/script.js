@@ -12,6 +12,7 @@ import {
 } from './echarts-moving.js';
 
 const echartsPanda = init(document.getElementById('cn'), null, { renderer: 'svg' });
+let currentLegendSelected = null;
 /**
  * @function buildUrl
  * @returns {string} Returns a URL string
@@ -433,10 +434,16 @@ const drawChart = () => {
 
     if (check_highlight.checked) {
         setDrawAlpha(strURL).then(() => {
+            if (currentLegendSelected) {
+                optionChart.legend.selected = { ...currentLegendSelected };
+            }
             echartsPanda.setOption(optionChart);
         });
     } else {
         setDrawCandle(strURL).then(() => {
+            if (currentLegendSelected) {
+                optionChart.legend.selected = { ...currentLegendSelected };
+            }
             echartsPanda.setOption(optionChart);
         });
     }
@@ -472,4 +479,9 @@ window.addEventListener('load', () => {
 });
 // 画面サイズが変更されたときにリサイズする
 window.addEventListener('resize', echartsPanda.resize);
+
+// レジェンド（凡例）の選択状態を記憶する
+echartsPanda.on('legendselectchanged', (evt) => {
+    currentLegendSelected = evt.selected;
+});
 
