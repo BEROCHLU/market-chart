@@ -480,8 +480,13 @@ window.addEventListener('load', () => {
 // 画面サイズが変更されたときにリサイズする
 window.addEventListener('resize', echartsPanda.resize);
 
-// レジェンド（凡例）の選択状態を記憶する
-echartsPanda.on('legendselectchanged', (evt) => {
-    currentLegendSelected = evt.selected;
-});
+// レジェンド（凡例）の選択状態（個別・Inv反転・全選択）を記憶する
+const updateLegendState = (evt) => {
+    if (evt.selected) {
+        currentLegendSelected = { ...currentLegendSelected, ...evt.selected };
+    }
+};
+echartsPanda.on('legendselectchanged', updateLegendState);
+echartsPanda.on('legendinverseselect', updateLegendState);
+echartsPanda.on('legendselectall', updateLegendState);
 
