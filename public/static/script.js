@@ -1,6 +1,6 @@
 import { init, graphic } from "https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.esm.min.js";
 import { arrTicker } from './list.js';
-import { optionChart } from './echarts-baseoption.js';
+import { optionChart } from './echarts-baseoption.js?v=3';
 import {
     calculateMA,
     calculateKijunSen,
