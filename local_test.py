@@ -3,6 +3,7 @@
 
 from bottle import TEMPLATE_PATH, Bottle, debug, request, static_file, template
 import yfinance as yf
+import socket
 
 app = Bottle()
 # Bottleがテンプレート（index.htmlなど）を探すディレクトリ
@@ -66,6 +67,34 @@ def send_static(filename):
     return static_file(filename, root="./public/static")  # pyから見たstaticファイルのありか
 
 
+# -----------------------------------------------------------------------------
+# ネットワーク IP 取得ヘルパー
+# -----------------------------------------------------------------------------
+def get_local_ip():
+    """VPN アクティブ時も LAN 内の物理 IP (192.168.x.x) を優先取得"""
+    try:
+        hostname = socket.gethostname()
+        addresses = socket.gethostbyname_ex(hostname)[2]
+        lan_ips = [ip for ip in addresses if ip.startswith("192.168.")]
+        if lan_ips:
+            return lan_ips[0]
+        other_ips = [ip for ip in addresses if not ip.startswith("127.") and not ip.startswith("10.")]
+        if other_ips:
+            return other_ips[0]
+    except Exception:
+        pass
+    return "127.0.0.1"
+
+
 if __name__ == "__main__":
+    local_ip = get_local_ip()
+    port = 5501
+
+    print("\n" + "=" * 50)
+    print(" 🚀 Market-Chart Local Test Server Running!")
+    print(f"  - Local:   http://127.0.0.1:{port}")
+    print(f"  - Network: http://{local_ip}:{port}")
+    print("=" * 50 + "\n")
+
     debug(True)  # reloaderを使うためデバッグモードで起動
-    app.run(host="127.0.0.1", port=5501, reloader=True)  # 0.0.0.0 | 127.0.0.1
+    app.run(host="0.0.0.0", port=port, reloader=True)  # LAN内他端末（スマホ）から接続許可

@@ -1,6 +1,6 @@
 'use strict';
 
-const strGridL = '10%';
+const strGridL = '15%';
 const strGridR = '5%';
 
 export const optionChart = {
@@ -84,12 +84,7 @@ export const optionChart = {
         }
     },
     toolbox: {
-        feature: {
-            dataView: {
-                title: 'data view',
-                lang: ['data view', 'turn off', 'refresh']
-            }
-        }
+        show: false
     },
     grid: [{
         left: strGridL,

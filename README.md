@@ -9,12 +9,12 @@ A web-based financial charting tool that displays **candlestick charts**, **tech
 pip install -r requirements.txt
 ```
 
-*Note: Ensure all dependencies are installed to run `local_bottle.py` and the data-fetching scripts.*
+*Note: Ensure all dependencies are installed to run `local_test.py` and the data-fetching scripts.*
 
 ## Usage
 
 ```bash
-python local_bottle.py
+python local_test.py
 ```
 
 Then open url in your browser.

@@ -432,6 +432,7 @@ const drawChart = () => {
     document.querySelector('select[name="select-ticker"]').value = '';
     const strURL = buildUrl();
 
+    updateResponsiveLayout();
     if (check_highlight.checked) {
         setDrawAlpha(strURL).then(() => {
             if (currentLegendSelected) {
@@ -462,14 +463,25 @@ document.querySelector('select[name="select-ticker"]').addEventListener('change'
     document.querySelector('#text_box').value = evt.currentTarget.value;
     drawChart();
 });
-//画面のロードが完了
-window.addEventListener('load', () => {
-    //画面サイズが767px以下の時にEchatsのtitleを左寄せにする。
+const updateResponsiveLayout = () => {
     if (window.innerWidth <= 767) {
         optionChart.title.left = '0%';
+        if (optionChart.grid && optionChart.grid[0]) {
+            optionChart.grid[0].left = '16%';
+            optionChart.grid[1].left = '16%';
+        }
     } else {
         optionChart.title.left = '9%';
+        if (optionChart.grid && optionChart.grid[0]) {
+            optionChart.grid[0].left = '10%';
+            optionChart.grid[1].left = '10%';
+        }
     }
+};
+
+//画面のロードが完了
+window.addEventListener('load', () => {
+    updateResponsiveLayout();
 
     const select = document.querySelector('select[name="select-ticker"]');
     _.forEach(arrTicker, ticker => {
@@ -478,7 +490,10 @@ window.addEventListener('load', () => {
     });
 });
 // 画面サイズが変更されたときにリサイズする
-window.addEventListener('resize', echartsPanda.resize);
+window.addEventListener('resize', () => {
+    updateResponsiveLayout();
+    echartsPanda.resize();
+});
 
 // レジェンド（凡例）の選択状態（個別・Inv反転・全選択）を記憶する
 const updateLegendState = (evt) => {
