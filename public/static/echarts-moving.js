@@ -85,7 +85,13 @@ export function calculateSenkouSpanB(aoaPlot) {
 }
 
 export function calculateChikouSpan(aoaPlot) {
-    return aoaPlot.map((_, index) => index < aoaPlot.length - 26 ? aoaPlot[index + 26][1] : '-'); // assuming close is at index 1
+    return aoaPlot.map((_, index) => {
+        if (index < aoaPlot.length - 26) {
+            const val = aoaPlot[index + 26][1];
+            return typeof val === 'number' ? parseFloat(val.toFixed(2)) : val;
+        }
+        return '-';
+    });
 }
 
 /**

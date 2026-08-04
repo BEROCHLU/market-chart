@@ -33,9 +33,7 @@ module.exports = [
     "UVXY",
     "VXX",
     "VYM",
-    "SOL-USD",
-    "QLD",
-    "QID",
+    "XRP-USD",
     "CL=F",
     "GC=F"
 ];

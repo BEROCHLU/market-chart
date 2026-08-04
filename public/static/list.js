@@ -13,13 +13,10 @@ export const arrTicker = [
 	"IWM",
 	"KWEB",
 	"PSQ",
-	"QID",
-	"QLD",
 	"QQQ",
 	"SDOW",
 	"SH",
 	"SMH",
-	"SOL-USD",
 	"SOXL",
 	"SOXS",
 	"SOXX",
@@ -37,5 +34,6 @@ export const arrTicker = [
 	"UPRO",
 	"UVXY",
 	"VXX",
-	"VYM"
+	"VYM",
+	"XRP-USD"
 ];

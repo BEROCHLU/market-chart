@@ -122,9 +122,13 @@ const setDrawCandle = (strURL) => {
             }];// legend Inv on
             delete optionChart.tooltip.formatter; // set default formatter
 
+            let aoaPlotCandle = _.map(aoaPlot, (item) =>
+                _.map(item, (val) => typeof val === 'number' ? parseFloat(val.toFixed(2)) : val)
+            );
+
             optionChart.series = [{
                 type: 'candlestick',
-                data: aoaPlot,
+                data: aoaPlotCandle,
                 itemStyle: {
                     color: 'white',
                     color0: '#0064da',

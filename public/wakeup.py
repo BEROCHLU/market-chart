@@ -42,9 +42,8 @@ if __name__ == "__main__":
         elif "Datetime" in df_hist.columns:
             df_hist["Date"] = df_hist["Datetime"].dt.strftime("%Y-%m-%d %H:%M:%S")
 
-        # 欠損値の削除と端数の丸め処理
+        # 欠損値の削除
         df_hist = df_hist.dropna(subset=["Open", "High", "Low", "Close"])
-        df_hist = df_hist.round(2)
 
         # 企業名カラムを追加
         df_hist["companyName"] = company_name
