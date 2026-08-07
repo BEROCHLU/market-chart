@@ -33,7 +33,7 @@ npm run build-tickers
 
 **AWS Lambda (Function URL)** (Serverless)  
 > Performance: ★★★★★  
-> [http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/)  
+> [http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/marketchart/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/marketchart/)  
 > *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
 
 **XREA Free PHP + Python** (Shared Hosting)  

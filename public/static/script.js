@@ -22,9 +22,13 @@ const buildUrl = () => {
     const period = document.querySelector('.select-period').value;
     const interval = document.querySelector('.select-interval').value;
 
+    // 一目均衡表・移動平均線の助走データ確保用の期間マッピング
+    const periodApiMap = { '6mo': '1y', '1y': '2y' };
+    const apiPeriod = periodApiMap[period] || period;
+
     const params = new URLSearchParams({
         t: ticker,
-        r: period,
+        r: apiPeriod,
         i: interval
     });
 
@@ -78,8 +82,8 @@ const setDrawCandle = (strURL) => {
             let arrVolume = _.map(json, 'Volume');
             let arrDate = _.map(json, 'Date');
             // if selected '6mo' or '1y', the forward values will be cut off.
-            const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-            if ((periodOptionText === '6mo' || periodOptionText === '1y') && arrDate.length >= 60) {
+            const periodValue = document.querySelector('select.select-period').value;
+            if ((periodValue === '6mo' || periodValue === '1y') && arrDate.length >= 60) {
                 const N = Math.floor(arrDate.length / 2);
 
                 const arrBase = [arrMA25, aoaPlot, arrLow, arrHigh, arrDate, arrVolume];
@@ -322,8 +326,8 @@ const setDrawAlpha = (strURL) => {
                 arrDiff = _.map(arrDiff, (value) => -value);
             }
             // if selected '6mo' or '1y', the forward values will be cut off.
-            const periodOptionText = document.querySelector('select.select-period').selectedOptions[0].text;
-            if ((periodOptionText === '6mo' || periodOptionText === '1y') && arrDate.length >= 60) {
+            const periodValue = document.querySelector('select.select-period').value;
+            if ((periodValue === '6mo' || periodValue === '1y') && arrDate.length >= 60) {
                 const N = Math.floor(arrDate.length / 2);
                 const arrBase = [arrLow, arrHigh, arrDiff, arrDate, arrVolume];
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
