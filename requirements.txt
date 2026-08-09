@@ -1,4 +1,2 @@
 bottle>=0.13
-yfinance>=0.2.66
-pandas
-requests
+yfinance==1.5.2

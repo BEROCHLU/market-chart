@@ -112,8 +112,8 @@ Run the following commands in WSL2. Replace `python3.13` with the Python version
 mkdir -p lambda_layer/python
 cd lambda_layer
 
-# Install yfinance and requests targeting the python folder
-python3.13 -m pip install --target=./python yfinance requests
+# Install the pinned yfinance version and its dependencies
+python3.13 -m pip install --target=./python "yfinance==1.5.2"
 
 # Package into ZIP
 zip -r yfinance_layer.zip python
