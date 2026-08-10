@@ -73,6 +73,7 @@ This repository includes workflows for FTP and AWS S3 deployment. To use these, 
 * **Intervals**: `1d` / `1wk` / `1mo`
 * **Invert Mode** (🔃): Flip prices to provide another view
 * **Highlight Mode** (🌡): Switch to gradient-based high/low visualization
+* **Future Cloud Mode** (☁️): Project Ichimoku Cloud 26 days ahead into the future
 
 ## How to Use
 

@@ -93,6 +93,33 @@ const setDrawCandle = (strURL) => {
                 [arrTenkan, arrKijun, arrSSA, arrSSB, arrChikou] = _.map(arrIchimoku, (array) => _.drop(array, N));
             }
 
+            const check_future_cloud = document.querySelector('#check_future_cloud');
+            if (check_future_cloud && check_future_cloud.checked) {
+                let lastDateStr = arrDate[arrDate.length - 1];
+                let m = moment(lastDateStr);
+                let futureDates = [];
+                while (futureDates.length < 26) {
+                    m.add(1, 'days');
+                    if (m.day() !== 0 && m.day() !== 6) {
+                        futureDates.push(m.format('YYYY-MM-DD'));
+                    }
+                }
+                arrDate = [...arrDate, ...futureDates];
+
+                const dummyFill = Array(26).fill('-');
+                arrMA25 = [...arrMA25, ...dummyFill];
+                aoaPlot = [...aoaPlot, ...dummyFill];
+                arrLow = [...arrLow, ...dummyFill];
+                arrHigh = [...arrHigh, ...dummyFill];
+                arrVolume = [...arrVolume, ...dummyFill];
+                arrTenkan = [...arrTenkan, ...dummyFill];
+                arrKijun = [...arrKijun, ...dummyFill];
+                arrChikou = [...arrChikou, ...dummyFill];
+            } else {
+                arrSSA = arrSSA.slice(0, arrDate.length);
+                arrSSB = arrSSB.slice(0, arrDate.length);
+            }
+
             // 雲の描画用データの算出
             let arrKumoBase = [];
             let arrKumoA = [];
@@ -333,6 +360,26 @@ const setDrawAlpha = (strURL) => {
                 [arrLow, arrHigh, arrDiff, arrDate, arrVolume] = _.map(arrBase, (array) => _.drop(array, N));
             }
 
+            const check_future_cloud = document.querySelector('#check_future_cloud');
+            if (check_future_cloud && check_future_cloud.checked) {
+                let lastDateStr = arrDate[arrDate.length - 1];
+                let m = moment(lastDateStr);
+                let futureDates = [];
+                while (futureDates.length < 26) {
+                    m.add(1, 'days');
+                    if (m.day() !== 0 && m.day() !== 6) {
+                        futureDates.push(m.format('YYYY-MM-DD'));
+                    }
+                }
+                arrDate = [...arrDate, ...futureDates];
+
+                const dummyFill = Array(26).fill('-');
+                arrLow = [...arrLow, ...dummyFill];
+                arrHigh = [...arrHigh, ...dummyFill];
+                arrDiff = [...arrDiff, ...dummyFill];
+                arrVolume = [...arrVolume, ...dummyFill];
+            }
+
             let arrOpen = _.map(json, 'Open');
             let arrClose = _.map(json, 'Close');
             let aoaPlot = _.zip(arrOpen, arrClose, arrLow, arrHigh);
@@ -460,6 +507,7 @@ const drawChart = () => {
 
 document.querySelector('#chart_button').addEventListener('click', drawChart);
 //document.querySelector('#check_highlight').addEventListener('change', drawChart);
+document.querySelector('#check_future_cloud').addEventListener('change', drawChart);
 document.querySelector('#text_box').addEventListener('change', drawChart);
 document.querySelector('#text_box').addEventListener('search', (evt) => {
     if (evt.currentTarget.value === '') {
