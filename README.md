@@ -4,7 +4,7 @@
   English | <a href="README.ja.md">日本語</a>
 </div>
 
-[![AWS Deploy](https://github.com/BEROCHLU/market-chart/actions/workflows/aws-deploy.yml/badge.svg?branch=master)](https://github.com/BEROCHLU/market-chart/actions/workflows/aws-deploy.yml)
+[![Deploy Pages](https://github.com/BEROCHLU/market-chart/actions/workflows/deploy-pages.yml/badge.svg?branch=master)](https://github.com/BEROCHLU/market-chart/actions/workflows/deploy-pages.yml)
 [![License: MIT](https://img.shields.io/github/license/BEROCHLU/market-chart)](LICENSE)
 
 A web-based financial charting tool that displays **candlestick charts**, **technical indicators**, and a unique **Highlight Chart** mode for visualizing price ranges.
@@ -38,9 +38,9 @@ npm run build-tickers
 
 ### Environment Specifics
 
-**AWS Lambda (Function URL)** (Serverless)  
+**GitHub Pages + AWS Lambda (Function URL)** (Serverless)
 > Performance: ★★★★★  
-> [http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/marketchart/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/marketchart/)  
+> [https://berochlu.github.io/market-chart/](https://berochlu.github.io/market-chart/)
 > *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
 
 **XREA Free PHP + Python** (Shared Hosting)  

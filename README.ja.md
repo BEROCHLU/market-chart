@@ -4,7 +4,7 @@
   <a href="README.md">English</a> | 日本語
 </div>
 
-[![AWS Deploy](https://github.com/BEROCHLU/market-chart/actions/workflows/aws-deploy.yml/badge.svg?branch=master)](https://github.com/BEROCHLU/market-chart/actions/workflows/aws-deploy.yml)
+[![Deploy Pages](https://github.com/BEROCHLU/market-chart/actions/workflows/deploy-pages.yml/badge.svg?branch=master)](https://github.com/BEROCHLU/market-chart/actions/workflows/deploy-pages.yml)
 [![License: MIT](https://img.shields.io/github/license/BEROCHLU/market-chart)](LICENSE)
 
 **ローソク足チャート**、**テクニカル指標**、価格帯を視覚化する独自の**ハイライトチャート**モードを備えた、Webベースの金融チャートツールです。
@@ -38,9 +38,9 @@ npm run build-tickers
 
 ### 実行環境
 
-**AWS Lambda（Function URL）**（サーバーレス）  
+**GitHub Pages + AWS Lambda（Function URL）**（サーバーレス）
 > パフォーマンス: ★★★★★  
-> [http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/marketchart/](http://aws-s3-serverless.s3-website-ap-northeast-1.amazonaws.com/marketchart/)  
+> [https://berochlu.github.io/market-chart/](https://berochlu.github.io/market-chart/)
 > *（`yfinance` とその依存関係を含むカスタムLambdaレイヤーが必要です。手順は後述します。）*
 
 **XREA Free PHP + Python**（共有ホスティング）  
