@@ -50,16 +50,14 @@ npm run build-tickers
 
 ### Automated Deployment (GitHub Actions)
 
-This repository includes workflows for GitHub Pages, FTP, and AWS S3 deployment:
+This repository includes workflows for GitHub Pages and FTP deployment:
 
 * **GitHub Pages** (`deploy-pages.yml`): Automatically deployed on push to `master`.
-* **AWS S3** (`aws-deploy.yml`): Manual dispatch (`workflow_dispatch`).
 * **XREA/FTP** (`ftp-deploy.yml`): Manual dispatch (`workflow_dispatch`).
 
-To use AWS or FTP deployment, configure the following **GitHub Secrets**:
+To use FTP deployment, configure the following **GitHub Secrets**:
 
 * `FTP_USERNAME`, `FTP_PASSWORD` (for XREA/FTP)
-* `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` (for AWS)
 
 ## Key Features
 

@@ -1,11 +1,8 @@
 {
   "name": "market-chart",
-  "version": "2.0.2",
-  "description": "No description",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
+  "version": "2.1.0",
+  "private": true,
+  "description": "Web-based financial charting tool with candlestick charts, technical indicators, and highlight visualization.",
   "scripts": {
     "build-tickers": "node dev/build-tickers.js"
   },
@@ -13,11 +10,18 @@
     "type": "git",
     "url": "git+https://github.com/BEROCHLU/market-chart.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "finance",
+    "stock-market",
+    "candlestick-chart",
+    "technical-analysis",
+    "echarts",
+    "yfinance"
+  ],
+  "author": "BEROCHLU",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BEROCHLU/market-chart/issues"
   },
-  "homepage": "https://github.com/BEROCHLU/market-chart#readme"
+  "homepage": "https://berochlu.github.io/market-chart/"
 }

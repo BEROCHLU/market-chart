@@ -50,16 +50,14 @@ npm run build-tickers
 
 ### 自動デプロイ（GitHub Actions）
 
-このリポジトリには、GitHub Pages、FTP、AWS S3へのデプロイワークフローが含まれています。
+このリポジトリには、GitHub PagesおよびFTPへのデプロイワークフローが含まれています。
 
 * **GitHub Pages**（`deploy-pages.yml`）: `master` ブランチへの push 時に自動デプロイされます。
-* **AWS S3**（`aws-deploy.yml`）: 手動実行（`workflow_dispatch`）。
 * **XREA/FTP**（`ftp-deploy.yml`）: 手動実行（`workflow_dispatch`）。
 
-AWS または FTP デプロイを利用するには、以下の **GitHub Secrets** を設定してください。
+FTPデプロイを利用するには、以下の **GitHub Secrets** を設定してください。
 
 * `FTP_USERNAME`、`FTP_PASSWORD`（XREA/FTP用）
-* `AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY`（AWS用）
 
 ## 主な機能
 
