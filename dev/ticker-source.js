@@ -35,5 +35,7 @@ module.exports = [
     "VYM",
     "XRP-USD",
     "CL=F",
-    "GC=F"
+    "GC=F",
+    "^TNX",
+    "^VIX"
 ];

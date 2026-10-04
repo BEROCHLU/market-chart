@@ -35,5 +35,7 @@ export const arrTicker = [
 	"UVXY",
 	"VXX",
 	"VYM",
-	"XRP-USD"
+	"XRP-USD",
+	"^TNX",
+	"^VIX"
 ];
