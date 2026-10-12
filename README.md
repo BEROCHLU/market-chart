@@ -39,25 +39,14 @@ npm run build-tickers
 ### Environment Specifics
 
 **GitHub Pages + AWS Lambda (Function URL)** (Serverless)
-> Performance: ★★★★★  
-> [https://berochlu.github.io/market-chart/](https://berochlu.github.io/market-chart/)
+> [https://berochlu.github.io/market-chart/](https://berochlu.github.io/market-chart/)  
 > *(Requires a custom Lambda Layer for `yfinance` & dependencies. See instructions below.)*
-
-**XREA Free PHP + Python** (Shared Hosting)  
-> Performance: ★★☆☆☆  
-> [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
-> *(For details on building Python 3.8 in legacy Linux environments, see [dev/memo.md](dev/memo.md).)*  
 
 ### Automated Deployment (GitHub Actions)
 
-This repository includes workflows for GitHub Pages and FTP deployment:
+This repository includes a workflow for GitHub Pages deployment:
 
 * **GitHub Pages** (`deploy-pages.yml`): Automatically deployed on push to `master`.
-* **XREA/FTP** (`ftp-deploy.yml`): Manual dispatch (`workflow_dispatch`).
-
-To use FTP deployment, configure the following **GitHub Secrets**:
-
-* `FTP_USERNAME`, `FTP_PASSWORD` (for XREA/FTP)
 
 ## Key Features
 

@@ -34,9 +34,6 @@ const buildUrl = () => {
 
     let baseUrl;
     switch (location.hostname) {
-        case 'ss1.xrea.com':
-            baseUrl = `https://${location.hostname}/pleasecov.g2.xrea.com/pipm/middle.php`;
-            break;
         case 'berochlu.github.io':
             baseUrl = `https://tp66neenp7nsqtrtnkumngn57u0socfm.lambda-url.ap-northeast-1.on.aws/`;
             break;

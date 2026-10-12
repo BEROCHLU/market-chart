@@ -39,25 +39,14 @@ npm run build-tickers
 ### 実行環境
 
 **GitHub Pages + AWS Lambda（Function URL）**（サーバーレス）
-> パフォーマンス: ★★★★★  
-> [https://berochlu.github.io/market-chart/](https://berochlu.github.io/market-chart/)
+> [https://berochlu.github.io/market-chart/](https://berochlu.github.io/market-chart/)  
 > *（`yfinance` とその依存関係を含むカスタムLambdaレイヤーが必要です。手順は後述します。）*
-
-**XREA Free PHP + Python**（共有ホスティング）  
-> パフォーマンス: ★★☆☆☆  
-> [https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html](https://ss1.xrea.com/pleasecov.g2.xrea.com/pipm/index.html)  
-> *（旧式Linux環境でPython 3.8をビルドする方法は [dev/memo.md](dev/memo.md) を参照してください。）*
 
 ### 自動デプロイ（GitHub Actions）
 
-このリポジトリには、GitHub PagesおよびFTPへのデプロイワークフローが含まれています。
+このリポジトリには、GitHub Pagesへのデプロイワークフローが含まれています。
 
 * **GitHub Pages**（`deploy-pages.yml`）: `master` ブランチへの push 時に自動デプロイされます。
-* **XREA/FTP**（`ftp-deploy.yml`）: 手動実行（`workflow_dispatch`）。
-
-FTPデプロイを利用するには、以下の **GitHub Secrets** を設定してください。
-
-* `FTP_USERNAME`、`FTP_PASSWORD`（XREA/FTP用）
 
 ## 主な機能
 
